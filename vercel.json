@@ -1,0 +1,5 @@
+{
+  "installCommand": "npm install --no-audit --no-fund --loglevel=error",
+  "buildCommand": "npm run build",
+  "framework": "nextjs"
+}
