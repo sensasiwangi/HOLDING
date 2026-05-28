@@ -278,6 +278,22 @@ export const dict = {
     revenuePotential: { id: "Omzet Potensial", en: "Revenue Potential" },
     payback: { id: "Payback Period", en: "Payback Period" },
     weeks: { id: "minggu", en: "weeks" },
+    // Financial Dashboard
+    financeOverview: { id: "Ringkasan Keuangan", en: "Financial Overview" },
+    financeSheet: { id: "Lihat Google Sheets", en: "View Google Sheets" },
+    pemasukan: { id: "Pemasukan", en: "Income" },
+    pengeluaran: { id: "Pengeluaran", en: "Expenses" },
+    labaRugi: { id: "Laba/Rugi", en: "Profit/Loss" },
+    setoran30: { id: "Setoran 30%", en: "30% Remittance" },
+    sisaSetoran: { id: "Sisa Setelah Setoran", en: "After Remittance" },
+    perDivisi: { id: "Per Divisi", en: "Per Division" },
+    perBulan: { id: "Per Bulan", en: "Per Month" },
+    totalPemasukan: { id: "Total Pemasukan", en: "Total Income" },
+    totalPengeluaran: { id: "Total Pengeluaran", en: "Total Expenses" },
+    totalSetoran: { id: "Total Setoran ke Holding", en: "Total Remittance" },
+    transaksiTerbaru: { id: "Transaksi Terbaru", en: "Recent Transactions" },
+    lihatSemua: { id: "Lihat Semua di Sheets", en: "View All in Sheets" },
+    belumAdaData: { id: "Belum ada data", en: "No data yet" },
   },
 };
 

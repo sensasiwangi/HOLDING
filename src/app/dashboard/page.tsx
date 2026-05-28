@@ -5,8 +5,11 @@ import { useLang } from "@/lib/LangContext";
 import { dict } from "@/lib/dictionary";
 import {
   Building2, DollarSign, Scale, FileCheck, LogOut, Lock,
-  CheckCircle, Clock, Target, BarChart3, TrendingUp,
+  CheckCircle, Clock, Target, BarChart3, TrendingUp, Wallet,
 } from "lucide-react";
+import FinancePanel from "./finance";
+
+type Tab = "overview" | "keuangan";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -39,6 +42,7 @@ export default function DashboardPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
 
   function tr(key: string): string {
     const keys = key.split(".");
@@ -129,6 +133,31 @@ export default function DashboardPage() {
         </button>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="flex gap-1 mb-6 bg-[var(--soft)] rounded-lg p-1">
+        {([
+          { key: "overview" as Tab, label: tr("dashboard.overview"), icon: <Building2 size={15} /> },
+          { key: "keuangan" as Tab, label: tr("dashboard.finance"), icon: <Wallet size={15} /> },
+        ]).map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-bold transition ${
+              activeTab === tab.key
+                ? "bg-white text-[var(--ink)] shadow-sm"
+                : "text-[var(--muted)] hover:text-[var(--ink)]"
+            }`}
+          >
+            {tab.icon} {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Finance Tab ── */}
+      {activeTab === "keuangan" ? (
+        <FinancePanel />
+      ) : (
+      <>
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
@@ -288,6 +317,8 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }
