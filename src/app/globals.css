@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --brand: #0f7b63;
@@ -32,25 +34,19 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ── Print Styles for PDF ── */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  .print-only {
-    display: block !important;
-  }
-  body {
-    background: #fff;
-    color: #000;
-    font-size: 12pt;
-  }
-  .container {
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
+.container {
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.print-only {
-  display: none;
+/* ── Print Styles for PDF ── */
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  .container { max-width: 100% !important; padding: 0 !important; }
 }
+.print-only { display: none; }
