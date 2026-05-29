@@ -38,6 +38,8 @@ export async function GET() {
         "SukukStore!A4:O9",
         "SukukStore!A12:O26",
         "SukukStore!A29:O44",
+        "SukukProduk!A6:L13",
+        "SukukProduk!A22:M34",
       ],
     });
 
@@ -55,6 +57,8 @@ export async function GET() {
       sukukInfo: r[6]?.values || null,
       sukukInvestor: r[7]?.values || null,
       sukukProyeksi: r[8]?.values || null,
+      sukukProduk: r[9]?.values || null,
+      sukukProdukProj: r[10]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {

@@ -5,15 +5,16 @@ import { useLang } from "@/lib/LangContext";
 import { dict } from "@/lib/dictionary";
 import {
   Building2, DollarSign, Scale, FileCheck, LogOut, Lock,
-  CheckCircle, Clock, Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen,
+  CheckCircle, Clock, Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen, Package,
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
 import DivisiShareholderPanel from "./divisi-shareholder";
 import SukukPanel from "./sukuk";
 import SukukPanduanPanel from "./sukuk-panduan";
+import SukukProdukPanel from "./sukuk-produk";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -152,6 +153,7 @@ export default function DashboardPage() {
           { key: "divisi-saham" as Tab, label: "Divisi", icon: <Building2 size={15} /> },
           { key: "sukuk" as Tab, label: "Sukuk", icon: <ShieldCheck size={15} /> },
           { key: "panduan" as Tab, label: "Panduan", icon: <BookOpen size={15} /> },
+          { key: "produk" as Tab, label: "Produk", icon: <Package size={15} /> },
         ]).map((tab) => (
           <button
             key={tab.key}
@@ -182,6 +184,11 @@ export default function DashboardPage() {
         />
       ) : activeTab === "panduan" ? (
         <SukukPanduanPanel />
+      ) : activeTab === "produk" ? (
+        <SukukProdukPanel
+          produk={financeData?.sukukProduk}
+          proyeksi={financeData?.sukukProdukProj}
+        />
       ) : (
       <>
       {/* Summary Cards */}
