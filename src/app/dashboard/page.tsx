@@ -5,11 +5,12 @@ import { useLang } from "@/lib/LangContext";
 import { dict } from "@/lib/dictionary";
 import {
   Building2, DollarSign, Scale, FileCheck, LogOut, Lock,
-  CheckCircle, Clock, Target, BarChart3, TrendingUp, Wallet,
+  CheckCircle, Clock, Target, BarChart3, TrendingUp, Wallet, Users,
 } from "lucide-react";
 import FinancePanel from "./finance";
+import ShareholderPanel from "./shareholder";
 
-type Tab = "overview" | "keuangan";
+type Tab = "overview" | "keuangan" | "pemegang-saham";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -138,6 +139,7 @@ export default function DashboardPage() {
         {([
           { key: "overview" as Tab, label: tr("dashboard.overview"), icon: <Building2 size={15} /> },
           { key: "keuangan" as Tab, label: tr("dashboard.finance"), icon: <Wallet size={15} /> },
+          { key: "pemegang-saham" as Tab, label: "Pemegang Saham", icon: <Users size={15} /> },
         ]).map((tab) => (
           <button
             key={tab.key}
@@ -156,6 +158,8 @@ export default function DashboardPage() {
       {/* ── Finance Tab ── */}
       {activeTab === "keuangan" ? (
         <FinancePanel />
+      ) : activeTab === "pemegang-saham" ? (
+        <ShareholderPanel />
       ) : (
       <>
       {/* Summary Cards */}

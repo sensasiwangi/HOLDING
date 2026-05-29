@@ -12,14 +12,12 @@ function getAuth() {
     content.client_secret,
     "http://localhost:1"
   );
-  // Token file uses "token" key but google-auth-library expects "access_token"
-  const creds: Record<string, string> = {
+  oauth2.setCredentials({
     refresh_token: content.refresh_token,
     access_token: content.token || content.access_token || "",
     token_type: "Bearer",
     expiry_date: content.expiry_date || Date.now() + 3600000,
-  };
-  oauth2.setCredentials(creds);
+  });
   return oauth2;
 }
 
@@ -32,8 +30,10 @@ export async function GET() {
       spreadsheetId: SPREADSHEET_ID,
       ranges: [
         "Dashboard!A4:F9",
+        "Dashboard!A31:G36",
         "RekapSetoran!A1:F14",
         "Holding!A1:G5",
+        "PemegangSaham!A1:G16",
       ],
     });
 
@@ -43,8 +43,10 @@ export async function GET() {
       spreadsheetId: SPREADSHEET_ID,
       spreadsheetUrl: `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`,
       dashboard: ranges[0]?.values || null,
-      rekapSetoran: ranges[1]?.values || null,
-      holding: ranges[2]?.values || null,
+      shareholder: ranges[1]?.values || null,
+      rekapSetoran: ranges[2]?.values || null,
+      holding: ranges[3]?.values || null,
+      pemegangSaham: ranges[4]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
