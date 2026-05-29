@@ -35,6 +35,9 @@ export async function GET() {
         "Holding!A1:G5",
         "PemegangSaham!A1:G16",
         "DivisiShareholders!A4:F9",
+        "SukukStore!A4:O9",
+        "SukukStore!A12:O26",
+        "SukukStore!A29:O44",
       ],
     });
 
@@ -49,6 +52,9 @@ export async function GET() {
       holding: r[3]?.values || null,
       pemegangSaham: r[4]?.values || null,
       divisiSaham: r[5]?.values || null,
+      sukukInfo: r[6]?.values || null,
+      sukukInvestor: r[7]?.values || null,
+      sukukProyeksi: r[8]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
