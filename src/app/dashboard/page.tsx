@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLang } from "@/lib/LangContext";
 import { dict } from "@/lib/dictionary";
 import {
@@ -9,8 +9,9 @@ import {
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
+import DivisiShareholderPanel from "./divisi-shareholder";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -44,6 +45,12 @@ export default function DashboardPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [financeData, setFinanceData] = useState<any>(null);
+
+  // Fetch finance data on mount
+  useEffect(() => {
+    fetch("/api/finance").then(r => r.json()).then(setFinanceData).catch(() => {});
+  }, []);
 
   function tr(key: string): string {
     const keys = key.split(".");
@@ -140,6 +147,7 @@ export default function DashboardPage() {
           { key: "overview" as Tab, label: tr("dashboard.overview"), icon: <Building2 size={15} /> },
           { key: "keuangan" as Tab, label: tr("dashboard.finance"), icon: <Wallet size={15} /> },
           { key: "pemegang-saham" as Tab, label: "Pemegang Saham", icon: <Users size={15} /> },
+          { key: "divisi-saham" as Tab, label: "Divisi", icon: <Building2 size={15} /> },
         ]).map((tab) => (
           <button
             key={tab.key}
@@ -160,6 +168,8 @@ export default function DashboardPage() {
         <FinancePanel />
       ) : activeTab === "pemegang-saham" ? (
         <ShareholderPanel />
+      ) : activeTab === "divisi-saham" ? (
+        <DivisiShareholderPanel data={financeData?.divisiSaham} />
       ) : (
       <>
       {/* Summary Cards */}

@@ -34,24 +34,25 @@ export async function GET() {
         "RekapSetoran!A1:F14",
         "Holding!A1:G5",
         "PemegangSaham!A1:G16",
+        "DivisiShareholders!A4:F9",
       ],
     });
 
-    const ranges = data.valueRanges || [];
+    const r = data.valueRanges || [];
 
     return NextResponse.json({
       spreadsheetId: SPREADSHEET_ID,
       spreadsheetUrl: `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`,
-      dashboard: ranges[0]?.values || null,
-      shareholder: ranges[1]?.values || null,
-      rekapSetoran: ranges[2]?.values || null,
-      holding: ranges[3]?.values || null,
-      pemegangSaham: ranges[4]?.values || null,
+      dashboard: r[0]?.values || null,
+      shareholder: r[1]?.values || null,
+      rekapSetoran: r[2]?.values || null,
+      holding: r[3]?.values || null,
+      pemegangSaham: r[4]?.values || null,
+      divisiSaham: r[5]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : String(error);
-    console.error("Finance API error:", msg);
     return NextResponse.json(
       { error: "Failed to fetch financial data", detail: msg },
       { status: 500 }
