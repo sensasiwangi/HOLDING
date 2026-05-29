@@ -2,269 +2,200 @@
 
 import Link from "next/link";
 import { useLang } from "@/lib/LangContext";
-import type { Lang } from "@/lib/dictionary";
 import {
-  Building2,
-  Store,
-  Calendar,
-  FlaskConical,
-  Code2,
-  Globe,
-  ArrowRight,
-  TrendingUp,
-  Users,
-  DollarSign,
-  Shield,
+  Building2, Store, Calendar, FlaskConical, Code2, Globe,
+  ArrowRight, ArrowUpRight, TrendingUp, Users, DollarSign, Shield,
+  Layers,
 } from "lucide-react";
-
-const T = {
-  title: { id: "Struktur Holding SWI", en: "SWI Holding Structure" },
-  desc: {
-    id: "Setiap divisi beroperasi sebagai anak perusahaan mandiri namun saling terhubung dalam ekosistem yang memperkuat.",
-    en: "Each division operates as an independent subsidiary yet interconnected within a reinforcing ecosystem.",
-  },
-  subtitle: { id: "Anak Perusahaan", en: "Subsidiaries" },
-  explore: { id: "Jelajahi Divisi", en: "Explore Division" },
-  synergy: { id: "Sinergi Ekosistem", en: "Ecosystem Synergy" },
-  synergyDesc: {
-    id: "Setiap divisi menghasilkan data dan value yang saling memperkuat: Produksi menyediakan produk, Store & Event membangun experience, Digital mengoptimalkan operasional & pembukuan, Ecommerse membuka pasar nasional, dan Holding mengelola investasi serta strategi korporat.",
-    en: "Each division generates data and value that reinforce each other: Production supplies products, Store & Event build experience, Digital optimizes operations & accounting, Ecommerse opens the national market, and Holding manages investments & corporate strategy.",
-  },
-  backTo: { id: "Kembali ke", en: "Back to" },
-} as const;
 
 const DIVISIONS = [
   {
-    slug: "produksi",
-    icon: <FlaskConical size={28} />,
-    titleId: "Production & Brands",
-    titleEn: "Production & Brands",
+    slug: "produksi", icon: <FlaskConical size={28} />, emoji: "🧪",
+    titleId: "Production & Brands", titleEn: "Production & Brands",
     descId: "Larc-en-Scent, Nuscentza, Pixel Potion — formulasi, produksi, QC, packaging",
     descEn: "Larc-en-Scent, Nuscentza, Pixel Potion — formulation, production, QC, packaging",
-    gradient: "from-purple-600 to-indigo-700",
-    hoverBorder: "hover:border-purple-500",
-    bgLight: "bg-purple-50",
-    textColor: "text-purple-700",
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-600",
-    progress: 50,
-    stats: { brands: "3", products: "25+" },
+    gradient: "from-purple-500 to-indigo-600",
+    progress: 50, stats: { brands: "3", products: "25+" },
   },
   {
-    slug: "store",
-    icon: <Store size={28} />,
-    titleId: "SWI Store & Pengalaman Offline",
-    titleEn: "SWI Store & Offline Experience",
-    descId: "Toko retail parfum, kelas parfumer, AI Mix, customer experience",
-    descEn: "Perfume retail store, perfumery classes, AI Mix, customer experience",
-    gradient: "from-emerald-600 to-teal-700",
-    hoverBorder: "hover:border-emerald-500",
-    bgLight: "bg-emerald-50",
-    textColor: "text-emerald-700",
-    iconBg: "bg-emerald-100",
-    iconColor: "text-emerald-600",
-    progress: 70,
-    stats: { gerai: "3", siswa: "500+" },
+    slug: "store", icon: <Store size={28} />, emoji: "🏪",
+    titleId: "SWI Store TIM", titleEn: "SWI Store TIM",
+    descId: "Merch TIM, Parfum Experience, AI Mix, Artisan Showcase",
+    descEn: "TIM Merch, Perfume Experience, AI Mix, Artisan Showcase",
+    gradient: "from-emerald-500 to-teal-600",
+    progress: 70, stats: { gerai: "3", siswa: "500+" },
   },
   {
-    slug: "event",
-    icon: <Calendar size={28} />,
-    titleId: "Event Organizer & Fragrantions",
-    titleEn: "Event Organizer & Fragrantions",
-    descId: "Fragrantions Expo, Road to Fragrantions, pameran & roadshow nasional",
-    descEn: "Fragrantions Expo, Road to Fragrantions, national expos & roadshows",
-    gradient: "from-blue-600 to-indigo-700",
-    hoverBorder: "hover:border-blue-500",
-    bgLight: "bg-blue-50",
-    textColor: "text-blue-700",
-    iconBg: "bg-blue-100",
-    iconColor: "text-blue-600",
-    progress: 55,
-    stats: { events: "50+", peserta: "10K+" },
+    slug: "event", icon: <Calendar size={28} />, emoji: "🎭",
+    titleId: "Fragrantions", titleEn: "Fragrantions",
+    descId: "Fragrantions Expo, Road to Fragrantions, pameran & roadshow",
+    descEn: "Fragrantions Expo, Road to Fragrantions, expos & roadshows",
+    gradient: "from-blue-500 to-indigo-600",
+    progress: 55, stats: { events: "50+", peserta: "10K+" },
   },
   {
-    slug: "ecommerce",
-    icon: <Globe size={28} />,
-    titleId: "Ecommerse & Marketplace",
-    titleEn: "Ecommerse & Marketplace",
+    slug: "ecommerce", icon: <Globe size={28} />, emoji: "🌐",
+    titleId: "Marketplace", titleEn: "Marketplace",
     descId: "sensasiwangi.id — katalog, booking, checkout, support, analytics",
     descEn: "sensasiwangi.id — catalog, booking, checkout, support, analytics",
-    gradient: "from-cyan-600 to-blue-700",
-    hoverBorder: "hover:border-cyan-500",
-    bgLight: "bg-cyan-50",
-    textColor: "text-cyan-700",
-    iconBg: "bg-cyan-100",
-    iconColor: "text-cyan-600",
-    progress: 30,
-    stats: { produk: "100+", seller: "50+" },
+    gradient: "from-cyan-500 to-blue-600",
+    progress: 30, stats: { produk: "100+", seller: "50+" },
   },
   {
-    slug: "digital",
-    icon: <Code2 size={28} />,
-    titleId: "Digital Systems & AI",
-    titleEn: "Digital Systems & AI",
+    slug: "digital", icon: <Code2 size={28} />, emoji: "🤖",
+    titleId: "Digital & AI", titleEn: "Digital & AI",
     descId: "AppSheet CRM, AI Perfume Profile, otomasi, dashboard analytics",
     descEn: "AppSheet CRM, AI Perfume Profile, automation, analytics dashboard",
-    gradient: "from-amber-600 to-orange-700",
-    hoverBorder: "hover:border-amber-500",
-    bgLight: "bg-amber-50",
-    textColor: "text-amber-700",
-    iconBg: "bg-amber-100",
-    iconColor: "text-amber-600",
-    progress: 35,
-    stats: { sistem: "5+", model: "10+" },
+    gradient: "from-amber-500 to-orange-600",
+    progress: 35, stats: { sistem: "5+", model: "10+" },
   },
-];
-
-const HOLDING_STATS = [
-  { icon: <TrendingUp size={20} />, labelId: "Pendapatan Holding", labelEn: "Holding Revenue", value: "Multi-source" },
-  { icon: <Shield size={20} />, labelId: "Modal Dasar", labelEn: "Base Capital", value: "Rp 1M" },
-  { icon: <Users size={20} />, labelId: "Pemegang Saham", labelEn: "Shareholders", value: "3" },
-  { icon: <DollarSign size={20} />, labelId: "Setoran 30%", labelEn: "Contribution 30%", value: "Otomatis" },
 ];
 
 export default function DivisionsPage() {
   const { lang } = useLang();
-  const L: Lang = lang;
+  const L = lang;
 
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="uppercase tracking-widest text-sm font-semibold text-white/70 mb-3">
-            {T.subtitle[L]}
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-            {T.title[L]}
+      <section className="relative pt-28 pb-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-[#0f7b63]/10 blur-[120px] animate-float1" />
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-[#c9a84c]/5 blur-[100px] animate-float2" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto px-6 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-8 animate-fade-up">
+            <Layers size={14} className="text-emerald-400" />
+            <span className="text-xs font-semibold text-[#8aae9e] uppercase tracking-wider">
+              {L === "id" ? "Struktur Holding" : "Holding Structure"}
+            </span>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+            <span className="text-gradient">
+              {L === "id" ? "Lima Anak Perusahaan" : "Five Subsidiaries"}
+            </span>
           </h1>
-          <p className="text-white/80 text-lg max-w-2xl">{T.desc[L]}</p>
+          <p className="text-lg text-[#7a9e8f] max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            {L === "id"
+              ? "Setiap divisi beroperasi sebagai unit bisnis mandiri namun saling terhubung dalam ekosistem yang memperkuat."
+              : "Each division operates as an independent business unit yet interconnected within a reinforcing ecosystem."}
+          </p>
         </div>
       </section>
 
       {/* Division Cards */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="relative pb-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
             {DIVISIONS.map((d, i) => (
               <Link
                 key={i}
                 href={`/divisions/${d.slug}`}
-                className={`group bg-white rounded-2xl border-2 border-transparent ${d.hoverBorder} shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col`}
+                className="group card-luxury p-7 flex flex-col animate-fade-up"
               >
-                {/* Color top bar */}
-                <div className={`h-2 bg-gradient-to-r ${d.gradient}`} />
+                {/* Header */}
+                <div className="flex items-start justify-between mb-5">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${d.gradient} flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                    {d.icon}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-[#5d7068] bg-white/5 px-2 py-1 rounded-full">{d.progress}%</span>
+                    <ArrowUpRight size={16} className="text-[#5d7068] group-hover:text-white group-hover:-translate-y-0.5 transition-all" />
+                  </div>
+                </div>
 
-                <div className="p-6 flex-1 flex flex-col">
-                  {/* Icon + progress */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`${d.iconBg} p-3 rounded-xl ${d.iconColor}`}>
-                      {d.icon}
+                {/* Progress bar */}
+                <div className="w-full h-1 bg-white/5 rounded-full mb-5 overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${d.gradient} rounded-full transition-all duration-1000`} style={{ width: `${d.progress}%` }} />
+                </div>
+
+                {/* Title */}
+                <div className="text-2xl mb-2">{d.emoji}</div>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                  {L === "id" ? d.titleId : d.titleEn}
+                </h3>
+                <p className="text-[#5d7068] text-sm mb-5 flex-1">
+                  {L === "id" ? d.descId : d.descEn}
+                </p>
+
+                {/* Stats */}
+                <div className="flex gap-3 mb-5">
+                  {Object.entries(d.stats).map(([key, val], j) => (
+                    <div key={j} className="bg-white/5 rounded-lg px-3 py-1.5 text-xs">
+                      <span className="font-bold text-white">{val}</span>{" "}
+                      <span className="text-[#5d7068] capitalize">{key}</span>
                     </div>
-                    <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
-                      {d.progress}%
-                    </span>
-                  </div>
+                  ))}
+                </div>
 
-                  {/* Progress bar */}
-                  <div className="w-full h-1.5 bg-gray-100 rounded-full mb-4 overflow-hidden">
-                    <div
-                      className={`h-full bg-gradient-to-r ${d.gradient} rounded-full transition-all duration-500`}
-                      style={{ width: `${d.progress}%` }}
-                    />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-[#10201d] mb-2 group-hover:text-[#0f7b63] transition-colors">
-                    {L === "id" ? d.titleId : d.titleEn}
-                  </h3>
-
-                  {/* Desc */}
-                  <p className="text-gray-500 text-sm mb-4 flex-1">
-                    {L === "id" ? d.descId : d.descEn}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="flex gap-4 mb-4 text-xs">
-                    {Object.entries(d.stats).map(([key, val], j) => (
-                      <div key={j} className={`${d.bgLight} px-3 py-1.5 rounded-lg`}>
-                        <span className={`font-bold ${d.textColor}`}>{val}</span>{" "}
-                        <span className="text-gray-500 capitalize">{key}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <div className="flex items-center gap-2 text-sm font-semibold text-[#0f7b63] group-hover:gap-3 transition-all">
-                    {T.explore[L]} <ArrowRight size={16} />
-                  </div>
+                {/* CTA */}
+                <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-emerald-400 transition-colors">
+                  {L === "id" ? "Jelajahi" : "Explore"}
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
             ))}
 
-            {/* Holding Office Card (Dashboard link) */}
-            <Link
-              href="/dashboard"
-              className="group bg-white rounded-2xl border-2 border-transparent hover:border-gray-400 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
-            >
-              <div className="h-2 bg-gradient-to-r from-gray-600 to-gray-800" />
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="bg-gray-100 p-3 rounded-xl text-gray-600">
-                    <Building2 size={28} />
-                  </div>
-                  <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full">60%</span>
+            {/* Holding Office Card */}
+            <Link href="/dashboard" className="group card-luxury p-7 flex flex-col animate-fade-up md:col-span-2 lg:col-span-1">
+              <div className="flex items-start justify-between mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <Building2 size={28} />
                 </div>
-                <div className="w-full h-1.5 bg-gray-100 rounded-full mb-4 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-gray-500 to-gray-700 rounded-full" style={{ width: "60%" }} />
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#5d7068] bg-white/5 px-2 py-1 rounded-full">60%</span>
+                  <ArrowUpRight size={16} className="text-[#5d7068] group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-xl font-bold text-[#10201d] mb-2">Holding Office</h3>
-                <p className="text-gray-500 text-sm mb-4 flex-1">
-                  {L === "id"
-                    ? "Legal, keuangan, strategi korporat, investor relations, dan Sukuk"
-                    : "Legal, finance, corporate strategy, investor relations & Sukuk"}
-                </p>
-                <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
-                  {HOLDING_STATS.map((s, i) => (
-                    <div key={i} className="bg-gray-50 px-3 py-2 rounded-lg flex items-center gap-2">
-                      <span className="text-gray-400">{s.icon}</span>
-                      <div>
-                        <div className="font-bold text-gray-700">{s.value}</div>
-                        <div className="text-gray-400">{L === "id" ? s.labelId : s.labelEn}</div>
-                      </div>
+              </div>
+              <div className="text-2xl mb-2">🏛️</div>
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
+                Holding Office
+              </h3>
+              <div className="grid grid-cols-2 gap-2 mb-5 flex-1">
+                {[
+                  { icon: <TrendingUp size={14} />, label: L === "id" ? "Multi-source Revenue" : "Multi-source Revenue", value: "5" },
+                  { icon: <Shield size={14} />, label: L === "id" ? "Modal Dasar" : "Base Capital", value: "Rp 1M" },
+                  { icon: <Users size={14} />, label: L === "id" ? "Pemegang Saham" : "Shareholders", value: "3" },
+                  { icon: <DollarSign size={14} />, label: "Setoran 30%", value: "Auto" },
+                ].map((s, i) => (
+                  <div key={i} className="bg-white/5 rounded-lg px-3 py-2 text-xs flex items-center gap-2">
+                    <span className="text-[#5d7068]">{s.icon}</span>
+                    <div>
+                      <div className="font-bold text-white">{s.value}</div>
+                      <div className="text-[#5d7068] text-[10px]">{s.label}</div>
                     </div>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 text-sm font-semibold text-gray-600 group-hover:gap-3 transition-all">
-                  {L === "id" ? "Buka Dashboard" : "Open Dashboard"} <ArrowRight size={16} />
-                </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-emerald-400 transition-colors">
+                {L === "id" ? "Buka Dashboard" : "Open Dashboard"}
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
           </div>
 
           {/* Synergy */}
-          <div className="mt-16 bg-white rounded-xl border border-gray-200 p-8 sm:p-10 text-center max-w-3xl mx-auto">
-            <h3 className="text-xl font-bold text-[#10201d] mb-3">
-              {T.synergy[L]}
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              {T.synergyDesc[L]}
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/investor"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f7b63] text-white font-bold rounded-full hover:bg-[#0d6b56] transition-colors"
-              >
-                {L === "id" ? "Investor Relations" : "Investor Relations"}
-                <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-full hover:bg-gray-200 transition-colors"
-              >
-                {L === "id" ? "Dashboard Keuangan" : "Financial Dashboard"}
-                <ArrowRight size={18} />
-              </Link>
+          <div className="mt-20 text-center max-w-2xl mx-auto animate-fade-up">
+            <div className="card-luxury p-10">
+              <div className="text-3xl mb-4">🔗</div>
+              <h3 className="text-xl font-bold text-white mb-3">
+                {L === "id" ? "Sinergi Ekosistem" : "Ecosystem Synergy"}
+              </h3>
+              <p className="text-[#7a9e8f] text-sm leading-relaxed mb-8">
+                {L === "id"
+                  ? "Setiap divisi menghasilkan data dan value yang saling memperkuat: Produksi menyediakan produk, Store & Event membangun experience, Digital mengoptimalkan operasional, Marketplace membuka pasar nasional, dan Holding mengelola investasi serta strategi korporat."
+                  : "Each division generates data and value that reinforce each other: Production supplies products, Store & Event build experience, Digital optimizes operations, Marketplace opens the national market, and Holding manages investments & corporate strategy."}
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/investor" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0f7b63]/20 transition-all">
+                  {L === "id" ? "Investor Relations" : "Investor Relations"} <ArrowRight size={16} />
+                </Link>
+                <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all">
+                  {L === "id" ? "Dashboard Keuangan" : "Financial Dashboard"} <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -26,70 +26,59 @@ const DIVISIONS = [
   { slug: "digital", color: "amber" as const, label: "Digital & AI" },
 ];
 
-export default function DivisionLayout({
-  slug,
-  color,
-  iconBg,
-  iconColor,
-  tagline,
-  title,
-  subtitle,
-  heroIcon,
-  children,
-}: DivisionLayoutProps) {
+export default function DivisionLayout({ slug, color, iconBg, iconColor, tagline, title, subtitle, heroIcon, children }: DivisionLayoutProps) {
   const { lang } = useLang();
   const L: Lang = lang;
-  const colorMap: Record<string, string> = {
-    purple: "from-purple-500/20 to-transparent border-purple-500/30",
-    emerald: "from-emerald-500/20 to-transparent border-emerald-500/30",
-    blue: "from-blue-500/20 to-transparent border-blue-500/30",
-    cyan: "from-cyan-500/20 to-transparent border-cyan-500/30",
-    amber: "from-amber-500/20 to-transparent border-amber-500/30",
+
+  const gradientMap: Record<string, string> = {
+    purple: "from-purple-500/20 via-purple-500/5 to-transparent",
+    emerald: "from-emerald-500/20 via-emerald-500/5 to-transparent",
+    blue: "from-blue-500/20 via-blue-500/5 to-transparent",
+    cyan: "from-cyan-500/20 via-cyan-500/5 to-transparent",
+    amber: "from-amber-500/20 via-amber-500/5 to-transparent",
   };
-  const activeColor = colorMap[color] || colorMap.purple;
+  const lineMap: Record<string, string> = {
+    purple: "from-purple-500/40 to-transparent",
+    emerald: "from-emerald-500/40 to-transparent",
+    blue: "from-blue-500/40 to-transparent",
+    cyan: "from-cyan-500/40 to-transparent",
+    amber: "from-amber-500/40 to-transparent",
+  };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      {/* Breadcrumb + PDF */}
-      <div className="max-w-6xl mx-auto px-4 pt-8 pb-4 flex flex-wrap items-center justify-between gap-4 text-sm">
-        <nav className="flex items-center gap-2 text-gray-500">
-          <Link href="/" className="hover:text-white transition-colors">
-            <Home size={14} />
-          </Link>
+    <div className="min-h-screen bg-[#0a0f0d] text-white">
+      {/* Animated bg orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className={`absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-[150px] opacity-10 animate-float1`} style={{ background: `radial-gradient(circle, var(--brand), transparent)` }} />
+        <div className={`absolute bottom-0 -left-40 w-[400px] h-[400px] rounded-full blur-[120px] opacity-8 animate-float2`} style={{ background: `radial-gradient(circle, var(--brand-2), transparent)` }} />
+      </div>
+
+      {/* Breadcrumb */}
+      <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-6 flex flex-wrap items-center justify-between gap-4 text-sm">
+        <nav className="flex items-center gap-2 text-[#5d7068] animate-fade-up">
+          <Link href="/" className="hover:text-white transition-colors"><Home size={14} /></Link>
           <ChevronRight size={14} />
           <Link href="/divisions" className="hover:text-white transition-colors">
             {L === "id" ? "Divisi" : "Divisions"}
           </Link>
           <ChevronRight size={14} />
-          <span className="text-gray-300">{title}</span>
+          <span className="text-white/60">{title}</span>
         </nav>
-        <button
-          onClick={() => window.print()}
-          className="text-gray-400 hover:text-white transition-colors text-sm"
-        >
-          🖨️ {L === "id" ? "Cetak / PDF" : "Print / PDF"}
-        </button>
       </div>
 
-      {/* Divider line */}
-      <div className="max-w-6xl mx-auto px-4">
-        <div className={`h-px bg-gradient-to-r ${activeColor}`} />
+      {/* Ornament line */}
+      <div className="relative max-w-6xl mx-auto px-6">
+        <div className={`h-px bg-gradient-to-r ${lineMap[color] || lineMap.emerald}`} />
       </div>
 
       {/* Hero */}
-      <div className={`max-w-6xl mx-auto px-4 py-12 md:py-20`}>
-        <div
-          className={`bg-gradient-to-br ${activeColor} rounded-2xl p-8 md:p-12 border`}
-        >
+      <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-20">
+        <div className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${gradientMap[color] || gradientMap.emerald} border border-white/5 p-8 md:p-12`}>
           <div className="flex items-start gap-6">
-            <div className={`${iconBg} p-4 rounded-xl flex-shrink-0`}>
-              {heroIcon}
-            </div>
-            <div>
-              <div className={`text-sm font-medium ${iconColor} mb-1 uppercase tracking-wider`}>
-                {tagline}
-              </div>
-              <h1 className="text-4xl md:text-5xl font-black text-white">
+            <div className={`${iconBg} p-4 rounded-2xl flex-shrink-0`}>{heroIcon}</div>
+            <div className="animate-fade-up">
+              <div className={`text-sm font-semibold ${iconColor} mb-2 uppercase tracking-[0.2em]`}>{tagline}</div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black">
                 {title}{" "}
                 <span className={iconColor}>{subtitle}</span>
               </h1>
@@ -99,23 +88,23 @@ export default function DivisionLayout({
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 pb-20">{children}</div>
+      <div className="relative max-w-6xl mx-auto px-6 pb-20">{children}</div>
 
-      {/* Bottom nav — other divisions */}
-      <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <h3 className="text-sm text-gray-500 mb-4 uppercase tracking-wider">
+      {/* Bottom nav */}
+      <div className="relative border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="text-xs text-[#5d7068] mb-4 uppercase tracking-[0.2em] font-semibold">
             {L === "id" ? "Divisi Lainnya" : "Other Divisions"}
-          </h3>
+          </div>
           <div className="flex flex-wrap gap-3">
             {DIVISIONS.map((d, i) => (
               <Link
                 key={i}
                 href={`/divisions/${d.slug}`}
-                className={`px-4 py-2 rounded-full text-sm border transition-colors hover:bg-white/10 ${
+                className={`px-5 py-2.5 rounded-xl text-sm transition-all duration-300 ${
                   d.slug === slug
-                    ? "border-white/30 bg-white/10 text-white"
-                    : "border-white/10 text-gray-400 hover:text-white"
+                    ? "bg-white/10 text-white border border-white/20"
+                    : "glass-light text-[#7a9e8f] hover:text-white hover:bg-white/10"
                 }`}
               >
                 {d.label}

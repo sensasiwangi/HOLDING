@@ -1,141 +1,132 @@
 "use client";
 
 import { useLang } from "@/lib/LangContext";
-import { dict } from "@/lib/dictionary";
+import Link from "next/link";
+import { ArrowRight, Play, ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const { lang } = useLang();
-
-  function tr(key: string): string {
-    const keys = key.split(".");
-    let val: any = dict;
-    for (const k of keys) {
-      val = val?.[k];
-      if (!val) return key;
-    }
-    if (typeof val === "object" && val[lang]) return val[lang];
-    return val;
-  }
+  const L = lang;
 
   return (
-    <>
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-[#eef8f4] to-white border-b border-[var(--line)]">
-        <div className="container max-w-[1240px] mx-auto px-6 py-20 grid md:grid-cols-[1.1fr_.9fr] gap-8 items-center">
-          <div>
-            <div className="text-xs uppercase tracking-widest text-[var(--brand)] font-bold">
-              {tr("hero.eyebrow")}
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Animated background orbs */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#0f7b63]/10 blur-[120px] animate-float1" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#12a77f]/8 blur-[100px] animate-float2" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full bg-[#c9a84c]/5 blur-[80px] animate-float3" />
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto px-6 py-32 w-full">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left: Text */}
+          <div className="animate-fade-up">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-8">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs font-semibold text-[#8aae9e] tracking-wider uppercase">
+                {L === "id" ? "Holding Company Parfum Indonesia" : "Indonesian Fragrance Holding Company"}
+              </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mt-2 text-[var(--ink)]">
-              {tr("hero.title")}
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6">
+              <span className="text-gradient">PT Sensasi</span>
+              <br />
+              <span className="text-gradient-gold">Wangi Indonesia</span>
             </h1>
-            <p className="text-lg text-[#354943] mt-4 max-w-[690px]">
-              {tr("hero.subtitle")}
+
+            <p className="text-lg md:text-xl text-[#7a9e8f] leading-relaxed max-w-lg mb-10">
+              {L === "id"
+                ? "Membangun ekosistem parfum terlengkap di Indonesia — dari kreasi formula, pengalaman retail premium, event nasional, hingga marketplace digital."
+                : "Building Indonesia's most complete fragrance ecosystem — from formula creation, premium retail experiences, national events, to digital marketplace."}
             </p>
-            <div className="flex gap-3 mt-6 flex-wrap">
-              <a href="#investor" className="px-5 py-3 rounded-lg bg-[var(--brand)] text-white font-bold text-sm hover:bg-[var(--brand-2)] transition">
-                {tr("hero.ctaInvestor")}
-              </a>
-              <a href="#divisions" className="px-5 py-3 rounded-lg border border-[var(--line)] bg-white font-bold text-sm hover:border-[var(--brand)] transition">
-                {tr("hero.ctaDivisions")}
-              </a>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/divisions"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-xl hover:shadow-[#0f7b63]/20 transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <span>{L === "id" ? "Jelajahi Divisi" : "Explore Divisions"}</span>
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/divisions/store"
+                className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                  <Play size={14} className="text-emerald-400 ml-0.5" />
+                </div>
+                <span>Store TIM</span>
+              </Link>
+            </div>
+
+            {/* Quick stats */}
+            <div className="mt-14 flex items-center gap-8">
+              {[
+                { value: "5", label: L === "id" ? "Divisi" : "Divisions" },
+                { value: "3", label: L === "id" ? "Brand Parfum" : "Fragrance Brands" },
+                { value: "Rp 1M", label: L === "id" ? "Modal Dasar" : "Base Capital" },
+              ].map((s, i) => (
+                <div key={i} className="animate-fade-up" style={{ animationDelay: `${0.3 + i * 0.1}s` }}>
+                  <div className="text-2xl md:text-3xl font-black text-white">{s.value}</div>
+                  <div className="text-xs text-[#5d7068] font-medium mt-1">{s.label}</div>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="border border-[var(--line)] rounded-lg bg-white p-6">
-            <div className="inline-block rounded-full bg-[var(--soft-2)] border border-[var(--line)] px-3 py-1 text-xs font-bold text-[var(--brand)]">
-              {tr("signal.tag")}
-            </div>
-            <h2 className="text-xl font-bold mt-3 text-[var(--ink)]">{tr("signal.title")}</h2>
-            <p className="text-sm text-[var(--muted)] mt-2">{tr("signal.subtitle")}</p>
-            <div className="grid grid-cols-2 gap-3 mt-4">
+
+          {/* Right: Visual */}
+          <div className="relative hidden lg:block">
+            <div className="relative w-full aspect-square max-w-lg mx-auto">
+              {/* Outer ring */}
+              <div className="absolute inset-0 rounded-full border border-white/5 animate-[spin_60s_linear_infinite]" />
+              <div className="absolute inset-4 rounded-full border border-white/5 animate-[spin_45s_linear_infinite_reverse]" />
+
+              {/* Center orb */}
+              <div className="absolute inset-12 rounded-full bg-gradient-to-br from-[#0f7b63]/30 to-[#12a77f]/10 glow-brand flex items-center justify-center">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#12a77f] to-[#0f7b63] flex items-center justify-center animate-float3">
+                  <span className="text-5xl">🌸</span>
+                </div>
+              </div>
+
+              {/* Floating cards */}
               {[
-                { label: "Store", desc: tr("signal.store") },
-                { label: "Event", desc: tr("signal.event") },
-                { label: "Brand", desc: tr("signal.brand") },
-                { label: "WEB", desc: tr("signal.web") },
-              ].map((s) => (
-                <div key={s.label} className="border border-[var(--line)] rounded-lg p-3 bg-[var(--soft)]">
-                  <span className="block text-xl font-extrabold text-[var(--brand)]">{s.label}</span>
-                  <span className="text-xs text-[var(--muted)]">{s.desc}</span>
+                { icon: "🏪", label: "SWI Store", x: "0%", y: "10%", delay: "0s" },
+                { icon: "🎭", label: "Fragrantions", x: "75%", y: "5%", delay: "0.5s" },
+                { icon: "🧪", label: "Production", x: "80%", y: "65%", delay: "1s" },
+                { icon: "🌐", label: "Marketplace", x: "5%", y: "70%", delay: "1.5s" },
+              ].map((card, i) => (
+                <div
+                  key={i}
+                  className="absolute glass rounded-2xl px-4 py-3 flex items-center gap-2 animate-float3"
+                  style={{ left: card.x, top: card.y, animationDelay: card.delay, animationDuration: `${15 + i * 3}s` }}
+                >
+                  <span className="text-xl">{card.icon}</span>
+                  <span className="text-xs font-semibold text-white whitespace-nowrap">{card.label}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </section>
 
-      {/* About */}
-      <section id="about" className="container max-w-[1240px] mx-auto px-6 py-16">
-        <h2 className="text-xs uppercase tracking-widest text-[var(--brand)] font-bold">
-          {tr("about.eyebrow")}
-        </h2>
-        <h3 className="text-3xl font-extrabold text-[var(--ink)] mt-2">{tr("about.title")}</h3>
-        <div className="grid md:grid-cols-[1.5fr_1fr] gap-8 mt-8">
-          <div>
-            <p className="text-[#354943] text-base">{tr("about.p1")}</p>
-            <p className="text-[#354943] text-base mt-4">{tr("about.p2")}</p>
-          </div>
-          <div className="space-y-4">
-            <div className="border border-[var(--line)] rounded-lg p-5 bg-white">
-              <h4 className="font-bold text-[var(--brand)] text-sm">{tr("about.mission")}</h4>
-              <p className="text-sm mt-1 text-[#354943]">{tr("about.missionText")}</p>
-            </div>
-            <div className="border border-[var(--line)] rounded-lg p-5 bg-white">
-              <h4 className="font-bold text-[var(--brand)] text-sm">{tr("about.vision")}</h4>
-              <p className="text-sm mt-1 text-[#354943]">{tr("about.visionText")}</p>
-            </div>
-          </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up" style={{ animationDelay: '1s' }}>
+          <span className="text-[10px] text-[#5d7068] uppercase tracking-[0.2em] font-semibold">
+            {L === "id" ? "Gulir ke bawah" : "Scroll down"}
+          </span>
+          <ChevronDown size={16} className="text-[#5d7068] animate-bounce" />
         </div>
-      </section>
-
-      {/* Divisions Overview */}
-      <section id="divisions" className="container max-w-[1240px] mx-auto px-6 py-16">
-        <h2 className="text-xs uppercase tracking-widest text-[var(--brand)] font-bold">
-          {tr("divisions.eyebrow")}
-        </h2>
-        <h3 className="text-3xl font-extrabold text-[var(--ink)] mt-2">{tr("divisions.title")}</h3>
-        <p className="text-[var(--muted)] mt-2">{tr("divisions.subtitle")}</p>
-        <div className="grid md:grid-cols-3 gap-5 mt-8">
-          {[
-            { name: tr("divisions.office"), desc: tr("divisions.officeDesc"), pct: 45 },
-            { name: tr("divisions.store"), desc: tr("divisions.storeDesc"), pct: 55 },
-            { name: tr("divisions.event"), desc: tr("divisions.eventDesc"), pct: 38 },
-            { name: tr("divisions.production"), desc: tr("divisions.productionDesc"), pct: 48 },
-            { name: tr("divisions.digital"), desc: tr("divisions.digitalDesc"), pct: 42 },
-            { name: tr("divisions.marketing"), desc: tr("divisions.marketingDesc"), pct: 40 },
-          ].map((d) => (
-            <div key={d.name} className="border border-[var(--line)] rounded-lg p-5 bg-white flex flex-col gap-3">
-              <h4 className="font-bold text-[var(--ink)]">{d.name}</h4>
-              <p className="text-sm text-[var(--muted)] flex-1">{d.desc}</p>
-              <div>
-                <div className="h-2 bg-[#e8efec] rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-[var(--brand)] to-[var(--brand-2)] rounded-full" style={{ width: `${d.pct}%` }} />
-                </div>
-                <small className="text-[var(--muted)] text-xs">{d.pct}%</small>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Investor CTA */}
-      <section id="investor" className="container max-w-[1240px] mx-auto px-6 py-16">
-        <div className="border border-[var(--line)] rounded-lg p-8 md:p-12 bg-gradient-to-br from-[#eef8f4] to-white text-center">
-          <h2 className="text-xs uppercase tracking-widest text-[var(--brand)] font-bold">
-            {tr("investor.eyebrow")}
-          </h2>
-          <h3 className="text-3xl font-extrabold text-[var(--ink)] mt-2">{tr("investor.title")}</h3>
-          <p className="text-[var(--muted)] mt-3 max-w-[600px] mx-auto">{tr("investor.subtitle")}</p>
-          <div className="flex gap-3 justify-center mt-6 flex-wrap">
-            <a href="/investor" className="px-5 py-3 rounded-lg bg-[var(--brand)] text-white font-bold text-sm hover:bg-[var(--brand-2)] transition">
-              {tr("investor.ctaInvestor")}
-            </a>
-            <a href="/dashboard" className="px-5 py-3 rounded-lg border border-[var(--line)] bg-white font-bold text-sm hover:border-[var(--brand)] transition">
-              {tr("nav.dashboard")}
-            </a>
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
