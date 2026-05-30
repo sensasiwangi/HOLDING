@@ -8,7 +8,7 @@ import {
   Store, MapPin, DollarSign, TrendingUp, Target, FileDown, ExternalLink,
   Users, Star, GraduationCap, Sparkles, Calendar, Award, ArrowRight,
   BookOpen, Brain, HeartHandshake, ShieldCheck, Banknote, Package,
-  Palette, Lightbulb, AlertTriangle, CheckCircle2, Clock, Rocket,
+  Palette, Lightbulb, AlertTriangle, CheckCircle2, Clock, Rocket, ShoppingBag,
 } from "lucide-react";
 import DivisionLayout from "../DivisionLayout";
 
@@ -554,6 +554,135 @@ export default function StorePage() {
               <p className="text-gray-500 text-xs">{r.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── SOP Operasional ── */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+          <BookOpen size={24} className="text-teal-400" />
+          {L === "id" ? "SOP Operasional Store" : "Store SOP"}
+        </h2>
+        <p className="text-gray-500 mb-6">
+          {L === "id"
+            ? "Standar operasional prosedur harian — buka/tutup, kasir, inventory, AI Mix, kelas parfum"
+            : "Daily operational procedures — open/close, cashier, inventory, AI Mix, perfume class"}
+        </p>
+        <div className="grid md:grid-cols-2 gap-4">
+          {[
+            { icon: <Clock size={20} />, title: L === "id" ? "Buka & Tutup Toko" : "Open & Close", items: ["Pengecekan kebersihan", "Saldo kas awal", "Stok parfum & merch", "Setup booth & display", "Rekonsiliasi kas", "Stock opname bulanan"], color: "text-teal-400" },
+            { icon: <Banknote size={20} />, title: L === "id" ? "Proses Kasir" : "Cashier", items: ["Transaksi penjualan", "Refund / exchange", "Cash / QRIS / Transfer", "Setoran kas harian", "Laporan harian ke sheet"], color: "text-blue-400" },
+            { icon: <Package size={20} />, title: L === "id" ? "Inventory Management" : "Inventory", items: ["Terima barang Produksi", "Restock display", "Min stok alert (3 unit)", "Stock opname bulanan", "Transfer antar outlet"], color: "text-orange-400" },
+            { icon: <Brain size={20} />, title: "AI Mix & Kelas", items: ["Sesi AI Mix 30 menit", "Kelas parfum 60 menit", "Troubleshoot system", "Max 4 orang per sesi", "Max 10 per kelas"], color: "text-purple-400" },
+          ].map((cat, i) => (
+            <div key={i} className="bg-gradient-to-br from-white/5 to-white/3 border border-white/10 rounded-xl p-6">
+              <div className={`${cat.color} mb-3`}>{cat.icon}</div>
+              <h3 className="text-white font-bold mb-3">{cat.title}</h3>
+              <ul className="space-y-2">
+                {cat.items.map((item, j) => (
+                  <li key={j} className="text-sm text-gray-400 flex items-start gap-2">
+                    <span className="text-teal-400 mt-1">•</span> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-gray-600 mt-3">
+          * {L === "id" ? "SOP lengkap tersedia di Google Sheet tab SOP_Store" : "Full SOP available in Google Sheet tab SOP_Store"}
+        </p>
+      </section>
+
+      {/* ── Artisan Program ── */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+          <HeartHandshake size={24} className="text-pink-400" />
+          {L === "id" ? "Artisan Program" : "Artisan Program"}
+        </h2>
+        <p className="text-gray-500 mb-6">
+          {L === "id"
+            ? "Program kemitraan dengan artisan lokal — konsinyasi 70:30, slot terbatas 5 artisan"
+            : "Partnership program with local artisans — consignment 70:30, limited 5 artisan slots"}
+        </p>
+        <div className="grid md:grid-cols-5 gap-3 mb-6">
+          {["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5"].map((slot, i) => (
+            <div key={i} className="bg-gradient-to-br from-pink-500/10 to-purple-500/5 border border-pink-500/20 rounded-xl p-4 text-center">
+              <div className="text-2xl mb-2">{["🎨", "🖌️", "🧶", "💎", "✨"][i]}</div>
+              <div className="text-white font-bold text-sm">{slot}</div>
+              <div className="text-[10px] text-green-400 font-semibold mt-1">🟢 {L === "id" ? "Tersedia" : "Available"}</div>
+              <div className="text-[10px] text-gray-600 mt-1">70:30 {L === "id" ? "Konsinyasi" : "Consignment"}</div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+          <h4 className="text-white font-bold text-sm mb-3">{L === "id" ? "Alur Pendaftaran" : "Registration Flow"}</h4>
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {[
+              { step: "1", label: L === "id" ? "Aplikasi QR" : "QR Application", color: "text-teal-400" },
+              { step: "2", label: L === "id" ? "Submit Sampel" : "Submit Sample", color: "text-blue-400" },
+              { step: "3", label: L === "id" ? "Wawancara" : "Interview", color: "text-orange-400" },
+              { step: "4", label: L === "id" ? "Kontrak" : "Contract", color: "text-purple-400" },
+              { step: "5", label: L === "id" ? "Onboarding" : "Onboarding", color: "text-pink-400" },
+              { step: "6", label: L === "id" ? "Go Live" : "Go Live", color: "text-green-400" },
+            ].map((s, i) => (
+              <div key={i} className="text-center">
+                <div className={`w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-2 text-xs font-bold ${s.color}`}>{s.step}</div>
+                <div className="text-xs text-gray-400">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Merchandise TIM ── */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+          <ShoppingBag size={24} className="text-orange-400" />
+          {L === "id" ? "Merchandise TIM" : "TIM Merchandise"}
+        </h2>
+        <p className="text-gray-500 mb-6">
+          {L === "id"
+            ? "Produk original SWI Store & Fragrantions — margin 62-73%"
+            : "Original SWI Store & Fragrantions products — 62-73% margin"}
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { sku: "MERCH-001", name: "T-Shirt SWI Logo", price: "Rp 120.000", margin: "62.5%", color: "from-gray-600 to-gray-800", emoji: "👕", status: "✅" },
+            { sku: "MERCH-002", name: "T-Shirt Fragrantions 2026", price: "Rp 150.000", margin: "66.7%", color: "from-teal-600 to-teal-800", emoji: "👕", status: "⏳" },
+            { sku: "MERCH-003", name: "Tumbler SWI 500ml", price: "Rp 95.000", margin: "63.2%", color: "from-teal-500 to-cyan-700", emoji: "🥤", status: "✅" },
+            { sku: "MERCH-005", name: "Candle 'Scent of Jakarta'", price: "Rp 150.000", margin: "63.3%", color: "from-amber-600 to-amber-800", emoji: "🕯️", status: "✅" },
+            { sku: "MERCH-007", name: "Tote Bag SWI Canvas", price: "Rp 75.000", margin: "66.7%", color: "from-stone-500 to-stone-700", emoji: "👜", status: "✅" },
+            { sku: "MERCH-009", name: "Gift Set Parfum Mini", price: "Rp 250.000", margin: "66.0%", color: "from-pink-500 to-rose-700", emoji: "🎁", status: "✅" },
+          ].map((item, i) => (
+            <div key={i} className="bg-gradient-to-br from-white/5 to-white/3 border border-white/10 rounded-xl overflow-hidden group hover:border-teal-500/30 transition-all">
+              <div className={`h-1 bg-gradient-to-r ${item.color}`} />
+              <div className="p-5">
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{item.emoji}</span>
+                  <span className={`text-[10px] font-bold ${item.status === "✅" ? "text-green-400" : "text-orange-400"}`}>{item.status} {item.sku}</span>
+                </div>
+                <h4 className="text-white font-bold text-sm mb-1">{item.name}</h4>
+                <div className="flex items-baseline gap-2 mt-3">
+                  <span className="text-lg font-black text-white">{item.price}</span>
+                  <span className="text-xs text-teal-400 font-semibold">margin {item.margin}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div className="text-xs text-gray-500">{L === "id" ? "Total SKU aktif" : "Total active SKU"}</div>
+            <div className="text-xl font-black text-white">11 SKU</div>
+          </div>
+          <div>
+            <div className="text-xs text-gray-500">{L === "id" ? "Margin rata-rata" : "Average margin"}</div>
+            <div className="text-xl font-black text-teal-400">64.8%</div>
+          </div>
+          <div>
+            <div className="text-xs text-gray-500">{L === "id" ? "Stok total" : "Total stock"}</div>
+            <div className="text-xl font-black text-white">375 unit</div>
+          </div>
         </div>
       </section>
 
