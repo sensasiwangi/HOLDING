@@ -71,16 +71,16 @@ export default function DivisiShareholderPanel({ data }: { data?: string[][] | n
             key={i}
             className={`border rounded-xl p-5 ${
               row.isHighlight
-                ? "border-amber-300 bg-amber-50"
+                ? "border-orange-300 bg-orange-50"
                 : "border-[var(--line)] bg-white"
             }`}
           >
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  row.isHighlight ? "bg-amber-200" : "bg-[var(--soft)]"
+                  row.isHighlight ? "bg-orange-200" : "bg-[var(--soft)]"
                 }`}>
-                  <Users size={18} className={row.isHighlight ? "text-amber-700" : "text-[var(--brand)]"} />
+                  <Users size={18} className={row.isHighlight ? "text-orange-700" : "text-[var(--brand)]"} />
                 </div>
                 <div>
                   <div className="font-bold text-[var(--ink)]">{row.divisi}</div>
@@ -89,7 +89,7 @@ export default function DivisiShareholderPanel({ data }: { data?: string[][] | n
               </div>
               <div className="text-right">
                 <div className={`text-2xl font-extrabold ${
-                  row.isHighlight ? "text-amber-600" : "text-[var(--brand)]"
+                  row.isHighlight ? "text-orange-600" : "text-[var(--brand)]"
                 }`}>
                   {row.kepemilikan}
                 </div>
@@ -103,14 +103,14 @@ export default function DivisiShareholderPanel({ data }: { data?: string[][] | n
               <div className="bg-white/60 rounded-lg p-2">
                 <div className="text-[var(--muted)]">Status</div>
                 <div className={`font-bold mt-0.5 ${
-                  row.isHighlight ? "text-amber-700" : "text-green-700"
+                  row.isHighlight ? "text-orange-700" : "text-green-700"
                 }`}>
                   {row.status}
                 </div>
               </div>
             </div>
             {row.isHighlight && (
-              <div className="flex items-center gap-2 mt-3 text-xs text-amber-700 bg-amber-100 rounded-lg p-2">
+              <div className="flex items-center gap-2 mt-3 text-xs text-orange-700 bg-orange-100 rounded-lg p-2">
                 <AlertTriangle size={14} />
                 <span><strong>Perhatian:</strong> Divisi ini direncanakan untuk memiliki pemegang saham/investor tersendiri</span>
               </div>
@@ -157,8 +157,8 @@ export default function DivisiShareholderPanel({ data }: { data?: string[][] | n
                 r[1]?.includes("[") && (
                   <tr key={i} className="border-b border-[var(--line)]">
                     <td className="py-1.5 px-2">{r[0]}</td>
-                    <td className="py-1.5 px-2 text-amber-600 italic">{r[1]}</td>
-                    <td className="py-1.5 px-2 text-right text-amber-600">{r[2]}</td>
+                    <td className="py-1.5 px-2 text-orange-600 italic">{r[1]}</td>
+                    <td className="py-1.5 px-2 text-right text-orange-600">{r[2]}</td>
                     <td className="py-1.5 px-2 text-[var(--muted)]">{r[3]}</td>
                   </tr>
                 )

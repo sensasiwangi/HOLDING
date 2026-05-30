@@ -133,9 +133,9 @@ export default function SukukProdukPanel({
           <div className="text-[10px] text-[var(--muted)]">orang</div>
         </div>
         <div className="border border-[var(--line)] rounded-xl bg-white p-4">
-          <ShoppingBag size={18} className="text-amber-600 mb-2" />
+          <ShoppingBag size={18} className="text-orange-600 mb-2" />
           <div className="text-xs text-[var(--muted)]">Proyeksi Laba/Tahun</div>
-          <div className="text-xl font-extrabold text-amber-600">{fmtRp(totalLaba)}</div>
+          <div className="text-xl font-extrabold text-orange-600">{fmtRp(totalLaba)}</div>
         </div>
       </div>
 
@@ -206,7 +206,7 @@ export default function SukukProdukPanel({
                 </thead>
                 <tbody>
                   {projBulan.map((p, i) => (
-                    <tr key={i} className={`border-b border-[var(--line)] ${p.status === "Payback" ? "bg-amber-50" : p.status === "Launch" ? "bg-blue-50" : ""}`}>
+                    <tr key={i} className={`border-b border-[var(--line)] ${p.status === "Payback" ? "bg-orange-50" : p.status === "Launch" ? "bg-blue-50" : ""}`}>
                       <td className="py-2 px-2 font-medium text-xs">{p.bulan}</td>
                       <td className="py-2 px-2 text-right text-xs">{p.unit}</td>
                       <td className="py-2 px-2 text-right text-xs">{fmtRp(p.harga)}</td>
@@ -217,7 +217,7 @@ export default function SukukProdukPanel({
                       <td className="py-2 px-2">
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                           p.status === "Launch" ? "bg-blue-200 text-blue-800" :
-                          p.status === "Payback" ? "bg-amber-200 text-amber-800" :
+                          p.status === "Payback" ? "bg-orange-200 text-orange-800" :
                           p.status === "Berkelanjutan" ? "bg-green-200 text-green-800" :
                           p.status === "Clearance" ? "bg-red-200 text-red-800" :
                           "bg-gray-200 text-gray-800"
@@ -242,10 +242,10 @@ export default function SukukProdukPanel({
                 <div className="text-[10px] text-blue-700">Bagi SWI</div>
                 <div className="text-xl font-extrabold text-blue-700">{fmtRp(totalSWI)}</div>
               </div>
-              <div className="p-3 bg-amber-50 rounded-lg text-center">
-                <div className="text-[10px] text-amber-700">ROI Investor</div>
-                <div className="text-xl font-extrabold text-amber-700">~400%</div>
-                <div className="text-[9px] text-amber-600">/ tahun (estimasi)</div>
+              <div className="p-3 bg-orange-50 rounded-lg text-center">
+                <div className="text-[10px] text-orange-700">ROI Investor</div>
+                <div className="text-xl font-extrabold text-orange-700">~400%</div>
+                <div className="text-[9px] text-orange-600">/ tahun (estimasi)</div>
               </div>
             </div>
           </>
@@ -270,7 +270,7 @@ export default function SukukProdukPanel({
                 item.color === "indigo" ? "bg-indigo-100 text-indigo-600" :
                 item.color === "purple" ? "bg-purple-100 text-purple-600" :
                 item.color === "green" ? "bg-green-100 text-green-600" :
-                item.color === "amber" ? "bg-amber-100 text-amber-600" :
+                item.color === "amber" ? "bg-orange-100 text-orange-600" :
                 "bg-teal-100 text-teal-600"
               }`}>
                 {item.icon}

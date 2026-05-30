@@ -148,11 +148,11 @@ export default function SukukPanel({
           <div className="text-[10px] text-[var(--muted)]">{pctTerjual.toFixed(1)}%</div>
         </div>
         <div className="border border-[var(--line)] rounded-xl bg-white p-4">
-          <div className="inline-flex p-2 rounded-lg bg-amber-50 mb-2">
-            <AlertTriangle size={18} className="text-amber-600" />
+          <div className="inline-flex p-2 rounded-lg bg-orange-50 mb-2">
+            <AlertTriangle size={18} className="text-orange-600" />
           </div>
           <div className="text-xs text-[var(--muted)]">Sisa</div>
-          <div className="text-lg font-extrabold text-amber-600 mt-1">
+          <div className="text-lg font-extrabold text-orange-600 mt-1">
             {fmtRp(nilaiSukuk - totalNominal)}
           </div>
         </div>
@@ -236,7 +236,7 @@ export default function SukukPanel({
                         inv.status === "Aktif"
                           ? "bg-green-100 text-green-700"
                           : inv.status === "Menunggu"
-                            ? "bg-amber-100 text-amber-700"
+                            ? "bg-orange-100 text-orange-700"
                             : "bg-gray-100 text-gray-600"
                       }`}>
                         {inv.status === "Aktif" ? <CheckCircle size={10} /> : <Clock size={10} />}
@@ -327,10 +327,10 @@ export default function SukukPanel({
       </div>
 
       {/* Catatan */}
-      <div className="border border-amber-200 rounded-xl bg-amber-50 p-5">
+      <div className="border border-orange-200 rounded-xl bg-orange-50 p-5">
         <div className="flex items-start gap-2">
-          <AlertTriangle size={16} className="text-amber-600 mt-0.5 shrink-0" />
-          <div className="text-xs text-amber-800 space-y-1">
+          <AlertTriangle size={16} className="text-orange-600 mt-0.5 shrink-0" />
+          <div className="text-xs text-orange-800 space-y-1">
             <p><strong>Sukuk Musyarakah:</strong> Risiko ditanggung bersama. Jika rugi, investor ikut menanggung sesuai porsi.</p>
             <p><strong>Nisbah 50:50</strong> bersifat estimasi. Nisbah akhir ditentukan saat akad ditandatangani.</p>
             <p><strong>Yield 8-12% p.a.</strong> adalah proyeksi, bukan jaminan. Aktual tergantung kinerja bisnis Store.</p>

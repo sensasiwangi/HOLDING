@@ -145,11 +145,11 @@ export default function ShareholderPanel({ data }: { data?: string[][] | null })
           <div className="text-lg font-extrabold text-green-600 mt-1">{fmtRp(totalSetor)}</div>
         </div>
         <div className="border border-[var(--line)] rounded-xl bg-white p-4">
-          <div className="inline-flex p-2 rounded-lg bg-amber-50 mb-2">
-            <AlertTriangle size={18} className="text-amber-600" />
+          <div className="inline-flex p-2 rounded-lg bg-orange-50 mb-2">
+            <AlertTriangle size={18} className="text-orange-600" />
           </div>
           <div className="text-xs text-[var(--muted)]">Sisa Setoran</div>
-          <div className="text-lg font-extrabold text-amber-600 mt-1">{fmtRp(totalSisa)}</div>
+          <div className="text-lg font-extrabold text-orange-600 mt-1">{fmtRp(totalSisa)}</div>
         </div>
       </div>
 
@@ -271,11 +271,11 @@ export default function ShareholderPanel({ data }: { data?: string[][] | null })
       )}
 
       {/* Catatan */}
-      <div className="border border-amber-200 rounded-xl bg-amber-50 p-4">
+      <div className="border border-orange-200 rounded-xl bg-orange-50 p-4">
         <div className="flex items-start gap-2">
-          <AlertTriangle size={16} className="text-amber-600 mt-0.5 shrink-0" />
-          <div className="text-xs text-amber-800">
-            <strong>Catatan:</strong> Hanya setoran bertuliskan <code className="bg-amber-100 px-1 rounded">SETORAN MODAL</code> yang
+          <AlertTriangle size={16} className="text-orange-600 mt-0.5 shrink-0" />
+          <div className="text-xs text-orange-800">
+            <strong>Catatan:</strong> Hanya setoran bertuliskan <code className="bg-orange-100 px-1 rounded">SETORAN MODAL</code> yang
             dihitung. Pengeluaran pribadi PIC tidak dianggap setoran saham. Data dari ekspor REKAP KEUANGAN SWI.
             Hingga saat ini baru <strong>{totalPct.toFixed(1)}%</strong> dari Rp 250 juta yang telah disetor.
           </div>

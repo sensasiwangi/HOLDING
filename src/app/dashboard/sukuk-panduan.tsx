@@ -339,7 +339,7 @@ const FASES_MAP: Record<string, { color: string; bg: string }> = {
   "FASE 1: PERSIAPAN INTERNAL": { color: "text-blue-600", bg: "bg-blue-50 border-blue-200" },
   "FASE 2: DOKUMENTASI & REGULASI": { color: "text-purple-600", bg: "bg-purple-50 border-purple-200" },
   "FASE 3: PENAWARAN & PENJUALAN": { color: "text-green-600", bg: "bg-green-50 border-green-200" },
-  "FASE 4: PELAKSANAN & PENGELOLAAN": { color: "text-amber-600", bg: "bg-amber-50 border-amber-200" },
+  "FASE 4: PELAKSANAN & PENGELOLAAN": { color: "text-orange-600", bg: "bg-orange-50 border-orange-200" },
   "FASE 5: PELAPORAN & BAGI HASIL": { color: "text-teal-600", bg: "bg-teal-50 border-teal-200" },
   "FASE 6: PENUTUPAN / JATUH TEMPO": { color: "text-rose-600", bg: "bg-rose-50 border-rose-200" },
 };
@@ -410,7 +410,7 @@ export default function SukukPanduanPanel() {
           </div>
           <div>
             <div className="text-xs text-[var(--muted)]">Estimasi Durasi</div>
-            <div className="text-2xl font-extrabold text-amber-600">~14-16</div>
+            <div className="text-2xl font-extrabold text-orange-600">~14-16</div>
             <div className="text-[10px] text-[var(--muted)]">minggu (setup)</div>
           </div>
           <div>
@@ -546,7 +546,7 @@ export default function SukukPanduanPanel() {
                         👤 <strong>PIC:</strong> {step.pic}
                       </span>
                       <span className={`font-bold ${
-                        progress === 100 ? "text-green-600" : progress > 0 ? "text-amber-600" : "text-gray-400"
+                        progress === 100 ? "text-green-600" : progress > 0 ? "text-orange-600" : "text-gray-400"
                       }`}>
                         {progress}% selesai
                       </span>
@@ -554,10 +554,10 @@ export default function SukukPanduanPanel() {
 
                     {/* Tips */}
                     {step.tips && (
-                      <div className="border border-amber-200 rounded-lg bg-amber-50 p-3">
+                      <div className="border border-orange-200 rounded-lg bg-orange-50 p-3">
                         <div className="flex items-start gap-2">
-                          <AlertTriangle size={14} className="text-amber-600 mt-0.5 shrink-0" />
-                          <p className="text-xs text-amber-800">{step.tips}</p>
+                          <AlertTriangle size={14} className="text-orange-600 mt-0.5 shrink-0" />
+                          <p className="text-xs text-orange-800">{step.tips}</p>
                         </div>
                       </div>
                     )}
