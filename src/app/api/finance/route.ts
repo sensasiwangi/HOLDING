@@ -57,6 +57,7 @@ export async function GET() {
         "Cashflow_Aktual!A1:I80",
         "Break_Even_Analysis!A1:J16",
         "Proyeksi_12Bulan!A1:O25",
+        "Sukuk_Payment_Schedule!A1:L25",
       ],
     });
 
