@@ -7,7 +7,7 @@ import {
   Building2, DollarSign, Scale, LogOut, Lock,
   Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen, Package,
   AlertTriangle, ArrowRight, Sparkles, Eye, PieChart,
-  CheckCircle2, Clock, CircleDashed,
+  CheckCircle2, Clock, CircleDashed, CalendarCheck,
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
@@ -15,8 +15,9 @@ import DivisiShareholderPanel from "./divisi-shareholder";
 import SukukPanel from "./sukuk";
 import SukukPanduanPanel from "./sukuk-panduan";
 import SukukProdukPanel from "./sukuk-produk";
+import SukukPaymentSchedulePanel from "./sukuk-schedule";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -136,6 +137,7 @@ export default function DashboardPage() {
     { key: "sukuk" as Tab, label: "Sukuk", icon: <ShieldCheck size={15} /> },
     { key: "panduan" as Tab, label: "Panduan", icon: <BookOpen size={15} /> },
     { key: "produk" as Tab, label: "Produk", icon: <Package size={15} /> },
+    { key: "jadwal" as Tab, label: "Jadwal", icon: <CalendarCheck size={15} /> },
   ];
 
   // Calculate overall progress (tracker + brands)
@@ -195,6 +197,7 @@ export default function DashboardPage() {
          activeTab === "sukuk" ? <SukukPanel info={financeData?.sukukInfo} investor={financeData?.sukukInvestor} proyeksi={financeData?.sukukProyeksi} /> :
          activeTab === "panduan" ? <SukukPanduanPanel /> :
          activeTab === "produk" ? <SukukProdukPanel produk={financeData?.sukukProduk} proyeksi={financeData?.sukukProdukProj} /> :
+         activeTab === "jadwal" ? <SukukPaymentSchedulePanel paymentSchedule={financeData?.sukukPaymentSchedule} /> :
 
         <>
           {/* ── Hero Stats Row ── */}

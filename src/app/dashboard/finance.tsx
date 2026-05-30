@@ -474,7 +474,7 @@ export default function FinancePanel() {
                 <tbody>
                   {data.proyeksi12Bulan.slice(1).filter(r => r[0] && !r[0].startsWith("──")).map((row, i) => (
                     <tr key={i} className={`border-b border-[var(--line)] ${row[0]?.includes("LABA") || row[0]?.includes("Status") ? "font-bold bg-tosca/5" : ""}`}>
-                      {row.map((cell, ci) => (<td key={ci} className={`py-1.5 px-2 whitespace-nowrap ${typeof cell === "number" ? "text-right font-mono" : ""}`}>{typeof cell === "number" ? (Math.abs(cell) >= 1000000 ? fmt(cell) : cell.toLocaleString("id-ID")) : cell || "—"}</td>))}
+                      {row.map((cell, ci) => (<td key={ci} className={`py-1.5 px-2 whitespace-nowrap ${typeof cell === "number" ? "text-right font-mono" : ""}`}>{typeof cell === "number" ? (Math.abs(cell) >= 1000000 ? fmt(cell) : (cell as number).toLocaleString("id-ID")) : cell || "—"}</td>))}
                     </tr>
                   ))}
                 </tbody>

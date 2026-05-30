@@ -94,6 +94,7 @@ export async function GET() {
       cashflowAktual: r[25]?.values || null,
       breakEven: r[26]?.values || null,
       proyeksi12Bulan: r[27]?.values || null,
+      sukukPaymentSchedule: r[28]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
