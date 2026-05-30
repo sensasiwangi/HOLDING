@@ -50,6 +50,10 @@ export async function GET() {
         "Pajak_Tracking!A1:H12",
         "Legal_Compliance!A1:H16",
         "Cashflow_Forecast!A1:J30",
+        "SOP_Store!A1:F30",
+        "Artisan_Program!A1:H22",
+        "Merch_TIM!A1:L13",
+        "Store_Daily_Log!A1:L100",
       ],
     });
 
@@ -79,6 +83,10 @@ export async function GET() {
       pajakTracking: r[18]?.values || null,
       legalCompliance: r[19]?.values || null,
       cashflowForecast: r[20]?.values || null,
+      sopStore: r[21]?.values || null,
+      artisanProgram: r[22]?.values || null,
+      merchTim: r[23]?.values || null,
+      storeDailyLog: r[24]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
