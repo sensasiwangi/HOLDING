@@ -58,6 +58,9 @@ export async function GET() {
         "Break_Even_Analysis!A1:J16",
         "Proyeksi_12Bulan!A1:O25",
         "Sukuk_Payment_Schedule!A1:L25",
+        "RAB_Store_TIM!A1:J57",
+        "RAB_Perbandingan_Skema!A1:H25",
+        "Proyeksi_Cashflow_Store!A1:M33",
       ],
     });
 
@@ -95,6 +98,9 @@ export async function GET() {
       breakEven: r[26]?.values || null,
       proyeksi12Bulan: r[27]?.values || null,
       sukukPaymentSchedule: r[28]?.values || null,
+      rabStoreTim: r[29]?.values || null,
+      rabPerbandinganSkema: r[30]?.values || null,
+      proyeksiCashflowStore: r[31]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
