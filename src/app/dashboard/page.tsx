@@ -7,7 +7,7 @@ import {
   Building2, DollarSign, Scale, LogOut, Lock,
   Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen, Package,
   AlertTriangle, ArrowRight, Sparkles, Eye, PieChart,
-  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet,
+  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet, Rocket,
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
