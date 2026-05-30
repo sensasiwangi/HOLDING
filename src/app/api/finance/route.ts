@@ -43,6 +43,8 @@ export async function GET() {
         "Rekening_Koran!A5:D7",
         "Rekening_Koran!A10:L12",
         "COA!A5:E60",
+        "Cash_Harian!A5:I100",
+        "Buku_Kas!A5:H100",
       ],
     });
 
@@ -65,12 +67,81 @@ export async function GET() {
       rekeningKoran: r[11]?.values || null,
       rekeningMutasi: r[12]?.values || null,
       coa: r[13]?.values || null,
+      cashHarian: r[14]?.values || null,
+      bukuKas: r[15]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
       { error: "Failed to fetch financial data", detail: msg },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const {
+      sheet,
+      division,
+      accountId,
+      category,
+      subcategory,
+      description,
+      inflow,
+      outflow,
+      balance,
+      date,
+    } = body;
+
+    if (!sheet || !accountId) {
+      return NextResponse.json(
+        { error: "Missing required fields: sheet, accountId" },
+        { status: 400 }
+      );
+    }
+
+    const auth = getAuth();
+    const sheets = google.sheets({ version: "v4", auth });
+
+    const now = new Date().toISOString().replace("T", " ").slice(0, 19);
+
+    if (sheet === "Cash_Harian") {
+      const d = date || new Date().toISOString().split("T")[0];
+      const row = [d, accountId, category || "", description || "", inflow || 0, outflow || 0, now, division || ""];
+
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: SPREADSHEET_ID,
+        range: "Cash_Harian!A:H",
+        valueInputOption: "USER_ENTERED",
+        requestBody: { values: [row] },
+      });
+
+      return NextResponse.json({ success: true, message: "Transaksi harian berhasil dicatat", sheet: "Cash_Harian", row });
+    }
+
+    if (sheet === "Buku_Kas") {
+      const d = date || new Date().toISOString().split("T")[0];
+      const saldo = balance !== undefined ? balance : 0;
+      const row = [d, description || "", inflow || 0, outflow || 0, saldo, accountId, now, division || "Holding"];
+
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: SPREADSHEET_ID,
+        range: "Buku_Kas!A:H",
+        valueInputOption: "USER_ENTERED",
+        requestBody: { values: [row] },
+      });
+
+      return NextResponse.json({ success: true, message: "Mutasi buku kas berhasil dicatat", sheet: "Buku_Kas", row });
+    }
+
+    return NextResponse.json({ error: "Unknown sheet target" }, { status: 400 });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json(
+      { error: "Failed to write transaction", detail: msg },
       { status: 500 }
     );
   }
