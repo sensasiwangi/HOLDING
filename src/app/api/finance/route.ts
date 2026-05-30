@@ -45,7 +45,11 @@ export async function GET() {
         "COA!A5:E60",
         "Cash_Harian!A5:I100",
         "Buku_Kas!A5:H100",
+        "Laporan_Bulanan!A1:P16",
         "Budget_vs_Actual!A1:R50",
+        "Pajak_Tracking!A1:H12",
+        "Legal_Compliance!A1:H16",
+        "Cashflow_Forecast!A1:J30",
       ],
     });
 
@@ -70,7 +74,11 @@ export async function GET() {
       coa: r[13]?.values || null,
       cashHarian: r[14]?.values || null,
       bukuKas: r[15]?.values || null,
-      budgetVsActual: r[16]?.values || null,
+      laporanBulanan: r[16]?.values || null,
+      budgetVsActual: r[17]?.values || null,
+      pajakTracking: r[18]?.values || null,
+      legalCompliance: r[19]?.values || null,
+      cashflowForecast: r[20]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
