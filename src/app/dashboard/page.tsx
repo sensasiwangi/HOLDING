@@ -17,8 +17,9 @@ import SukukPanduanPanel from "./sukuk-panduan";
 import SukukProdukPanel from "./sukuk-produk";
 import SukukPaymentSchedulePanel from "./sukuk-schedule";
 import SukukRABPanel from "./sukuk-rab";
+import SukukTermSheetPanel from "./sukuk-term-sheet";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -140,6 +141,7 @@ export default function DashboardPage() {
     { key: "produk" as Tab, label: "Produk", icon: <Package size={15} /> },
     { key: "jadwal" as Tab, label: "Jadwal", icon: <CalendarCheck size={15} /> },
     { key: "rab" as Tab, label: "RAB", icon: <FileSpreadsheet size={15} /> },
+    { key: "akad" as Tab, label: "Akad", icon: <Scale size={15} /> },
   ];
 
   // Calculate overall progress (tracker + brands)
@@ -201,6 +203,7 @@ export default function DashboardPage() {
          activeTab === "produk" ? <SukukProdukPanel produk={financeData?.sukukProduk} proyeksi={financeData?.sukukProdukProj} /> :
           activeTab === "jadwal" ? <SukukPaymentSchedulePanel paymentSchedule={financeData?.sukukPaymentSchedule} /> :
          activeTab === "rab" ? <SukukRABPanel rabData={financeData?.rabStoreTim} skemaData={financeData?.rabPerbandinganSkema} cashflowData={financeData?.proyeksiCashflowStore} /> :
+         activeTab === "akad" ? <SukukTermSheetPanel data={{ info: financeData?.sukukInfo, investor: financeData?.sukukInvestor }} /> :
 
         <>
           {/* ── Hero Stats Row ── */}
