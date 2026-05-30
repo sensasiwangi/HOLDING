@@ -1,6 +1,7 @@
 "use client";
 
-import { Sparkles, Leaf, Cpu, ExternalLink, Star } from "lucide-react";
+import { Sparkles, Leaf, Cpu, ExternalLink, Star, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useLang } from "@/lib/LangContext";
 import type { Lang } from "@/lib/dictionary";
 
@@ -19,28 +20,31 @@ const brands = [
     tags: ["Premium", "Artistic", "Personal"],
     products: 12,
     rating: 4.8,
+    link: "/brands/arc-en-scent",
   },
   {
     name: "Nuscentza",
     icon: <Leaf size={28} className="text-white" />,
     gradient: "from-teal-600 to-teal-600",
     emoji: "🌺",
-    descId: "Brand parfum dengan konsep keindahan Nusantara. Menggabungkan kekayaan aroma lokal Indonesia dengan teknologi modern.",
-    descEn: "A perfume brand with a Nusantara beauty concept. Combining the richness of Indonesian local aromas with modern technology.",
+    descId: "Brand parfum dengan konsep keindahan Nusantara.",
+    descEn: "A perfume brand with a Nusantara beauty concept.",
     tags: ["Nusantara", "Natural", "Modern"],
     products: 8,
     rating: 4.6,
+    link: "#",
   },
   {
     name: "Pixel Potion",
     icon: <Cpu size={28} className="text-white" />,
     gradient: "from-orange-500 to-orange-600",
     emoji: "🧪",
-    descId: "Brand parfum lifestyle untuk generasi muda. Kreatif, eclectic, dan penuh eksplorasi aroma.",
-    descEn: "A lifestyle perfume brand for the young generation. Creative, eclectic, and full of scent exploration.",
+    descId: "Brand parfum lifestyle untuk generasi muda.",
+    descEn: "A lifestyle perfume brand for the young generation.",
     tags: ["Youth", "Creative", "Eclectic"],
     products: 5,
     rating: 4.5,
+    link: "#",
   },
 ];
 
@@ -100,6 +104,12 @@ export default function BrandsPage() {
                     </div>
                     <div className="text-sm text-orange-400 font-bold">★ {brand.rating}</div>
                   </div>
+                  {brand.link && (
+                    <Link href={brand.link} className="mt-4 flex items-center gap-2 text-xs font-semibold text-tosca hover:text-orange-400 transition-colors group/link">
+                      {lang === "id" ? "Lihat Detail Brand" : "View Brand Details"}
+                      <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}
