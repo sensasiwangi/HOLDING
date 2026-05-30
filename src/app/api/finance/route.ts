@@ -54,6 +54,9 @@ export async function GET() {
         "Artisan_Program!A1:H22",
         "Merch_TIM!A1:L13",
         "Store_Daily_Log!A1:L100",
+        "Cashflow_Aktual!A1:I80",
+        "Break_Even_Analysis!A1:J16",
+        "Proyeksi_12Bulan!A1:O25",
       ],
     });
 
@@ -87,6 +90,9 @@ export async function GET() {
       artisanProgram: r[22]?.values || null,
       merchTim: r[23]?.values || null,
       storeDailyLog: r[24]?.values || null,
+      cashflowAktual: r[25]?.values || null,
+      breakEven: r[26]?.values || null,
+      proyeksi12Bulan: r[27]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {

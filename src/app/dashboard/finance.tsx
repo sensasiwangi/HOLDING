@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   DollarSign, TrendingDown, ArrowUpRight, ArrowDownRight,
-  Building2, Calendar, ShoppingBag, Store, Globe, FileSpreadsheet, PenLine, BarChart3,
+  Building2, Calendar, ShoppingBag, Store, Globe, FileSpreadsheet, PenLine, BarChart3, TrendingUp,
 } from "lucide-react";
 import TransactionForm from "@/components/TransactionForm";
 
@@ -16,6 +16,9 @@ interface FinanceData {
   rekeningKoran: string[][] | null;
   coa: string[][] | null;
   budgetVsActual: string[][] | null;
+  cashflowAktual: string[][] | null;
+  breakEven: string[][] | null;
+  proyeksi12Bulan: string[][] | null;
   fetchedAt: string;
 }
 
@@ -69,7 +72,7 @@ export default function FinancePanel() {
   const [data, setData] = useState<FinanceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [subTab, setSubTab] = useState<"ringkasan" | "budget" | "input">("ringkasan");
+  const [subTab, setSubTab] = useState<"ringkasan" | "budget" | "cashflow" | "input">("ringkasan");
 
   useEffect(() => {
     fetch("/api/finance")
@@ -179,6 +182,16 @@ export default function FinancePanel() {
           }`}
         >
           <BarChart3 size={14} /> Budget v Actual
+        </button>
+        <button
+          onClick={() => setSubTab("cashflow")}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            subTab === "cashflow"
+              ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/25"
+              : "bg-white/5 text-gray-400 hover:bg-white/10"
+          }`}
+        >
+          <TrendingUp size={14} /> Cashflow
         </button>
      </div>
 
@@ -419,6 +432,73 @@ export default function FinancePanel() {
             </p>
           </div>
         </>
+      )}
+
+      {/* Sub Tab: Cashflow */}
+      {subTab === "cashflow" && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-extrabold text-[var(--ink)]">Cashflow Management</h2>
+              <p className="text-xs text-[var(--muted)] mt-0.5">Cashflow aktual, break-even, proyeksi 12 bulan</p>
+            </div>
+            <a href={data.spreadsheetUrl} target="_blank" rel="noopener"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--line)] text-xs font-bold hover:border-[var(--brand)] transition">
+              <FileSpreadsheet size={14} /> Google Sheets
+            </a>
+          </div>
+          {data.breakEven && data.breakEven.length > 0 && (
+            <div className="border border-[var(--line)] rounded-xl bg-white p-5">
+              <h3 className="font-bold text-[var(--ink)] mb-3">Break-Even Analysis</h3>
+              <div className="overflow-x-auto"><table className="w-full text-sm">
+                <thead><tr className="bg-[var(--soft)] text-xs text-[var(--muted)]">
+                  {data.breakEven[0]?.map((h, i) => (<th key={i} className="py-2 px-3 text-left">{h}</th>))}
+                </tr></thead>
+                <tbody>
+                  {data.breakEven.slice(1).filter(r => r[0] && !r[0].startsWith("──")).map((row, i) => (
+                    <tr key={i} className="border-b border-[var(--line)]">
+                      {row.map((cell, ci) => (<td key={ci} className="py-2 px-3 text-xs">{typeof cell === "number" ? fmt(cell) : cell || "—"}</td>))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table></div>
+            </div>
+          )}
+          {data.proyeksi12Bulan && data.proyeksi12Bulan.length > 0 && (
+            <div className="border border-[var(--line)] rounded-xl bg-white p-5">
+              <h3 className="font-bold text-[var(--ink)] mb-3">Proyeksi 12 Bulan</h3>
+              <div className="overflow-x-auto"><table className="w-full text-xs">
+                <thead><tr className="bg-[var(--soft)] text-[var(--muted)]">
+                  {data.proyeksi12Bulan[0]?.map((h, i) => (<th key={i} className="py-2 px-2 text-left whitespace-nowrap">{h}</th>))}
+                </tr></thead>
+                <tbody>
+                  {data.proyeksi12Bulan.slice(1).filter(r => r[0] && !r[0].startsWith("──")).map((row, i) => (
+                    <tr key={i} className={`border-b border-[var(--line)] ${row[0]?.includes("LABA") || row[0]?.includes("Status") ? "font-bold bg-tosca/5" : ""}`}>
+                      {row.map((cell, ci) => (<td key={ci} className={`py-1.5 px-2 whitespace-nowrap ${typeof cell === "number" ? "text-right font-mono" : ""}`}>{typeof cell === "number" ? (Math.abs(cell) >= 1000000 ? fmt(cell) : cell.toLocaleString("id-ID")) : cell || "—"}</td>))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table></div>
+            </div>
+          )}
+          {data.cashflowAktual && data.cashflowAktual.length > 2 && (
+            <div className="border border-[var(--line)] rounded-xl bg-white p-5">
+              <h3 className="font-bold text-[var(--ink)] mb-3">Cashflow Aktual per Divisi</h3>
+              <div className="overflow-x-auto"><table className="w-full text-sm">
+                <thead><tr className="bg-[var(--soft)] text-xs text-[var(--muted)]">
+                  {data.cashflowAktual[0]?.map((h, i) => (<th key={i} className="py-2 px-3 text-left">{h}</th>))}
+                </tr></thead>
+                <tbody>
+                  {data.cashflowAktual.slice(2).filter(r => r[0] && r[1]).map((row, i) => (
+                    <tr key={i} className="border-b border-[var(--line)]">
+                      {row.slice(0, 6).map((cell, ci) => (<td key={ci} className={`py-2 px-3 text-xs ${typeof cell === "number" ? "text-right" : ""}`}>{typeof cell === "number" ? fmt(cell) : cell || "—"}</td>))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table></div>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Sub Tab: Budget v Actual */}
