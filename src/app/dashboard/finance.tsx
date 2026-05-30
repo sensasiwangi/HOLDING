@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   DollarSign, TrendingDown, ArrowUpRight, ArrowDownRight,
-  Building2, Calendar, ShoppingBag, Store, Globe, FileSpreadsheet, PenLine,
+  Building2, Calendar, ShoppingBag, Store, Globe, FileSpreadsheet, PenLine, BarChart3,
 } from "lucide-react";
 import TransactionForm from "@/components/TransactionForm";
 
@@ -15,6 +15,7 @@ interface FinanceData {
   holding: string[][] | null;
   rekeningKoran: string[][] | null;
   coa: string[][] | null;
+  budgetVsActual: string[][] | null;
   fetchedAt: string;
 }
 
@@ -68,7 +69,7 @@ export default function FinancePanel() {
   const [data, setData] = useState<FinanceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [subTab, setSubTab] = useState<"ringkasan" | "input">("ringkasan");
+  const [subTab, setSubTab] = useState<"ringkasan" | "budget" | "input">("ringkasan");
 
   useEffect(() => {
     fetch("/api/finance")
@@ -168,8 +169,18 @@ export default function FinancePanel() {
           }`}
         >
           <PenLine size={14} /> Input Transaksi
+       </button>
+        <button
+          onClick={() => setSubTab("budget")}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            subTab === "budget"
+              ? "bg-purple-500 text-white shadow-lg shadow-purple-500/25"
+              : "bg-white/5 text-gray-400 hover:bg-white/10"
+          }`}
+        >
+          <BarChart3 size={14} /> Budget v Actual
         </button>
-      </div>
+     </div>
 
       {/* Sub Tab: Input Transaksi */}
       {subTab === "input" && (
@@ -408,6 +419,73 @@ export default function FinancePanel() {
             </p>
           </div>
         </>
+      )}
+
+      {/* Sub Tab: Budget v Actual */}
+      {subTab === "budget" && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-extrabold text-[var(--ink)]">Budget vs Actual</h2>
+              <p className="text-xs text-[var(--muted)] mt-0.5">Perencanaan & realisasi anggaran per divisi</p>
+            </div>
+            <a
+              href={data.spreadsheetUrl}
+              target="_blank"
+              rel="noopener"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--line)] text-xs font-bold hover:border-[var(--brand)] transition"
+            >
+              <FileSpreadsheet size={14} /> Google Sheets
+            </a>
+          </div>
+
+          {!data.budgetVsActual || data.budgetVsActual.length === 0 ? (
+            <div className="text-center py-16">
+              <BarChart3 size={48} className="mx-auto text-[var(--muted)] mb-3" />
+              <p className="text-sm text-[var(--muted)]">Belum ada data budget</p>
+              <p className="text-xs text-[var(--muted)] mt-1">Data budget ada di sheet Budget_vs_Actual</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {data.budgetVsActual.map((row, i) => {
+                if (!row[0]) return null;
+                const isHeader = i === 0;
+                const isSection = row[1] === "" && !row[2];
+                const isTotal = row[0].includes("TOTAL") || row[0].includes("LABA/RUGI");
+                if (isHeader) return null;
+                return (
+                  <div key={i}>
+                    {isSection && (
+                      <h4 className="font-bold text-[var(--ink)] mt-4 mb-2 text-sm">{row[0]}</h4>
+                    )}
+                    {!isSection && (
+                      <div className={`grid grid-cols-18 gap-1 text-xs py-1.5 px-2 rounded ${
+                        isTotal ? "bg-tosca/10 font-bold" : "hover:bg-white/5"
+                      }`} style={{ gridTemplateColumns: "2fr repeat(12, 1fr) 1fr" }}>
+                        <span className={`${isTotal ? "text-tosca" : "text-gray-400"}`}>{row[0]}</span>
+                        {Array.from({ length: 12 }, (_, mi) => (
+                          <span key={mi} className={`text-right ${isTotal ? "text-tosca font-bold" : "text-gray-500"}`}>
+                            {safeNum(row[mi + 2]) > 0 ? fmt(safeNum(row[mi + 2])) : "—"}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="border border-[var(--line)] rounded-xl bg-white p-4">
+            <h4 className="font-bold text-sm text-[var(--ink)] mb-2">📋 Cara Input Budget</h4>
+            <ol className="text-xs text-[var(--muted)] space-y-1 list-decimal list-inside">
+              <li>Buka sheet <code className="bg-gray-100 px-1 rounded">Budget_vs_Actual</code></li>
+              <li>Edit kolom budget bulanan per kategori</li>
+              <li>Isi kolom realisasi setiap akhir bulan</li>
+              <li>Variance dihitung otomatis oleh formula</li>
+            </ol>
+          </div>
+        </div>
       )}
     </div>
   );

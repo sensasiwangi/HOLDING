@@ -45,6 +45,7 @@ export async function GET() {
         "COA!A5:E60",
         "Cash_Harian!A5:I100",
         "Buku_Kas!A5:H100",
+        "Budget_vs_Actual!A1:R50",
       ],
     });
 
@@ -69,6 +70,7 @@ export async function GET() {
       coa: r[13]?.values || null,
       cashHarian: r[14]?.values || null,
       bukuKas: r[15]?.values || null,
+      budgetVsActual: r[16]?.values || null,
       fetchedAt: new Date().toISOString(),
     });
   } catch (error: unknown) {
