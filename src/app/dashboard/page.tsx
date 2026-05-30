@@ -22,17 +22,22 @@ const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
 ];
 
+const BRAND_DATA = [
+  { id: 41, brand: "L'Arc~en~Scent",    status: "build", pct: 55, pic: "Brand Manager", emoji: "🌸", color: "from-purple-500 to-indigo-600" },
+  { id: 42, brand: "Nuscentza",         status: "build", pct: 45, pic: "Brand Manager", emoji: "🌺", color: "from-teal-500 to-cyan-600" },
+  { id: 43, brand: "Pixel Potion",      status: "plan",  pct: 35, pic: "Brand Manager", emoji: "🧪", color: "from-orange-500 to-amber-600" },
+];
+
 const TRACKER_DATA = [
-  { id: 1, name: "Operasional holding", status: "build", pct: 45, pic: "Direksi / Holding Office" },
-  { id: 2, name: "SWI Store TIM", status: "build", pct: 55, pic: "Store Manager" },
-  { id: 3, name: "Event / Fragrantions", status: "plan", pct: 38, pic: "Event Lead" },
-  { id: 4, name: "Production & Brands", status: "build", pct: 48, pic: "Production Lead" },
-  { id: 5, name: "WEB Marketplace", status: "plan", pct: 32, pic: "Digital Lead" },
-  { id: 6, name: "Digital Systems & AI", status: "build", pct: 42, pic: "Digital Lead" },
-  { id: 7, name: "Monitoring keuangan", status: "risk", pct: 40, pic: "Finance" },
-  { id: 8, name: "Legal perusahaan", status: "risk", pct: 35, pic: "Legal / Direksi" },
-  { id: 9, name: "HKI / merek", status: "risk", pct: 25, pic: "Legal / Brand" },
-  { id: 10, name: "Investor readiness", status: "plan", pct: 45, pic: "Direksi / BD" },
+  { id: 1,  name: "Operasional holding",     status: "build", pct: 45, pic: "Direksi / Holding Office" },
+  { id: 2,  name: "SWI Store TIM",           status: "build", pct: 55, pic: "Store Manager" },
+  { id: 3,  name: "Event / Fragrantions",     status: "plan",  pct: 38, pic: "Event Lead" },
+  { id: 5,  name: "WEB Marketplace",          status: "plan",  pct: 32, pic: "Digital Lead" },
+  { id: 6,  name: "Digital Systems & AI",     status: "build", pct: 42, pic: "Digital Lead" },
+  { id: 7,  name: "Monitoring keuangan",     status: "risk",  pct: 40, pic: "Finance" },
+  { id: 8,  name: "Legal perusahaan",         status: "risk",  pct: 35, pic: "Legal / Direksi" },
+  { id: 9,  name: "HKI / merek",              status: "risk",  pct: 25, pic: "Legal / Brand" },
+  { id: 10, name: "Investor readiness",       status: "plan",  pct: 45, pic: "Direksi / BD" },
 ];
 
 const STATUS_CONFIG: Record<string, { bg: string; text: string; label: string; icon: any }> = {
@@ -133,10 +138,11 @@ export default function DashboardPage() {
     { key: "produk" as Tab, label: "Produk", icon: <Package size={15} /> },
   ];
 
-  // Calculate overall progress
-  const overallProgress = Math.round(TRACKER_DATA.reduce((a, b) => a + b.pct, 0) / TRACKER_DATA.length);
-  const riskCount = TRACKER_DATA.filter(r => r.status === "risk").length;
-  const buildCount = TRACKER_DATA.filter(r => r.status === "build").length;
+  // Calculate overall progress (tracker + brands)
+  const allItems = [...TRACKER_DATA, ...BRAND_DATA];
+  const overallProgress = Math.round(allItems.reduce((a, b) => a + b.pct, 0) / allItems.length);
+  const riskCount = allItems.filter(r => r.status === "risk").length;
+  const buildCount = allItems.filter(r => r.status === "build").length;
 
   return (
     <div className="min-h-screen bg-[#080c0a] text-white">
@@ -264,6 +270,56 @@ export default function DashboardPage() {
 
             {/* Right Column */}
             <div className="space-y-5">
+              {/* ── Brand Tracker ── */}
+              <div className="card-luxury p-6 animate-fade-up" style={{ animationDelay: '0.15s' }}>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center">
+                    <Sparkles size={14} className="text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-white">Brand Tracker</h3>
+                    <p className="text-[10px] text-[#4a6a5a]">Production & Brands</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {BRAND_DATA.map((b) => {
+                    const s = STATUS_CONFIG[b.status] || STATUS_CONFIG.plan;
+                    return (
+                      <div key={b.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/3 hover:bg-white/5 transition-colors group">
+                        {/* Brand emoji */}
+                        <div className="text-xl flex-shrink-0 group-hover:scale-110 transition-transform">{b.emoji}</div>
+
+                        {/* Brand name + status */}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-white truncate">{b.brand}</div>
+                          <span className={`inline-block rounded-full px-2 py-0.5 text-[9px] font-bold ${s.bg} ${s.text} mt-0.5`}>{s.label}</span>
+                        </div>
+
+                        {/* Progress */}
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <div className="w-16 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full bg-gradient-to-r ${b.color}`}
+                              style={{ width: `${b.pct}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-bold text-[#6b9e8f] w-8 text-right">{b.pct}%</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Brand summary bar */}
+                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] text-[#4a6a5a] font-semibold">Rata-rata Progress</span>
+                  <span className="text-sm font-black text-gradient-brand">
+                    {Math.round(BRAND_DATA.reduce((a, b) => a + b.pct, 0) / BRAND_DATA.length)}%
+                  </span>
+                </div>
+              </div>
+
               {/* Priorities */}
               <div className="card-luxury p-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
                 <div className="flex items-center gap-2 mb-4">
