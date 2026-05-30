@@ -22,7 +22,7 @@ const DIVISIONS = [
     titleId: "SWI Store TIM", titleEn: "SWI Store TIM",
     descId: "Merch TIM, Parfum Experience, AI Mix, Artisan Showcase",
     descEn: "TIM Merch, Perfume Experience, AI Mix, Artisan Showcase",
-    gradient: "from-emerald-500 to-teal-600",
+    gradient: "from-teal-500 to-teal-600",
     progress: 70, stats: { gerai: "3", siswa: "500+" },
   },
   {
@@ -46,7 +46,7 @@ const DIVISIONS = [
     titleId: "Digital & AI", titleEn: "Digital & AI",
     descId: "AppSheet CRM, AI Perfume Profile, otomasi, dashboard analytics",
     descEn: "AppSheet CRM, AI Perfume Profile, automation, analytics dashboard",
-    gradient: "from-amber-500 to-orange-600",
+    gradient: "from-orange-500 to-orange-600",
     progress: 35, stats: { sistem: "5+", model: "10+" },
   },
 ];
@@ -60,13 +60,13 @@ export default function DivisionsPage() {
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-[#0f7b63]/10 blur-[120px] animate-float1" />
+          <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-[#0D9488]/10 blur-[120px] animate-float1" />
           <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-[#c9a84c]/5 blur-[100px] animate-float2" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-8 animate-fade-up">
-            <Layers size={14} className="text-emerald-400" />
+            <Layers size={14} className="text-teal-400" />
             <span className="text-xs font-semibold text-[#8aae9e] uppercase tracking-wider">
               {L === "id" ? "Struktur Holding" : "Holding Structure"}
             </span>
@@ -113,7 +113,7 @@ export default function DivisionsPage() {
 
                 {/* Title */}
                 <div className="text-2xl mb-2">{d.emoji}</div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-teal-400 transition-colors">
                   {L === "id" ? d.titleId : d.titleEn}
                 </h3>
                 <p className="text-[#5d7068] text-sm mb-5 flex-1">
@@ -131,7 +131,7 @@ export default function DivisionsPage() {
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-emerald-400 transition-colors">
+                <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-teal-400 transition-colors">
                   {L === "id" ? "Jelajahi" : "Explore"}
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -150,7 +150,7 @@ export default function DivisionsPage() {
                 </div>
               </div>
               <div className="text-2xl mb-2">🏛️</div>
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-teal-400 transition-colors">
                 Holding Office
               </h3>
               <div className="grid grid-cols-2 gap-2 mb-5 flex-1">
@@ -169,7 +169,7 @@ export default function DivisionsPage() {
                   </div>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-emerald-400 transition-colors">
+              <div className="flex items-center gap-2 text-sm font-semibold text-[#5d7068] group-hover:text-teal-400 transition-colors">
                 {L === "id" ? "Buka Dashboard" : "Open Dashboard"}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </div>
@@ -189,7 +189,7 @@ export default function DivisionsPage() {
                   : "Each division generates data and value that reinforce each other: Production supplies products, Store & Event build experience, Digital optimizes operations, Marketplace opens the national market, and Holding manages investments & corporate strategy."}
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/investor" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0f7b63]/20 transition-all">
+                <Link href="/investor" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0D9488]/20 transition-all">
                   {L === "id" ? "Investor Relations" : "Investor Relations"} <ArrowRight size={16} />
                 </Link>
                 <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all">

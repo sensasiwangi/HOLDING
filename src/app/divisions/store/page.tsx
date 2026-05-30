@@ -200,24 +200,24 @@ export default function StorePage() {
   return (
     <DivisionLayout
       slug="store" color="emerald"
-      iconBg="bg-emerald-500/20" iconColor="text-emerald-400"
+      iconBg="bg-teal-500/20" iconColor="text-teal-400"
       tagline={T.profile[L].tagline}
       title={T.profile[L].title}
       subtitle={T.profile[L].subtitle}
-      heroIcon={<Store size={32} className="text-emerald-400" />}
+      heroIcon={<Store size={32} className="text-teal-400" />}
     >
       {/* ── Profile ── */}
       <section className="mb-12">
         <p className="text-gray-400 text-lg leading-relaxed max-w-3xl">{T.profile[L].desc}</p>
         <div className="mt-8 grid md:grid-cols-2 gap-6">
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <h3 className="text-emerald-400 font-bold text-lg mb-3 flex items-center gap-2">
+            <h3 className="text-teal-400 font-bold text-lg mb-3 flex items-center gap-2">
               <Target size={18} /> {L === "id" ? "Visi" : "Vision"}
             </h3>
             <p className="text-gray-300 text-sm">{T.profile[L].vision}</p>
           </div>
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <h3 className="text-emerald-400 font-bold text-lg mb-3 flex items-center gap-2">
+            <h3 className="text-teal-400 font-bold text-lg mb-3 flex items-center gap-2">
               <TrendingUp size={18} /> {L === "id" ? "Misi" : "Mission"}
             </h3>
             <p className="text-gray-300 text-sm">{T.profile[L].mission}</p>
@@ -233,17 +233,17 @@ export default function StorePage() {
       {/* ── 4 Pillars ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <Sparkles size={24} className="text-emerald-400" /> {T.pillars[L].title}
+          <Sparkles size={24} className="text-teal-400" /> {T.pillars[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.pillars[L].subtitle}</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: <Package size={22} />, title: T.pillars[L].p1, desc: T.pillars[L].p1Desc, color: "text-emerald-400" },
+            { icon: <Package size={22} />, title: T.pillars[L].p1, desc: T.pillars[L].p1Desc, color: "text-teal-400" },
             { icon: <Brain size={22} />, title: T.pillars[L].p2, desc: T.pillars[L].p2Desc, color: "text-purple-400" },
-            { icon: <Palette size={22} />, title: T.pillars[L].p3, desc: T.pillars[L].p3Desc, color: "text-amber-400" },
+            { icon: <Palette size={22} />, title: T.pillars[L].p3, desc: T.pillars[L].p3Desc, color: "text-orange-400" },
             { icon: <HeartHandshake size={22} />, title: T.pillars[L].p4, desc: T.pillars[L].p4Desc, color: "text-blue-400" },
           ].map((p, i) => (
-            <div key={i} className="bg-white/5 rounded-xl p-5 border border-white/10 hover:border-emerald-500/30 transition-all group">
+            <div key={i} className="bg-white/5 rounded-xl p-5 border border-white/10 hover:border-teal-500/30 transition-all group">
               <div className={`${p.color} mb-3 group-hover:scale-110 transition-transform`}>{p.icon}</div>
               <h3 className="text-white font-semibold mb-1 text-sm">{p.title}</h3>
               <p className="text-gray-500 text-xs leading-relaxed">{p.desc}</p>
@@ -255,7 +255,7 @@ export default function StorePage() {
       {/* ── Layout Zoning ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <MapPin size={24} className="text-emerald-400" /> {T.layout[L].title}
+          <MapPin size={24} className="text-teal-400" /> {T.layout[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.layout[L].subtitle}</p>
         <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -283,19 +283,19 @@ export default function StorePage() {
       {/* ── Product Categories ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <Package size={24} className="text-emerald-400" /> {T.produk[L].title}
+          <Package size={24} className="text-teal-400" /> {T.produk[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.produk[L].subtitle}</p>
         <div className="bg-white/5 rounded-xl p-6 border border-white/10">
           <div className="flex flex-wrap gap-3">
             {T.produk[L].items.split("; ").map((item, i) => (
-              <span key={i} className="bg-emerald-500/10 text-emerald-400 px-4 py-2 rounded-full text-sm border border-emerald-500/20">
+              <span key={i} className="bg-teal-500/10 text-teal-400 px-4 py-2 rounded-full text-sm border border-teal-500/20">
                 {item.trim()}
               </span>
             ))}
           </div>
           <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
-            <Lightbulb size={14} className="text-amber-400" />
+            <Lightbulb size={14} className="text-orange-400" />
             {L === "id"
               ? "Strategi visual: Jakarta modern, hangat, premium melalui kayu, hitam, emas, dan motif budaya yang disederhanakan."
               : "Visual strategy: Modern, warm, premium Jakarta through wood, black, gold, and simplified cultural motifs."}
@@ -312,9 +312,9 @@ export default function StorePage() {
 
         {/* CAPEX & OPEX Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+          <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
             <div className="text-xs text-gray-400 mb-1">{T.keuangan[L].capex}</div>
-            <div className="text-lg font-bold text-amber-400">Rp {capexMin}-{capexMax}jt</div>
+            <div className="text-lg font-bold text-orange-400">Rp {capexMin}-{capexMax}jt</div>
             <div className="text-xs text-gray-500 mt-1">{T.keuangan[L].capexDesc}</div>
           </div>
           <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
@@ -337,7 +337,7 @@ export default function StorePage() {
         {/* CAPEX Breakdown */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <TrendingUp size={18} className="text-amber-400" />
+            <TrendingUp size={18} className="text-orange-400" />
             {L === "id" ? "Breakdown CAPEX" : "CAPEX Breakdown"}
           </h3>
           <div className="overflow-x-auto">
@@ -345,7 +345,7 @@ export default function StorePage() {
               <thead>
                 <tr className="border-b border-white/10">
                   <th className="px-4 py-3 text-left text-gray-400 font-medium">{L === "id" ? "Item" : "Item"}</th>
-                  <th className="px-4 py-3 text-right text-amber-400 font-medium">Min (jt)</th>
+                  <th className="px-4 py-3 text-right text-orange-400 font-medium">Min (jt)</th>
                   <th className="px-4 py-3 text-right text-red-400 font-medium">Max (jt)</th>
                   <th className="px-4 py-3 text-right text-gray-400 font-medium">{L === "id" ? "Progress" : "Progress"}</th>
                 </tr>
@@ -356,11 +356,11 @@ export default function StorePage() {
                   return (
                     <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                       <td className="px-4 py-3 text-gray-300">{L === "id" ? item.labelId : item.labelEn}</td>
-                      <td className="px-4 py-3 text-amber-400 text-right">Rp {item.min}jt</td>
+                      <td className="px-4 py-3 text-orange-400 text-right">Rp {item.min}jt</td>
                       <td className="px-4 py-3 text-red-400 text-right">Rp {item.max}jt</td>
                       <td className="px-4 py-3">
                         <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                          <div className="h-full bg-amber-500 rounded-full" style={{ width: `${pct}%` }} />
+                          <div className="h-full bg-orange-500 rounded-full" style={{ width: `${pct}%` }} />
                         </div>
                       </td>
                     </tr>
@@ -368,7 +368,7 @@ export default function StorePage() {
                 })}
                 <tr className="border-t border-white/20">
                   <td className="px-4 py-3 text-white font-bold">{L === "id" ? "TOTAL" : "TOTAL"}</td>
-                  <td className="px-4 py-3 text-amber-400 text-right font-bold">Rp {capexMin}jt</td>
+                  <td className="px-4 py-3 text-orange-400 text-right font-bold">Rp {capexMin}jt</td>
                   <td className="px-4 py-3 text-red-400 text-right font-bold">Rp {capexMax}jt</td>
                   <td className="px-4 py-3"></td>
                 </tr>
@@ -401,7 +401,7 @@ export default function StorePage() {
                   <th className="px-4 py-3 text-right text-green-400 font-medium">{L === "id" ? "Omzet" : "Revenue"}</th>
                   <th className="px-4 py-3 text-right text-red-400 font-medium">{L === "id" ? "Biaya" : "Expenses"}</th>
                   <th className="px-4 py-3 text-right text-blue-400 font-medium">{L === "id" ? "Laba Bersih" : "Net Profit"}</th>
-                  <th className="px-4 py-3 text-right text-emerald-400 font-medium">Margin</th>
+                  <th className="px-4 py-3 text-right text-teal-400 font-medium">Margin</th>
                 </tr>
               </thead>
               <tbody>
@@ -413,7 +413,7 @@ export default function StorePage() {
                       <td className="px-4 py-3 text-green-400 text-right">Rp {s.revenue}jt</td>
                       <td className="px-4 py-3 text-red-400 text-right">Rp {s.expense}jt</td>
                       <td className="px-4 py-3 text-blue-400 text-right font-bold">Rp {s.net}jt</td>
-                      <td className="px-4 py-3 text-emerald-400 text-right">{margin}%</td>
+                      <td className="px-4 py-3 text-teal-400 text-right">{margin}%</td>
                     </tr>
                   );
                 })}
@@ -423,10 +423,10 @@ export default function StorePage() {
         </div>
 
         {/* Setoran ke Holding */}
-        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="bg-teal-500/10 border border-teal-500/20 rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="text-sm text-gray-400 mb-1">{L === "id" ? "Setoran ke Holding (30%)" : "Contribution to Holding (30%)"}</div>
-            <div className="text-xl font-bold text-emerald-400">
+            <div className="text-xl font-bold text-teal-400">
               {L === "id" ? "Rp 18-36jt/bulan" : "Rp 18-36jt/month"}
             </div>
           </div>
@@ -439,13 +439,13 @@ export default function StorePage() {
       {/* ── Partnership Scheme ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <HeartHandshake size={24} className="text-emerald-400" /> {T.skema[L].title}
+          <HeartHandshake size={24} className="text-teal-400" /> {T.skema[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.skema[L].subtitle}</p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-5">
-            <div className="text-emerald-400 font-bold text-2xl mb-1">10%</div>
+          <div className="bg-teal-500/10 border border-teal-500/20 rounded-xl p-5">
+            <div className="text-teal-400 font-bold text-2xl mb-1">10%</div>
             <div className="text-sm text-gray-400 mb-2">{T.skema[L].revenueShare}</div>
             <p className="text-xs text-gray-500">{T.skema[L].revenueShareDesc}</p>
           </div>
@@ -453,8 +453,8 @@ export default function StorePage() {
             <div className="text-blue-400 font-bold mb-1">{T.skema[L].nonFinansial}</div>
             <p className="text-xs text-gray-500 flex-1">{T.skema[L].nonFinansialDesc}</p>
           </div>
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-5 flex flex-col">
-            <div className="text-amber-400 font-bold mb-1">{T.skema[L].investor}</div>
+          <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-5 flex flex-col">
+            <div className="text-orange-400 font-bold mb-1">{T.skema[L].investor}</div>
             <p className="text-xs text-gray-500 flex-1">{T.skema[L].investorDesc}</p>
           </div>
           <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-5 flex flex-col">
@@ -463,9 +463,9 @@ export default function StorePage() {
           </div>
         </div>
 
-        <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+        <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
+            <AlertTriangle size={18} className="text-orange-400 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-gray-400">
               {L === "id"
                 ? "Asumsi sehat: revenue share 10% pada fase awal. Di atas itu akan memperpanjang ROI dan menekan kualitas experience."
@@ -478,26 +478,26 @@ export default function StorePage() {
       {/* ── Proposal Download ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <FileDown size={24} className="text-emerald-400" /> {T.proposal[L].title}
+          <FileDown size={24} className="text-teal-400" /> {T.proposal[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.proposal[L].subtitle}</p>
 
-        <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-xl p-6 md:p-8">
+        <div className="bg-gradient-to-br from-teal-500/10 to-teal-500/5 border border-teal-500/20 rounded-xl p-6 md:p-8">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
               <h3 className="text-white font-bold text-lg mb-2">Proposal_Bisnis_SENSASIWANGI_TIM_Lengkap.pdf</h3>
               <p className="text-gray-400 text-sm mb-4 max-w-xl">{T.proposal[L].desc}</p>
               <div className="flex flex-wrap gap-2 text-xs">
-                <span className="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full">16 Halaman</span>
-                <span className="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full">23.4 MB</span>
-                <span className="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full">PDF</span>
+                <span className="bg-teal-500/10 text-teal-400 px-3 py-1 rounded-full">16 Halaman</span>
+                <span className="bg-teal-500/10 text-teal-400 px-3 py-1 rounded-full">23.4 MB</span>
+                <span className="bg-teal-500/10 text-teal-400 px-3 py-1 rounded-full">PDF</span>
               </div>
             </div>
           </div>
 
           <div className="mt-6">
             <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-400" /> {T.proposal[L].highlights}
+              <CheckCircle2 size={16} className="text-teal-400" /> {T.proposal[L].highlights}
             </h4>
             <div className="grid sm:grid-cols-2 gap-2 text-xs text-gray-400">
               {[L === "id" ? "✅ Konsep bisnis 4 pilar dengan layout zoning detail" : "✅ 4-pillar business concept with detailed layout zoning",
@@ -515,7 +515,7 @@ export default function StorePage() {
           <div className="mt-6 flex flex-wrap gap-4">
             <button
               onClick={() => window.print()}
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition-colors font-medium"
+              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl transition-colors font-medium"
             >
               <FileDown size={18} /> {T.proposal[L].download}
             </button>
@@ -530,13 +530,13 @@ export default function StorePage() {
       {/* ── Roadmap ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <Rocket size={24} className="text-amber-400" /> {T.roadmap[L].title}
+          <Rocket size={24} className="text-orange-400" /> {T.roadmap[L].title}
         </h2>
         <div className="grid md:grid-cols-5 gap-4">
           {[
-            { step: 1, title: T.roadmap[L].step1, desc: T.roadmap[L].step1Desc, color: "from-emerald-500 to-emerald-700", status: "done" },
+            { step: 1, title: T.roadmap[L].step1, desc: T.roadmap[L].step1Desc, color: "from-teal-500 to-teal-700", status: "done" },
             { step: 2, title: T.roadmap[L].step2, desc: T.roadmap[L].step2Desc, color: "from-blue-500 to-blue-700", status: "done" },
-            { step: 3, title: T.roadmap[L].step3, desc: T.roadmap[L].step3Desc, color: "from-amber-500 to-amber-700", status: "ongoing" },
+            { step: 3, title: T.roadmap[L].step3, desc: T.roadmap[L].step3Desc, color: "from-orange-500 to-orange-700", status: "ongoing" },
             { step: 4, title: T.roadmap[L].step4, desc: T.roadmap[L].step4Desc, color: "from-purple-500 to-purple-700", status: "upcoming" },
             { step: 5, title: T.roadmap[L].step5, desc: T.roadmap[L].step5Desc, color: "from-red-500 to-red-700", status: "upcoming" },
           ].map((r, i) => (
@@ -547,7 +547,7 @@ export default function StorePage() {
                   {r.step}
                 </span>
                 {r.status === "done" && <CheckCircle2 size={16} className="text-green-400" />}
-                {r.status === "ongoing" && <Clock size={16} className="text-amber-400" />}
+                {r.status === "ongoing" && <Clock size={16} className="text-orange-400" />}
                 {r.status === "upcoming" && <Target size={16} className="text-gray-500" />}
               </div>
               <h3 className="text-white font-semibold text-sm mb-1">{r.title}</h3>
@@ -560,7 +560,7 @@ export default function StorePage() {
       {/* ── Sukuk ── */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <ShieldCheck size={24} className="text-emerald-400" />
+          <ShieldCheck size={24} className="text-teal-400" />
           {L === "id" ? "Sukuk Store" : "Sukuk Store"}
         </h2>
         <p className="text-gray-500 mb-6">
@@ -569,14 +569,14 @@ export default function StorePage() {
             : "Islamic investment management for store expansion and AI Mix development"}
         </p>
 
-        <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-xl p-6 md:p-8">
+        <div className="bg-gradient-to-br from-teal-500/10 to-teal-500/5 border border-teal-500/20 rounded-xl p-6 md:p-8">
           {sukukStoreInfo && sukukStoreInfo.length > 0 && (
             <div className="mb-6 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-white/10">
                     {sukukStoreInfo[0]?.map((header: string, hi: number) => (
-                      <th key={hi} className="px-3 py-2 text-left text-emerald-400 font-medium whitespace-nowrap">{header}</th>
+                      <th key={hi} className="px-3 py-2 text-left text-teal-400 font-medium whitespace-nowrap">{header}</th>
                     ))}
                   </tr>
                 </thead>
@@ -594,7 +594,7 @@ export default function StorePage() {
           )}
 
           <Link href="/dashboard"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition-colors font-medium">
+            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl transition-colors font-medium">
             <Banknote size={18} /> {L === "id" ? "Buka Dashboard Sukuk" : "Open Sukuk Dashboard"} <ArrowRight size={16} />
           </Link>
         </div>
@@ -603,7 +603,7 @@ export default function StorePage() {
       {/* ── CTA ── */}
       <section className="flex flex-wrap gap-4">
         <button onClick={() => window.print()}
-          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition-colors">
+          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl transition-colors">
           <FileDown size={18} /> {L === "id" ? "Download PDF Profil" : "Download Profile PDF"}
         </button>
         <a href={SHEET_URL} target="_blank" rel="noopener noreferrer"

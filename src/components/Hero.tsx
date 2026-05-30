@@ -12,9 +12,9 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Animated background orbs */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#0f7b63]/10 blur-[120px] animate-float1" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#12a77f]/8 blur-[100px] animate-float2" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full bg-[#c9a84c]/5 blur-[80px] animate-float3" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#0D9488]/10 blur-[120px] animate-float1" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#14B8A6]/8 blur-[100px] animate-float2" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full bg-[#F97316]/5 blur-[80px] animate-float3" />
       </div>
 
       {/* Grid pattern overlay */}
@@ -41,7 +41,7 @@ export default function Hero() {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6">
               <span className="text-gradient">PT Sensasi</span>
               <br />
-              <span className="text-gradient-gold">Wangi Indonesia</span>
+              <span className="text-gradient-orange">Wangi Indonesia</span>
             </h1>
 
             <p className="text-lg md:text-xl text-[#7a9e8f] leading-relaxed max-w-lg mb-10">
@@ -54,7 +54,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/divisions"
-                className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-xl hover:shadow-[#0f7b63]/20 transition-all duration-300 hover:-translate-y-0.5"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white font-bold text-sm hover:shadow-xl hover:shadow-[#0D9488]/20 transition-all duration-300 hover:-translate-y-0.5"
               >
                 <span>{L === "id" ? "Jelajahi Divisi" : "Explore Divisions"}</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -64,7 +64,7 @@ export default function Hero() {
                 className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all duration-300"
               >
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                  <Play size={14} className="text-emerald-400 ml-0.5" />
+                  <Play size={14} className="text-teal-400 ml-0.5" />
                 </div>
                 <span>Store TIM</span>
               </Link>
@@ -93,8 +93,8 @@ export default function Hero() {
               <div className="absolute inset-4 rounded-full border border-white/5 animate-[spin_45s_linear_infinite_reverse]" />
 
               {/* Center orb */}
-              <div className="absolute inset-12 rounded-full bg-gradient-to-br from-[#0f7b63]/30 to-[#12a77f]/10 glow-brand flex items-center justify-center">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#12a77f] to-[#0f7b63] flex items-center justify-center animate-float3">
+              <div className="absolute inset-12 rounded-full bg-gradient-to-br from-[#0D9488]/30 to-[#14B8A6]/10 glow-brand flex items-center justify-center">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center animate-float3">
                   <span className="text-5xl">🌸</span>
                 </div>
               </div>

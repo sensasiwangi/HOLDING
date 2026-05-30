@@ -23,7 +23,7 @@ const brands = [
   {
     name: "Nuscentza",
     icon: <Leaf size={28} className="text-white" />,
-    gradient: "from-emerald-600 to-teal-600",
+    gradient: "from-teal-600 to-teal-600",
     emoji: "🌺",
     descId: "Brand parfum dengan konsep keindahan Nusantara. Menggabungkan kekayaan aroma lokal Indonesia dengan teknologi modern.",
     descEn: "A perfume brand with a Nusantara beauty concept. Combining the richness of Indonesian local aromas with modern technology.",
@@ -34,7 +34,7 @@ const brands = [
   {
     name: "Pixel Potion",
     icon: <Cpu size={28} className="text-white" />,
-    gradient: "from-amber-500 to-orange-600",
+    gradient: "from-orange-500 to-orange-600",
     emoji: "🧪",
     descId: "Brand parfum lifestyle untuk generasi muda. Kreatif, eclectic, dan penuh eksplorasi aroma.",
     descEn: "A lifestyle perfume brand for the young generation. Creative, eclectic, and full of scent exploration.",
@@ -55,7 +55,7 @@ export default function BrandsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute top-20 right-0 w-96 h-96 rounded-full bg-purple-500/10 blur-[120px] animate-float1" />
@@ -63,7 +63,7 @@ export default function BrandsPage() {
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-6 animate-fade-up">
-            <Star size={14} className="text-amber-400" />
+            <Star size={14} className="text-orange-400" />
             <span className="text-xs font-semibold text-[#8aae9e] uppercase tracking-wider">{tt(eyebrow, lang)}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4 animate-fade-up" style={{ animationDelay: '0.1s' }}>
@@ -98,7 +98,7 @@ export default function BrandsPage() {
                     <div className="text-xs text-[#5d7068]">
                       <span className="font-bold text-white">{brand.products}</span> {lang === "id" ? "produk" : "products"}
                     </div>
-                    <div className="text-sm text-amber-400 font-bold">★ {brand.rating}</div>
+                    <div className="text-sm text-orange-400 font-bold">★ {brand.rating}</div>
                   </div>
                 </div>
               </div>

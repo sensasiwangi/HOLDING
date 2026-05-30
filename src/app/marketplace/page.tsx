@@ -9,10 +9,10 @@ function tt(key: { id: string; en: string }, lang: Lang): string {
 }
 
 const features = [
-  { icon: <ShoppingBag size={22} />, titleId: "Katalog Produk", titleEn: "Product Catalog", descId: "Jelajahi seluruh produk brand SWI dengan informasi detail.", descEn: "Browse the complete SWI brand product catalog.", color: "text-emerald-400" },
+  { icon: <ShoppingBag size={22} />, titleId: "Katalog Produk", titleEn: "Product Catalog", descId: "Jelajahi seluruh produk brand SWI dengan informasi detail.", descEn: "Browse the complete SWI brand product catalog.", color: "text-teal-400" },
   { icon: <CalendarCheck size={22} />, titleId: "Booking & Checkout", titleEn: "Booking & Checkout", descId: "Pesan kelas, workshop, atau produk parfum secara online.", descEn: "Book classes, workshops, or order perfume products online.", color: "text-blue-400" },
   { icon: <Bot size={22} />, titleId: "AI Scent Recommendation", titleEn: "AI Scent Recommendation", descId: "Rekomendasi parfum personal berbasis AI.", descEn: "AI-based personalized perfume recommendation.", color: "text-purple-400" },
-  { icon: <Headset size={22} />, titleId: "Customer Support", titleEn: "Customer Support", descId: "Layanan pelanggan responsif via WhatsApp dan chat.", descEn: "Responsive customer service via WhatsApp and chat.", color: "text-amber-400" },
+  { icon: <Headset size={22} />, titleId: "Customer Support", titleEn: "Customer Support", descId: "Layanan pelanggan responsif via WhatsApp dan chat.", descEn: "Responsive customer service via WhatsApp and chat.", color: "text-orange-400" },
 ];
 
 const stats = [
@@ -33,7 +33,7 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute top-20 right-0 w-96 h-96 rounded-full bg-cyan-500/10 blur-[120px] animate-float1" />

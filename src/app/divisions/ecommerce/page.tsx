@@ -111,8 +111,8 @@ const FEATURES = [
     titleEn: "Customer Support",
     descId: "Layanan pelanggan responsif melalui WhatsApp, chat, dan email.",
     descEn: "Responsive customer service via WhatsApp, chat, and email.",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10",
+    color: "text-teal-400",
+    bg: "bg-teal-500/10",
   },
   {
     icon: <Truck size={24} />,
@@ -120,8 +120,8 @@ const FEATURES = [
     titleEn: "Nationwide Shipping",
     descId: "Pengiriman ke seluruh Indonesia dengan berbagai pilihan ekspedisi.",
     descEn: "Shipping across Indonesia with multiple courier options.",
-    color: "text-amber-400",
-    bg: "bg-amber-500/10",
+    color: "text-orange-400",
+    bg: "bg-orange-500/10",
   },
   {
     icon: <PackageCheck size={24} />,
@@ -457,14 +457,14 @@ export default function EcommercePage() {
       {/* Milestones */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <Target size={24} className="text-amber-400" />
+          <Target size={24} className="text-orange-400" />
           {T.milestones[L].title}
         </h2>
         <div className="space-y-4">
           {MILESTONES.map((ms, i) => {
             const statusColors = {
               done: "border-green-500/50 bg-green-500/5",
-              ongoing: "border-amber-500/50 bg-amber-500/5",
+              ongoing: "border-orange-500/50 bg-orange-500/5",
               upcoming: "border-gray-500/30 bg-white/5",
             };
             const statusLabels = {

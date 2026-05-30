@@ -73,7 +73,7 @@ const SYSTEMS = [
     descId: "Sistem manajemen customer terintegrasi Google Sheets",
     descEn: "Customer management system integrated with Google Sheets",
     icon: <Database size={24} />,
-    color: "from-green-500 to-emerald-600",
+    color: "from-green-500 to-teal-600",
     status: "Aktif",
     uptime: "99.8%",
   },
@@ -100,7 +100,7 @@ const SYSTEMS = [
     descId: "Chatbot dan blast message untuk customer",
     descEn: "Chatbot and message blast for customers",
     icon: <Zap size={24} />,
-    color: "from-emerald-500 to-teal-600",
+    color: "from-teal-500 to-teal-600",
     status: "Aktif",
     uptime: "99.7%",
   },
@@ -177,25 +177,25 @@ export default function DigitalPage() {
     <DivisionLayout
       slug="digital"
       color="amber"
-      iconBg="bg-amber-500/20"
-      iconColor="text-amber-400"
+      iconBg="bg-orange-500/20"
+      iconColor="text-orange-400"
       tagline={T.profile[L].tagline}
       title={T.profile[L].title}
       subtitle={T.profile[L].subtitle}
-      heroIcon={<Code2 size={32} className="text-amber-400" />}
+      heroIcon={<Code2 size={32} className="text-orange-400" />}
     >
       {/* Profile */}
       <section className="mb-12">
         <p className="text-gray-400 text-lg leading-relaxed max-w-3xl">{T.profile[L].desc}</p>
         <div className="mt-8 grid md:grid-cols-2 gap-6">
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <h3 className="text-amber-400 font-bold text-lg mb-3 flex items-center gap-2">
+            <h3 className="text-orange-400 font-bold text-lg mb-3 flex items-center gap-2">
               <Target size={18} /> {T.profile[L].visionTitle}
             </h3>
             <p className="text-gray-300">{T.profile[L].vision}</p>
           </div>
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <h3 className="text-amber-400 font-bold text-lg mb-3 flex items-center gap-2">
+            <h3 className="text-orange-400 font-bold text-lg mb-3 flex items-center gap-2">
               <TrendingUp size={18} /> {T.profile[L].missionTitle}
             </h3>
             <p className="text-gray-300">{T.profile[L].mission}</p>
@@ -208,7 +208,7 @@ export default function DigitalPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {METRICS.map((m, i) => (
             <div key={i} className="bg-white/5 rounded-xl p-5 border border-white/10 text-center">
-              <div className="flex justify-center mb-2 text-amber-400">{m.icon}</div>
+              <div className="flex justify-center mb-2 text-orange-400">{m.icon}</div>
               <div className="text-2xl font-bold text-white">{m.value}</div>
               <div className="text-sm text-gray-500">{L === "id" ? m.labelId : m.labelEn}</div>
             </div>
@@ -219,17 +219,17 @@ export default function DigitalPage() {
       {/* Systems */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-          <Cpu size={24} className="text-amber-400" />
+          <Cpu size={24} className="text-orange-400" />
           {T.systems[L].title}
         </h2>
         <p className="text-gray-500 mb-6">{T.systems[L].subtitle}</p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {SYSTEMS.map((s, i) => (
-            <div key={i} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden hover:border-amber-500/50 transition-all">
+            <div key={i} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden hover:border-orange-500/50 transition-all">
               <div className={`h-1.5 bg-gradient-to-r ${s.color}`} />
               <div className="p-5">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="text-amber-400">{s.icon}</div>
+                  <div className="text-orange-400">{s.icon}</div>
                   <div>
                     <h3 className="text-white font-bold text-sm">{s.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
@@ -249,15 +249,15 @@ export default function DigitalPage() {
       {/* Tech Stack */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <Server size={24} className="text-amber-400" />
+          <Server size={24} className="text-orange-400" />
           {T.tech[L].title}
         </h2>
         <p className="text-gray-500 mb-4">{T.tech[L].subtitle}</p>
         <div className="flex flex-wrap gap-3">
           {TECH_STACK.map((t, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 hover:border-amber-500/50 transition-all">
+            <div key={i} className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 hover:border-orange-500/50 transition-all">
               <div className="text-white font-medium text-sm">{t.name}</div>
-              <div className="text-xs text-amber-400">{t.kategori}</div>
+              <div className="text-xs text-orange-400">{t.kategori}</div>
             </div>
           ))}
         </div>
@@ -319,14 +319,14 @@ export default function DigitalPage() {
       {/* Milestones */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <Target size={24} className="text-amber-400" />
+          <Target size={24} className="text-orange-400" />
           {T.milestones[L].title}
         </h2>
         <div className="space-y-4">
           {MILESTONES.map((ms, i) => {
             const statusColors = {
               done: "border-green-500/50 bg-green-500/5",
-              ongoing: "border-amber-500/50 bg-amber-500/5",
+              ongoing: "border-orange-500/50 bg-orange-500/5",
               upcoming: "border-gray-500/30 bg-white/5",
             };
             const statusLabels = {

@@ -13,24 +13,24 @@ export default function HomePage() {
 
   const divisions = [
     { slug: "produksi", icon: <FlaskConical size={24} />, emoji: "🧪", title: L === "id" ? "Produksi & Brand" : "Production & Brands", desc: L === "id" ? "Larc-en-Scent, Nuscentza, Pixel Potion" : "Larc-en-Scent, Nuscentza, Pixel Potion", gradient: "from-purple-500 to-indigo-600", progress: 50 },
-    { slug: "store", icon: <Store size={24} />, emoji: "🏪", title: "SWI Store TIM", desc: L === "id" ? "Merch, Parfum Experience, AI Mix" : "Merch, Perfume Experience, AI Mix", gradient: "from-emerald-500 to-teal-600", progress: 70 },
+    { slug: "store", icon: <Store size={24} />, emoji: "🏪", title: "SWI Store TIM", desc: L === "id" ? "Merch, Parfum Experience, AI Mix" : "Merch, Perfume Experience, AI Mix", gradient: "from-teal-500 to-teal-600", progress: 70 },
     { slug: "event", icon: <Calendar size={24} />, emoji: "🎭", title: "Fragrantions", desc: L === "id" ? "Expo, Roadshow, Pop-up" : "Expo, Roadshow, Pop-up", gradient: "from-blue-500 to-indigo-600", progress: 55 },
     { slug: "ecommerce", icon: <Globe size={24} />, emoji: "🌐", title: "Marketplace", desc: "sensasiwangi.id", gradient: "from-cyan-500 to-blue-600", progress: 30 },
-    { slug: "digital", icon: <Code2 size={24} />, emoji: "🤖", title: L === "id" ? "Digital & AI" : "Digital & AI", desc: L === "id" ? "CRM, AI Profile, Otomasi" : "CRM, AI Profile, Automation", gradient: "from-amber-500 to-orange-600", progress: 35 },
+    { slug: "digital", icon: <Code2 size={24} />, emoji: "🤖", title: L === "id" ? "Digital & AI" : "Digital & AI", desc: L === "id" ? "CRM, AI Profile, Otomasi" : "CRM, AI Profile, Automation", gradient: "from-orange-500 to-orange-600", progress: 35 },
   ];
 
   return (
     <>
       {/* ── VISION / MISSION — Split asymmetric ── */}
       <section className="relative py-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#0f7b63]/5 to-transparent" />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#0D9488]/5 to-transparent" />
 
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-12 items-center">
             {/* Left bigger */}
             <div className="lg:col-span-3 animate-fade-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-6">
-                <Sparkles size={14} className="text-emerald-400" />
+                <Sparkles size={14} className="text-teal-400" />
                 <span className="text-xs font-semibold text-[#8aae9e] uppercase tracking-wider">
                   {L === "id" ? "Visi Kami" : "Our Vision"}
                 </span>
@@ -54,12 +54,12 @@ export default function HomePage() {
             {/* Right smaller — mission cards */}
             <div className="lg:col-span-2 space-y-4">
               {[
-                { icon: <TrendingUp size={18} />, title: L === "id" ? "Inovasi Produk" : "Product Innovation", color: "text-emerald-400" },
-                { icon: <Shield size={18} />, title: L === "id" ? "Sukuk Syariah" : "Sharia Sukuk", color: "text-amber-400" },
+                { icon: <TrendingUp size={18} />, title: L === "id" ? "Inovasi Produk" : "Product Innovation", color: "text-teal-400" },
+                { icon: <Shield size={18} />, title: L === "id" ? "Sukuk Syariah" : "Sharia Sukuk", color: "text-orange-400" },
                 { icon: <Zap size={18} />, title: L === "id" ? "Teknologi AI" : "AI Technology", color: "text-blue-400" },
               ].map((m, i) => (
                 <div key={i} className="card-luxury p-4 flex items-center gap-4 animate-fade-up" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
-                  <div className={`${m.color} w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0`}>
+                  <div className={`${m.color} w-10 h-10 rounded-xl bg-[#0c1512]/5 flex items-center justify-center flex-shrink-0`}>
                     {m.icon}
                   </div>
                   <div className="text-white font-semibold text-sm">{m.title}</div>
@@ -106,7 +106,7 @@ export default function HomePage() {
               <h3 className="text-xl font-bold text-white mb-2">{divisions[1].title}</h3>
               <p className="text-[#7a9e8f] text-sm mb-4">{divisions[1].desc}</p>
               <div className="flex items-center gap-3">
-                <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-[#0c1512]/5 rounded-full overflow-hidden">
                   <div className={`h-full bg-gradient-to-r ${divisions[1].gradient} rounded-full`} style={{ width: `${divisions[1].progress}%` }} />
                 </div>
                 <span className="text-xs text-[#5d7068] font-bold">{divisions[1].progress}%</span>
@@ -158,7 +158,7 @@ export default function HomePage() {
           <div className="text-center mt-12 animate-fade-up" style={{ animationDelay: '0.5s' }}>
             <Link
               href="/divisions"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all duration-300 group"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass-light text-white font-bold text-sm hover:bg-[#0c1512]/10 transition-all duration-300 group"
             >
               {L === "id" ? "Lihat Semua Divisi" : "View All Divisions"}
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -169,7 +169,7 @@ export default function HomePage() {
 
       {/* ── STATS — Full width band ── */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0f7b63]/10 via-transparent to-[#0f7b63]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/10 via-transparent to-[#0D9488]/10" />
         <div className="absolute inset-0 animate-shimmer" />
 
         <div className="relative max-w-6xl mx-auto px-6">
@@ -195,7 +195,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="relative rounded-3xl overflow-hidden">
             {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0f7b63]/30 to-[#12a77f]/10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0D9488]/30 to-[#14B8A6]/10" />
             <div className="absolute inset-0 animate-shimmer" />
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#c9a84c]/10 to-transparent" />
 
@@ -218,14 +218,14 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/investor"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#0a0f0d] font-bold text-sm hover:bg-white/90 transition-all duration-300 hover:-translate-y-0.5 shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c1512] text-[#0a0f0d] font-bold text-sm hover:bg-[#0c1512]/90 transition-all duration-300 hover:-translate-y-0.5 shadow-lg"
                 >
                   {L === "id" ? "Investor Relations" : "Investor Relations"}
                   <ArrowRight size={16} />
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-light text-white font-bold text-sm hover:bg-[#0c1512]/10 transition-all duration-300"
                 >
                   <Shield size={16} />
                   Sukuk

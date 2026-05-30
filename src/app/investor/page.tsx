@@ -20,19 +20,19 @@ export default function InvestorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute top-20 left-0 w-96 h-96 rounded-full bg-[#c9a84c]/10 blur-[120px] animate-float1" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-[#0f7b63]/10 blur-[100px] animate-float2" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-[#0D9488]/10 blur-[100px] animate-float2" />
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-6 animate-fade-up">
-            <Star size={14} className="text-amber-400" />
+            <Star size={14} className="text-orange-400" />
             <span className="text-xs font-semibold text-[#8aae9e] uppercase tracking-wider">{tr("investor.eyebrow")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            <span className="text-gradient-gold">{tr("investor.title")}</span>
+            <span className="text-gradient-orange">{tr("investor.title")}</span>
           </h1>
           <p className="text-lg text-[#7a9e8f] max-w-2xl animate-fade-up" style={{ animationDelay: '0.2s' }}>
             {tr("investor.subtitle")}
@@ -45,10 +45,10 @@ export default function InvestorPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-5 stagger">
             {[
-              { icon: <Building2 size={20} />, tr: "investor.narrative", trDesc: "investor.narrativeDesc", color: "text-emerald-400" },
+              { icon: <Building2 size={20} />, tr: "investor.narrative", trDesc: "investor.narrativeDesc", color: "text-teal-400" },
               { icon: <TrendingUp size={20} />, tr: "investor.market", trDesc: "investor.marketDesc", color: "text-blue-400" },
               { icon: <Award size={20} />, tr: "investor.traction", trDesc: "investor.tractionDesc", color: "text-purple-400" },
-              { icon: <DollarSign size={20} />, tr: "investor.ask", trDesc: "investor.askDesc", color: "text-amber-400" },
+              { icon: <DollarSign size={20} />, tr: "investor.ask", trDesc: "investor.askDesc", color: "text-orange-400" },
             ].map((item, i) => (
               <div key={i} className="card-luxury p-7 animate-fade-up">
                 <div className="flex items-center gap-3 mb-4">
@@ -122,7 +122,7 @@ export default function InvestorPage() {
               </p>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-[#7a9e8f]">{tr("dashboard.investorReadiness")}</span>
-                <span className="text-sm font-bold text-amber-400">45%</span>
+                <span className="text-sm font-bold text-orange-400">45%</span>
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-[#c9a84c] to-[#e8d48b] rounded-full" style={{ width: "45%" }} />
@@ -136,7 +136,7 @@ export default function InvestorPage() {
       <section className="relative pb-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="relative rounded-3xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#c9a84c]/20 to-[#0f7b63]/10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#c9a84c]/20 to-[#0D9488]/10" />
             <div className="absolute inset-0 animate-shimmer" />
             <div className="relative p-10 md:p-14 text-center">
               <div className="text-4xl mb-4">💼</div>
@@ -147,7 +147,7 @@ export default function InvestorPage() {
                   : "For more information, full proposals, and data room access — please contact our team."}
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0f7b63]/20 transition-all">
+                <Link href="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0D9488]/20 transition-all">
                   <Shield size={16} /> Sukuk <ArrowRight size={16} />
                 </Link>
                 <button onClick={() => window.print()} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-light text-white font-bold text-sm hover:bg-white/10 transition-all">

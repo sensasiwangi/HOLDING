@@ -7,8 +7,8 @@ export default function LanguagePDF() {
 
   return (
     <div className="hidden print:block print-header">
-      <div style={{ borderBottom: "3px solid #0f7b63", paddingBottom: "12px", marginBottom: "16px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#0f7b63", margin: 0 }}>
+      <div style={{ borderBottom: "3px solid #0D9488", paddingBottom: "12px", marginBottom: "16px" }}>
+        <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#0D9488", margin: 0 }}>
           PT Sensasi Wangi Indonesia
         </h1>
         <p style={{ fontSize: "13px", color: "#555", margin: "4px 0 0" }}>

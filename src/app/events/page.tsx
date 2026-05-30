@@ -48,7 +48,7 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute top-20 left-0 w-96 h-96 rounded-full bg-blue-500/10 blur-[120px] animate-float1" />
@@ -86,7 +86,7 @@ export default function EventsPage() {
                       <CalendarDays size={14} className="text-blue-400" /> {ev.date}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-[#7a9e8f]">
-                      <MapPin size={14} className="text-emerald-400" /> {ev.location}
+                      <MapPin size={14} className="text-teal-400" /> {ev.location}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">

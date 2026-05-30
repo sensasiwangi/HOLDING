@@ -79,7 +79,7 @@ const BRANDS = [
     category: "Parfum Inspirasi",
     descId: "Parfum terinspirasi dari aroma Nusantara",
     descEn: "Perfume inspired by the aromas of the Indonesian archipelago",
-    color: "from-amber-500 to-orange-600",
+    color: "from-orange-500 to-orange-600",
     icon: "🌺",
     products: 8,
     rating: 4.6,
@@ -362,14 +362,14 @@ export default function ProduksiPage() {
       {/* Milestones */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-          <Target size={24} className="text-amber-400" />
+          <Target size={24} className="text-orange-400" />
           {T.milestones[L].title}
         </h2>
         <div className="space-y-4">
           {MILESTONES.map((ms, i) => {
             const statusColors = {
               done: "border-green-500/50 bg-green-500/5",
-              ongoing: "border-amber-500/50 bg-amber-500/5",
+              ongoing: "border-orange-500/50 bg-orange-500/5",
               upcoming: "border-gray-500/30 bg-white/5",
             };
             const statusLabels = {

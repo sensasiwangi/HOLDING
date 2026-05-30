@@ -136,7 +136,7 @@ export default function DivisiShareholderPanel({ data }: { data?: string[][] | n
       {/* Template Area */}
       <div className="border border-dashed border-[var(--line)] rounded-xl bg-white p-5">
         <div className="flex items-center gap-2 mb-3">
-          <AlertTriangle size={16} className="text-amber-500" />
+          <AlertTriangle size={16} className="text-orange-500" />
           <h3 className="font-bold text-sm text-[var(--ink)]">Template Pemisahan Store (Nanti)</h3>
         </div>
         <p className="text-xs text-[var(--muted)] mb-3">

@@ -35,8 +35,8 @@ const TRACKER_DATA = [
 ];
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  ok: { bg: "bg-emerald-500/10", text: "text-emerald-400", label: "Siap" },
-  build: { bg: "bg-amber-500/10", text: "text-amber-400", label: "Sedang jalan" },
+  ok: { bg: "bg-teal-500/10", text: "text-teal-400", label: "Siap" },
+  build: { bg: "bg-orange-500/10", text: "text-orange-400", label: "Sedang jalan" },
   plan: { bg: "bg-blue-500/10", text: "text-blue-400", label: "Perlu rencana" },
   risk: { bg: "bg-red-500/10", text: "text-red-400", label: "Perlu perhatian" },
 };
@@ -72,16 +72,16 @@ export default function DashboardPage() {
   // ── Login Screen ──
   if (!loggedIn) {
     return (
-      <div className="min-h-screen bg-[#0a0f0d] flex items-center justify-center px-6 relative overflow-hidden">
+      <div className="min-h-screen bg-[#080c0a] flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#0f7b63]/10 blur-[120px] animate-float1" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#0D9488]/10 blur-[120px] animate-float1" />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#c9a84c]/5 blur-[100px] animate-float2" />
         </div>
 
         <div className="relative w-full max-w-md animate-fade-up">
           <div className="glass rounded-3xl p-10 glow-brand">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#12a77f] to-[#0f7b63] flex items-center justify-center mx-auto mb-5">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center mx-auto mb-5">
                 <Lock size={28} className="text-white" />
               </div>
               <h1 className="text-2xl font-black text-white">{tr("dashboard.loginTitle")}</h1>
@@ -92,15 +92,15 @@ export default function DashboardPage() {
               <div>
                 <label className="block text-xs font-semibold text-[#7a9e8f] mb-2 uppercase tracking-wider">{tr("dashboard.username")}</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#12a77f] transition-colors" required />
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#14B8A6] transition-colors" required />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#7a9e8f] mb-2 uppercase tracking-wider">{tr("dashboard.password")}</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#12a77f] transition-colors" required />
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#14B8A6] transition-colors" required />
               </div>
               {error && <p className="text-xs text-red-400">{error}</p>}
-              <button type="submit" className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0f7b63]/20 transition-all hover:-translate-y-0.5">
+              <button type="submit" className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white font-bold text-sm hover:shadow-lg hover:shadow-[#0D9488]/20 transition-all hover:-translate-y-0.5">
                 {tr("dashboard.loginBtn")} <ArrowRight size={16} className="inline ml-2" />
               </button>
             </form>
@@ -122,7 +122,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Top bar */}
       <div className="sticky top-16 z-30 border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -144,7 +144,7 @@ export default function DashboardPage() {
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
               className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 activeTab === tab.key
-                  ? "bg-gradient-to-r from-[#0f7b63] to-[#12a77f] text-white shadow-lg shadow-[#0f7b63]/10"
+                  ? "bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white shadow-lg shadow-[#0D9488]/10"
                   : "text-[#5d7068] hover:text-white hover:bg-white/5"
               }`}>
               {tab.icon} {tab.label}
@@ -163,8 +163,8 @@ export default function DashboardPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 stagger">
             {[
-              { icon: <Building2 size={20} />, label: tr("dashboard.totalDivisions"), value: "6+", color: "text-emerald-400", bg: "from-emerald-500/10 to-emerald-500/5" },
-              { icon: <TrendingUp size={20} />, label: tr("dashboard.investorReadiness"), value: "45%", color: "text-amber-400", bg: "from-amber-500/10 to-amber-500/5" },
+              { icon: <Building2 size={20} />, label: tr("dashboard.totalDivisions"), value: "6+", color: "text-teal-400", bg: "from-teal-500/10 to-emerald-500/5" },
+              { icon: <TrendingUp size={20} />, label: tr("dashboard.investorReadiness"), value: "45%", color: "text-orange-400", bg: "from-orange-500/10 to-amber-500/5" },
               { icon: <Scale size={20} />, label: tr("dashboard.legalStatus"), value: "35%", color: "text-red-400", bg: "from-red-500/10 to-red-500/5" },
               { icon: <BarChart3 size={20} />, label: tr("dashboard.financeModel"), value: "40%", color: "text-blue-400", bg: "from-blue-500/10 to-blue-500/5" },
             ].map((c, i) => (
@@ -180,7 +180,7 @@ export default function DashboardPage() {
             {/* Tracker Table */}
             <div className="card-luxury p-5 animate-fade-up">
               <h2 className="font-bold text-white mb-4 flex items-center gap-2">
-                <Target size={16} className="text-emerald-400" /> {tr("dashboard.tracker")}
+                <Target size={16} className="text-teal-400" /> {tr("dashboard.tracker")}
               </h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -204,7 +204,7 @@ export default function DashboardPage() {
                           <td className="py-2.5 px-3">
                             <div className="flex items-center gap-2">
                               <div className="h-1.5 bg-white/5 rounded-full flex-1 overflow-hidden">
-                                <div className="h-full bg-gradient-to-r from-[#0f7b63] to-[#12a77f] rounded-full transition-all" style={{ width: `${row.pct}%` }} />
+                                <div className="h-full bg-gradient-to-r from-[#0D9488] to-[#14B8A6] rounded-full transition-all" style={{ width: `${row.pct}%` }} />
                               </div>
                               <span className="text-xs text-[#5d7068] font-bold w-8 text-right">{row.pct}%</span>
                             </div>
@@ -222,7 +222,7 @@ export default function DashboardPage() {
             <div className="space-y-5">
               <div className="card-luxury p-5 animate-fade-up" style={{ animationDelay: '0.1s' }}>
                 <div className="flex items-center gap-2 mb-4">
-                  <AlertTriangle size={16} className="text-amber-400" />
+                  <AlertTriangle size={16} className="text-orange-400" />
                   <h3 className="font-bold text-sm text-white">{tr("dashboard.priorities")}</h3>
                 </div>
                 <ol className="space-y-3">
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                     : ["Complete PIC & deadline per division", "Consolidate legal docs: PT, NIB, bank, taxes", "List brand/IP registration status", "Fill actual financial figures", "Select safe public materials"]
                   ).map((p, i) => (
                     <li key={i} className="flex items-start gap-3 text-xs text-[#7a9e8f]">
-                      <span className="text-emerald-400 font-bold flex-shrink-0">{i + 1}.</span> {p}
+                      <span className="text-teal-400 font-bold flex-shrink-0">{i + 1}.</span> {p}
                     </li>
                   ))}
                 </ol>
@@ -247,10 +247,10 @@ export default function DashboardPage() {
                   <div key={i} className="mb-4 last:mb-0">
                     <div className="flex justify-between text-xs mb-1.5">
                       <span className="text-[#7a9e8f]">{m.label}</span>
-                      <span className="font-bold text-emerald-400">{m.pct}%</span>
+                      <span className="font-bold text-teal-400">{m.pct}%</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-[#0f7b63] to-[#12a77f] rounded-full transition-all" style={{ width: `${m.pct}%` }} />
+                      <div className="h-full bg-gradient-to-r from-[#0D9488] to-[#14B8A6] rounded-full transition-all" style={{ width: `${m.pct}%` }} />
                     </div>
                   </div>
                 ))}
@@ -261,7 +261,7 @@ export default function DashboardPage() {
           {/* Revenue Streams */}
           <div className="card-luxury p-5 mb-8 animate-fade-up">
             <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-              <DollarSign size={16} className="text-emerald-400" /> {tr("dashboard.revenue")}
+              <DollarSign size={16} className="text-teal-400" /> {tr("dashboard.revenue")}
             </h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
               {[
@@ -283,7 +283,7 @@ export default function DashboardPage() {
           {/* Finance */}
           <div className="card-luxury p-5 animate-fade-up">
             <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-              <Wallet size={16} className="text-emerald-400" /> {tr("dashboard.finance")}
+              <Wallet size={16} className="text-teal-400" /> {tr("dashboard.finance")}
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <table className="w-full text-sm">
@@ -313,7 +313,7 @@ export default function DashboardPage() {
                     ? "Data di atas merupakan estimasi awal. Data aktual akan diupdate setelah audit keuangan internal dilakukan."
                     : "Data above are initial estimates. Actual data will be updated after internal financial audit."}
                 </p>
-                <p className="text-xs text-amber-400 font-bold mt-3 flex items-center gap-1.5">
+                <p className="text-xs text-orange-400 font-bold mt-3 flex items-center gap-1.5">
                   <AlertTriangle size={14} /> {lang === "id" ? "⚠ Data placeholder — perlu validasi" : "⚠ Placeholder data — needs validation"}
                 </p>
               </div>

@@ -32,25 +32,25 @@ export default function DivisionLayout({ slug, color, iconBg, iconColor, tagline
 
   const gradientMap: Record<string, string> = {
     purple: "from-purple-500/20 via-purple-500/5 to-transparent",
-    emerald: "from-emerald-500/20 via-emerald-500/5 to-transparent",
+    emerald: "from-teal-500/20 via-teal-500/5 to-transparent",
     blue: "from-blue-500/20 via-blue-500/5 to-transparent",
     cyan: "from-cyan-500/20 via-cyan-500/5 to-transparent",
-    amber: "from-amber-500/20 via-amber-500/5 to-transparent",
+    amber: "from-orange-500/20 via-orange-500/5 to-transparent",
   };
   const lineMap: Record<string, string> = {
     purple: "from-purple-500/40 to-transparent",
-    emerald: "from-emerald-500/40 to-transparent",
+    emerald: "from-teal-500/40 to-transparent",
     blue: "from-blue-500/40 to-transparent",
     cyan: "from-cyan-500/40 to-transparent",
-    amber: "from-amber-500/40 to-transparent",
+    amber: "from-orange-500/40 to-transparent",
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d] text-white">
+    <div className="min-h-screen bg-[#080c0a] text-white">
       {/* Animated bg orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className={`absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-[150px] opacity-10 animate-float1`} style={{ background: `radial-gradient(circle, var(--brand), transparent)` }} />
-        <div className={`absolute bottom-0 -left-40 w-[400px] h-[400px] rounded-full blur-[120px] opacity-8 animate-float2`} style={{ background: `radial-gradient(circle, var(--brand-2), transparent)` }} />
+        <div className={`absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-[150px] opacity-10 animate-float1`} style={{ background: `radial-gradient(circle, #14B8A6, transparent)` }} />
+        <div className={`absolute bottom-0 -left-40 w-[400px] h-[400px] rounded-full blur-[120px] opacity-8 animate-float2`} style={{ background: `radial-gradient(circle, #0D9488, transparent)` }} />
       </div>
 
       {/* Breadcrumb */}
