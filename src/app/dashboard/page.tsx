@@ -21,8 +21,9 @@ import SukukTermSheetPanel from "./sukuk-term-sheet";
 import SukukCreditorPanel from "./sukuk-creditor";
 import SukukMonitor from "./sukuk-monitor";
 import SukukNotificationPanel from "./sukuk-notification";
+import SukukAuditTrail from "./sukuk-audit";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif" | "audit";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -148,6 +149,7 @@ export default function DashboardPage() {
     { key: "creditor" as Tab, label: "KYC", icon: <UserCheck size={15} /> },
     { key: "monitor" as Tab, label: "Live", icon: <Activity size={15} /> },
     { key: "notif" as Tab, label: "Notif", icon: <Bell size={15} /> },
+    { key: "audit" as Tab, label: "Audit", icon: <Lock size={15} /> },
   ];
 
   // Calculate overall progress (tracker + brands)
@@ -219,8 +221,10 @@ export default function DashboardPage() {
            fetchedAt: financeData?.fetchedAt,
          }} /> :
          activeTab === "notif" ? <SukukNotificationPanel investorData={financeData?.sukukInvestor} /> :
+         activeTab === "audit" ? <SukukAuditTrail /> :
 
         <>
+
           {/* ── Hero Stats Row ── */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 stagger">
             {[
