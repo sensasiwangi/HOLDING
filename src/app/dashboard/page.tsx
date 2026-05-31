@@ -7,7 +7,7 @@ import {
   Building2, DollarSign, Scale, LogOut, Lock,
   Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen, Package,
   AlertTriangle, ArrowRight, Sparkles, Eye, PieChart,
-  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet, Rocket, UserCheck, Activity, ArrowUpRight, ArrowDownRight,
+  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet, Rocket, UserCheck, Activity, ArrowUpRight, ArrowDownRight, Bell, Settings, Zap,
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
@@ -20,8 +20,9 @@ import SukukRABPanel from "./sukuk-rab";
 import SukukTermSheetPanel from "./sukuk-term-sheet";
 import SukukCreditorPanel from "./sukuk-creditor";
 import SukukMonitor from "./sukuk-monitor";
+import SukukNotificationPanel from "./sukuk-notification";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -146,6 +147,7 @@ export default function DashboardPage() {
     { key: "akad" as Tab, label: "Akad", icon: <Scale size={15} /> },
     { key: "creditor" as Tab, label: "KYC", icon: <UserCheck size={15} /> },
     { key: "monitor" as Tab, label: "Live", icon: <Activity size={15} /> },
+    { key: "notif" as Tab, label: "Notif", icon: <Bell size={15} /> },
   ];
 
   // Calculate overall progress (tracker + brands)
@@ -216,6 +218,7 @@ export default function DashboardPage() {
            paymentSchedule: financeData?.sukukPaymentSchedule,
            fetchedAt: financeData?.fetchedAt,
          }} /> :
+         activeTab === "notif" ? <SukukNotificationPanel investorData={financeData?.sukukInvestor} /> :
 
         <>
           {/* ── Hero Stats Row ── */}
