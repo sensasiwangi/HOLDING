@@ -112,15 +112,21 @@ export default function InvestorPage() {
     setSubmitting(true);
     setSubmitResult(null);
     try {
-      const res = await fetch("/api/investor/register", {
+      const res = await fetch("/api/investors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
-          nominal: unitPrice,
-          pct: pct + "%",
-          tanggal: new Date().toISOString().split("T")[0],
-          status: "Menunggu",
+          nama: form.nama,
+          jenis: form.jenis,
+          ktp: form.ktp,
+          npwp: form.npwp,
+          phone: form.phone,
+          email: form.email,
+          bank: form.bank,
+          rekening_number: form.rekNum,
+          rekening_name: form.rekName,
+          alamat: form.alamat,
+          unit: form.unit,
         }),
       });
       const data = await res.json();
@@ -129,10 +135,10 @@ export default function InvestorPage() {
         setForm({ nama: "", jenis: "Perorangan", ktp: "", npwp: "", phone: "", email: "", bank: "", rekNum: "", rekName: "", alamat: "", unit: 10 });
         setVals({});
       } else {
-        setSubmitResult({ success: false, message: data.error || "Gagal mendaftar. Silakan coba lagi." });
+        setSubmitResult({ success: false, message: data.error || data.errors?.join(", ") || "Gagal mendaftar. Silakan coba lagi." });
       }
     } catch {
-      setSubmitResult({ success: false, message: " jaringan error. Cek koneksi Anda." });
+      setSubmitResult({ success: false, message: "Jaringan error. Cek koneksi Anda." });
     }
     setSubmitting(false);
   };
