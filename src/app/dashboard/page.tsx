@@ -25,9 +25,11 @@ import SukukAuditTrail from "./sukuk-audit";
 
 type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif" | "audit";
 
-const ALLOWED_USERS = [
-  { username: "beriman", password: "sensasiwangiindonesia090785" },
-];
+interface DashboardUser {
+  id: number;
+  username: string;
+  role: string;
+}
 
 const BRAND_DATA = [
   { id: 41, brand: "L'Arc~en~Scent",    status: "build", pct: 55, pic: "Brand Manager", emoji: "🌸", color: "from-purple-500 to-indigo-600" },
@@ -56,14 +58,20 @@ const STATUS_CONFIG: Record<string, { bg: string; text: string; label: string; i
 
 export default function DashboardPage() {
   const { lang } = useLang();
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<DashboardUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [financeData, setFinanceData] = useState<any>(null);
 
   useEffect(() => {
+    fetch("/api/auth/session")
+      .then(r => r.json())
+      .then(data => { if (data.user) setUser(data.user); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
     fetch("/api/finance").then(r => r.json()).then(setFinanceData).catch(() => {});
   }, []);
 
@@ -74,15 +82,41 @@ export default function DashboardPage() {
     return typeof val === "object" ? val[lang] || key : val;
   }
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    const match = ALLOWED_USERS.find(u => u.username === username && u.password === password);
-    if (match) { setLoggedIn(true); setError(""); }
-    else setError(tr("dashboard.invalidCredentials"));
+    setError("");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: loginUsername, password: loginPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || "Login gagal"); return; }
+      setUser(data.user);
+    } catch {
+      setError("Terjadi kesalahan. Silakan coba lagi.");
+    }
+  }
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
+    setLoginUsername("");
+    setLoginPassword("");
+  }
+
+  // ── Loading ──
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#080c0a] flex items-center justify-center">
+        <div className="text-[#14B8A6] animate-pulse">Loading...</div>
+      </div>
+    );
   }
 
   // ── Login Screen ──
-  if (!loggedIn) {
+  if (!user) {
     return (
       <div className="min-h-screen bg-[#080c0a] flex items-center justify-center px-6 relative overflow-hidden">
         {/* Animated background */}
@@ -110,12 +144,12 @@ export default function DashboardPage() {
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
                 <label className="block text-xs font-semibold text-[#6b9e8f] mb-2 uppercase tracking-wider">{tr("dashboard.username")}</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                <input type="text" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#14B8A6] focus:ring-1 focus:ring-[#14B8A6]/30 transition-all" required />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-[#6b9e8f] mb-2 uppercase tracking-wider">{tr("dashboard.password")}</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-[#3d5048] focus:outline-none focus:border-[#14B8A6] focus:ring-1 focus:ring-[#14B8A6]/30 transition-all" required />
               </div>
               {error && (
@@ -136,21 +170,21 @@ export default function DashboardPage() {
 
   // ── Dashboard ──
   const tabs = [
-    { key: "overview" as Tab, label: tr("dashboard.overview"), icon: <Eye size={15} /> },
-    { key: "keuangan" as Tab, label: tr("dashboard.finance"), icon: <Wallet size={15} /> },
-    { key: "pemegang-saham" as Tab, label: "Pemegang Saham", icon: <Users size={15} /> },
-    { key: "divisi-saham" as Tab, label: "Divisi", icon: <PieChart size={15} /> },
-    { key: "sukuk" as Tab, label: "Sukuk", icon: <ShieldCheck size={15} /> },
-    { key: "panduan" as Tab, label: "Panduan", icon: <BookOpen size={15} /> },
-    { key: "produk" as Tab, label: "Produk", icon: <Package size={15} /> },
-    { key: "jadwal" as Tab, label: "Jadwal", icon: <CalendarCheck size={15} /> },
-    { key: "rab" as Tab, label: "RAB", icon: <FileSpreadsheet size={15} /> },
-    { key: "akad" as Tab, label: "Akad", icon: <Scale size={15} /> },
-    { key: "creditor" as Tab, label: "KYC", icon: <UserCheck size={15} /> },
-    { key: "monitor" as Tab, label: "Live", icon: <Activity size={15} /> },
-    { key: "notif" as Tab, label: "Notif", icon: <Bell size={15} /> },
-    { key: "audit" as Tab, label: "Audit", icon: <Lock size={15} /> },
-  ];
+    { key: "overview" as Tab, label: tr("dashboard.overview"), icon: <Eye size={15} />, roles: ["admin", "analyst", "viewer"] },
+    { key: "keuangan" as Tab, label: tr("dashboard.finance"), icon: <Wallet size={15} />, roles: ["admin", "analyst"] },
+    { key: "pemegang-saham" as Tab, label: "Pemegang Saham", icon: <Users size={15} />, roles: ["admin", "analyst"] },
+    { key: "divisi-saham" as Tab, label: "Divisi", icon: <PieChart size={15} />, roles: ["admin"] },
+    { key: "sukuk" as Tab, label: "Sukuk", icon: <ShieldCheck size={15} />, roles: ["admin", "analyst"] },
+    { key: "panduan" as Tab, label: "Panduan", icon: <BookOpen size={15} />, roles: ["admin", "analyst", "viewer"] },
+    { key: "produk" as Tab, label: "Produk", icon: <Package size={15} />, roles: ["admin", "analyst"] },
+    { key: "jadwal" as Tab, label: "Jadwal", icon: <CalendarCheck size={15} />, roles: ["admin", "analyst"] },
+    { key: "rab" as Tab, label: "RAB", icon: <FileSpreadsheet size={15} />, roles: ["admin", "analyst"] },
+    { key: "akad" as Tab, label: "Akad", icon: <Scale size={15} />, roles: ["admin"] },
+    { key: "creditor" as Tab, label: "KYC", icon: <UserCheck size={15} />, roles: ["admin"] },
+    { key: "monitor" as Tab, label: "Live", icon: <Activity size={15} />, roles: ["admin", "analyst"] },
+    { key: "notif" as Tab, label: "Notif", icon: <Bell size={15} />, roles: ["admin"] },
+    { key: "audit" as Tab, label: "Audit", icon: <Lock size={15} />, roles: ["admin"] },
+  ].filter(tab => user && tab.roles.includes(user.role));
 
   // Calculate overall progress (tracker + brands)
   const allItems = [...TRACKER_DATA, ...BRAND_DATA];
@@ -174,15 +208,27 @@ export default function DashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* User info + role */}
+            {user && (
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#0D9488] to-[#14B8A6] flex items-center justify-center text-[10px] font-bold text-white">
+                  {user.username.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-xs text-[#6b9e8f]">{user.username}</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-semibold uppercase">{user.role}</span>
+              </div>
+            )}
             {/* Live status indicator */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
               <span className="text-[10px] font-bold text-teal-400 uppercase tracking-wider">Live</span>
             </div>
-            <button onClick={() => setLoggedIn(false)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-xs hover:bg-red-500/10 transition-all text-[#6b9e8f] hover:text-red-400 border border-transparent hover:border-red-500/20">
-              <LogOut size={14} /> {tr("dashboard.logout")}
-            </button>
+            {user && (
+              <button onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-xs hover:bg-red-500/10 transition-all text-[#6b9e8f] hover:text-red-400 border border-transparent hover:border-red-500/20">
+                <LogOut size={14} /> {tr("dashboard.logout")}
+              </button>
+            )}
           </div>
         </div>
       </div>

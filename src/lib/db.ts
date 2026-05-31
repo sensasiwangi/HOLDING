@@ -6,16 +6,13 @@ import * as path from "path";
 
 const DB_PATH = path.join(process.cwd(), "db", "sukuk.db");
 
-let db: Database.Database | null = null;
+// Initialize immediately — throws if DB file missing, which is fail-fast correct
+const db: Database.Database = new Database(DB_PATH);
+db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
 
-export function getDb(): Database.Database {
-  if (!db) {
-    db = new Database(DB_PATH);
-    db.pragma("journal_mode = WAL");
-    db.pragma("foreign_keys = ON");
-  }
-  return db;
-}
+export { db };
+export default db;
 
 // Helper types
 export interface Investor {
@@ -93,6 +90,3 @@ export interface ProfitDistribution {
   created_at: string;
   updated_at: string;
 }
-
-// Convenience named export
-export { db };
