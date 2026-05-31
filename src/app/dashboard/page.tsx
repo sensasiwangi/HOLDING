@@ -7,7 +7,7 @@ import {
   Building2, DollarSign, Scale, LogOut, Lock,
   Target, BarChart3, TrendingUp, Wallet, Users, ShieldCheck, BookOpen, Package,
   AlertTriangle, ArrowRight, Sparkles, Eye, PieChart,
-  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet, Rocket,
+  CheckCircle2, Clock, CircleDashed, CalendarCheck, FileSpreadsheet, Rocket, UserCheck,
 } from "lucide-react";
 import FinancePanel from "./finance";
 import ShareholderPanel from "./shareholder";
@@ -18,8 +18,9 @@ import SukukProdukPanel from "./sukuk-produk";
 import SukukPaymentSchedulePanel from "./sukuk-schedule";
 import SukukRABPanel from "./sukuk-rab";
 import SukukTermSheetPanel from "./sukuk-term-sheet";
+import SukukCreditorPanel from "./sukuk-creditor";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor";
 
 const ALLOWED_USERS = [
   { username: "beriman", password: "sensasiwangiindonesia090785" },
@@ -142,6 +143,7 @@ export default function DashboardPage() {
     { key: "jadwal" as Tab, label: "Jadwal", icon: <CalendarCheck size={15} /> },
     { key: "rab" as Tab, label: "RAB", icon: <FileSpreadsheet size={15} /> },
     { key: "akad" as Tab, label: "Akad", icon: <Scale size={15} /> },
+    { key: "creditor" as Tab, label: "KYC", icon: <UserCheck size={15} /> },
   ];
 
   // Calculate overall progress (tracker + brands)
@@ -204,6 +206,7 @@ export default function DashboardPage() {
           activeTab === "jadwal" ? <SukukPaymentSchedulePanel paymentSchedule={financeData?.sukukPaymentSchedule} /> :
          activeTab === "rab" ? <SukukRABPanel rabData={financeData?.rabStoreTim} skemaData={financeData?.rabPerbandinganSkema} cashflowData={financeData?.proyeksiCashflowStore} /> :
          activeTab === "akad" ? <SukukTermSheetPanel data={{ info: financeData?.sukukInfo, investor: financeData?.sukukInvestor }} /> :
+         activeTab === "creditor" ? <SukukCreditorPanel investorData={financeData?.sukukInvestor} /> :
 
         <>
           {/* ── Hero Stats Row ── */}
