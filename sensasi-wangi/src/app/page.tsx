@@ -317,6 +317,96 @@ export default function Home() {
           </div>
         </div>
 
+        {/* P0-1: Compliance Status */}
+        {formula?.compliance && (
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 className="text-xl font-bold mb-4" style={{ color: "#8B6914" }}>
+              ✅ IFRA Compliance Check
+            </h2>
+            <div className="flex items-center gap-3 mb-4">
+              <span className={`px-4 py-2 rounded-full text-sm font-bold ${
+                formula.compliance.overallStatus === "pass" ? "bg-green-100 text-green-700" :
+                formula.compliance.overallStatus === "warn" ? "bg-yellow-100 text-yellow-700" :
+                "bg-red-100 text-red-700"
+              }`}>
+                {formula.compliance.overallStatus === "pass" ? "✅ PASS" :
+                 formula.compliance.overallStatus === "warn" ? "⚠️ WARNING" : "❌ FAIL"}
+              </span>
+              <span className="text-sm text-gray-500">
+                Kategori: {formula.compliance.productCategory} | Total: {formula.compliance.totalConcentration}% (max: {formula.compliance.maxAllowedConcentration}%)
+              </span>
+            </div>
+            {formula.compliance.failingIngredients.length > 0 && (
+              <div className="mb-4 p-4 bg-red-50 rounded-xl">
+                <h4 className="font-semibold text-red-700 mb-2">Bahan Melebihi Batas:</h4>
+                {formula.compliance.failingIngredients.map((f, i) => (
+                  <div key={i} className="text-sm text-red-600">
+                    • {f.name}: {f.actualPercent}% (max: {f.maxAllowedPercent}%) — {f.notes}
+                  </div>
+                ))}
+              </div>
+            )}
+            {formula.compliance.warnings.length > 0 && (
+              <div className="mb-4 p-4 bg-yellow-50 rounded-xl">
+                <h4 className="font-semibold text-yellow-700 mb-2">Peringatan:</h4>
+                {formula.compliance.warnings.map((w, i) => (
+                  <div key={i} className="text-sm text-yellow-600">• {w}</div>
+                ))}
+              </div>
+            )}
+            {formula.compliance.passedChecks.length > 0 && (
+              <div className="p-4 bg-green-50 rounded-xl">
+                <h4 className="font-semibold text-green-700 mb-2">Checks Passed:</h4>
+                {formula.compliance.passedChecks.map((p, i) => (
+                  <div key={i} className="text-sm text-green-600">✓ {p}</div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* P0-3: Allergen Label */}
+        {formula?.allergen_label && (
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 className="text-xl font-bold mb-4" style={{ color: "#8B6914" }}>
+              🏷️ Label Alergen & Keamanan
+            </h2>
+            {formula.allergen_label.allergens.length > 0 && (
+              <div className="mb-4">
+                <h4 className="font-semibold text-sm mb-2">Alergen Terdeteksi:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {formula.allergen_label.allergens.map((a, i) => (
+                    <span key={i} className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
+                      {a.name} ({a.concentration}%)
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="mb-4">
+              <h4 className="font-semibold text-sm mb-2">Peringatan:</h4>
+              <ul className="text-sm text-gray-600 space-y-1">
+                {formula.allergen_label.warnings.map((w, i) => (
+                  <li key={i}>• {w}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="mb-4">
+              <h4 className="font-semibold text-sm mb-2">Pencegahan:</h4>
+              <ul className="text-sm text-gray-600 space-y-1">
+                {formula.allergen_label.precautions.map((p, i) => (
+                  <li key={i}>• {p}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <h4 className="font-semibold text-sm mb-2">Penyimpanan:</h4>
+              <p className="text-sm text-gray-600">{formula.allergen_label.storageInstructions}</p>
+              <p className="text-sm text-gray-500 mt-1">Expired: {formula.allergen_label.expiryDate}</p>
+            </div>
+          </div>
+        )}
+
         {/* Mixing Steps */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <h2 className="text-xl font-bold mb-4" style={{ color: "#8B6914" }}>

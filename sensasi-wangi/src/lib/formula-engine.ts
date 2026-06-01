@@ -3,6 +3,7 @@
 // Botol: 30ml | Unit: drops & gram dual | Masterasi: di botol, tempat gelap
 
 import { getDb } from "./swi-db";
+import { checkCompliance, saveComplianceCheck, generateAllergenLabel, createProductBatch } from "./compliance-engine";
 
 // ════════════════════════════════════════════
 // Types
@@ -80,6 +81,8 @@ export interface FormulaResult {
   maturation_days: number;
   maturation_notes: string;
   formula_name: string;
+  compliance: ComplianceResult;
+  allergen_label: AllergenLabel | null;
 }
 
 // ════════════════════════════════════════════
@@ -132,6 +135,14 @@ export function generateFormula(profile: ScentProfile): FormulaResult {
 
   const totalCost = allIngredients.reduce((sum, ing) => sum + ing.cost, 0);
 
+  // P0-1: Auto-check IFRA compliance
+  const compliance = checkCompliance(allIngredients, "CAT4", BOTTLE_SIZE);
+
+  // P0-3: Generate allergen label
+  const allergenLabel = allIngredients.length > 0
+    ? generateAllergenLabel(0, allIngredients, generateFormulaName(profile.mood))
+    : null;
+
   return {
     ingredients: allIngredients,
     mixing_steps: mixingSteps,
@@ -141,6 +152,8 @@ export function generateFormula(profile: ScentProfile): FormulaResult {
     maturation_days: maturationDays,
     maturation_notes: maturationNotes,
     formula_name: generateFormulaName(profile.mood),
+    compliance,
+    allergen_label: allergenLabel,
   };
 }
 
