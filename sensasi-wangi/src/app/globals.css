@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --swi-cream: #FFF8F0;
+  --swi-sand: #F5E6D3;
+  --swi-wood: #8B6914;
+  --swi-gold: #D4A843;
+  --swi-dark: #2C1810;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--swi-cream);
+  color: var(--swi-dark);
+}
+
+h1, h2, h3 {
+  font-family: Georgia, serif;
+}
+
+/* Animations */
+@keyframes pour {
+  0% { transform: rotate(-45deg) translateY(-20px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: rotate(0deg) translateY(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pour { animation: pour 1s ease-out; }
+.animate-shake { animation: shake 0.5s ease-in-out; }
+.animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+
+/* Bottle visualization */
+.bottle-shape {
+  width: 60px;
+  height: 140px;
+  border: 2px solid var(--swi-wood);
+  border-radius: 8px 8px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bottle-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: height 1s ease;
+}
+
+/* Step card */
+.step-card {
+  border-left: 4px solid;
+  padding: 16px;
+  margin: 12px 0;
+  border-radius: 0 8px 8px 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
