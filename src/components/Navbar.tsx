@@ -29,15 +29,15 @@ export default function Navbar() {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? "py-2" : "py-4"}`}>
-        <div className={`mx-auto max-w-6xl px-4 transition-all duration-500 ${scrolled ? "mx-4 md:mx-auto rounded-2xl glass glow-brand" : ""}`}>
+        <div className={`mx-auto max-w-6xl px-4 transition-all duration-500 ${scrolled ? "mx-4 md:mx-auto rounded-2xl glass-heavy glow-brand" : ""}`}>
           <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "px-6 py-3" : "px-0 py-2"}`}>
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center transition-transform group-hover:scale-110 group-hover:rotate-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
                   <Layers size={20} className="text-white" />
                 </div>
-                {scrolled && <div className="absolute inset-0 rounded-xl bg-[#14B8A6] opacity-0 group-hover:opacity-40 blur-xl transition-opacity" />}
+                <div className="absolute inset-0 rounded-xl bg-[#14B8A6] opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500" />
               </div>
               <div className="hidden sm:block">
                 <div className="text-white font-bold text-base tracking-tight leading-none">PT SWI</div>
@@ -46,34 +46,53 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1 relative">
+              {/* Hover background pill */}
+              <div
+                className="absolute h-[calc(100%-12px)] rounded-xl bg-white/[0.04] transition-all duration-300 ease-out pointer-events-none"
+                style={{
+                  opacity: activeHover ? 1 : 0,
+                  width: activeHover ? '80px' : 0,
+                  left: activeHover ? `${navItems.findIndex(n => n.href === activeHover) * 96 + 8}px` : 0,
+                  top: '6px',
+                }}
+              />
               {navItems.map((item) => (
-                <Link key={item.href} href={item.href}
+                <Link
+                  key={item.href}
+                  href={item.href}
                   onMouseEnter={() => setActiveHover(item.href)}
                   onMouseLeave={() => setActiveHover(null)}
-                  className="relative px-4 py-2 text-sm text-[#6b9e8f] hover:text-white transition-colors duration-300 font-medium">
+                  className="relative px-4 py-2 text-sm text-[#6b9e8f] hover:text-white transition-colors duration-300 font-medium"
+                >
                   <span className="relative z-10">{item.label}</span>
-                  {activeHover === item.href && <span className="absolute inset-0 rounded-lg bg-white/5 transition-all duration-300 animate-scale-in" />}
                 </Link>
               ))}
             </div>
 
             {/* Right actions */}
             <div className="flex items-center gap-2">
-              <button onClick={toggleLang}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#6b9e8f] hover:text-white glass-light hover:bg-white/10 transition-all duration-300">
+              <button
+                onClick={toggleLang}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#6b9e8f] hover:text-white glass-light hover:bg-white/10 transition-all duration-300 active-press"
+              >
                 <Globe size={14} />
                 {lang === "id" ? "ID" : "EN"}
               </button>
 
-              <Link href="/dashboard"
-                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-xs font-bold hover:shadow-lg hover:shadow-[#0D9488]/20 transition-all duration-300 hover:-translate-y-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-300 animate-pulse" />
-                Dashboard
+              <Link
+                href="/dashboard"
+                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-xs font-bold transition-all duration-500 hover:-translate-y-0.5 active-press relative overflow-hidden group"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-[#14B8A6] to-[#0D9488] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-300 animate-pulse relative" />
+                <span className="relative">Dashboard</span>
               </Link>
 
-              <button onClick={() => setOpen(!open)}
-                className="lg:hidden w-10 h-10 rounded-xl glass-light flex items-center justify-center text-white hover:bg-white/10 transition-all">
+              <button
+                onClick={() => setOpen(!open)}
+                className="lg:hidden w-10 h-10 rounded-xl glass-light flex items-center justify-center text-white hover:bg-white/10 transition-all active-press"
+              >
                 {open ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
@@ -81,27 +100,36 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — enhanced */}
       {open && (
         <div className="fixed inset-0 z-[90] lg:hidden">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="absolute top-20 left-4 right-4 glass rounded-2xl p-6 animate-fade-up">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setOpen(false)} />
+          <div className="absolute top-20 left-4 right-4 glass-heavy rounded-2xl p-6 animate-scale-in shadow-2xl shadow-black/50">
             <div className="space-y-1">
               {navItems.map((item, i) => (
-                <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#6b9e8f] hover:text-white hover:bg-white/5 transition-all animate-fade-up"
-                  style={{ animationDelay: `${i * 0.05}s` }}>
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
                   <span className="font-medium">{item.label}</span>
                 </Link>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-white/10 flex gap-3">
-              <Link href="/dashboard" onClick={() => setOpen(false)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-sm font-bold">
+            <div className="mt-4 pt-4 border-t border-white/5 flex gap-3">
+              <Link
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-sm font-bold active-press"
+              >
                 Dashboard
               </Link>
-              <button onClick={() => window.print()}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl glass-light text-white text-sm font-medium">
+              <button
+                onClick={() => window.print()}
+                className="flex items-center gap-2 px-4 py-3 rounded-xl glass-light text-white text-sm font-medium active-press hover:bg-white/5 transition-all"
+              >
                 <FileDown size={16} /> PDF
               </button>
             </div>

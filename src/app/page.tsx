@@ -6,6 +6,8 @@ import {
   Store, Calendar, FlaskConical, Code2, Globe, ArrowRight,
   ArrowUpRight, Sparkles, TrendingUp, Shield, Zap,
 } from "lucide-react";
+import Hero from "@/components/Hero";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function HomePage() {
   const { lang } = useLang();
@@ -21,8 +23,11 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ── HERO ── */}
+      <Hero />
+
       {/* ── VISION / MISSION — Split asymmetric ── */}
-      <section className="relative py-24 overflow-hidden">
+      <section className="relative py-24 overflow-hidden reveal">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#0D9488]/5 to-transparent" />
 
         <div className="max-w-6xl mx-auto px-6">

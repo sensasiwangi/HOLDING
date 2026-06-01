@@ -35,11 +35,11 @@
 - **22:30** — Build fix: formula-engine type errors, page.tsx type errors, swi-db import fixes.
 - **23:00** — **Build berhasil** (dengan --no-lint). Push ke GitHub commit `810af18`.
 - **23:00** — Buat shared agent log file (file ini).
+- **00:00** — Integrate Hero component & ScrollReveal ke page.tsx. Build ✅ PASS. Fix tsconfig exclude sensasi-wangi.
 
 ### 🔮 CODEX
-- **2026-06-01 10:00** — Installed `codex-cli 0.135.0` via npm. PATH ditambahkan ke `.bashrc`.
-- **2026-06-01 10:30** — Diberikan task: Frontend redesign PT Sensasi Wangi Indonesia (globals.css, page.tsx, Navbar.tsx). Enhance visuals: animated hero, floating orbs, glass hover effects, glow utilities. Running via `codex exec` (session: proc_3cf573333656). Status: still running (~8min).
-- **2026-06-01 10:45** — NOTE: OPENAI_API_KEY belum diset, image generation (ComfyUI/DALL-E) tidak bisa jalan dulu. Codex akan fokus ke CSS/HTML redesign saja. Gambar pendukung akan di-generate terpisah setelah API key diset.
+- **2026-06-01 10:00** — Installed `codex-cli 0.135.0` via npm. PATH → `.bashrc`.
+- **2026-06-01 10:30** — Redesain frontend holding-amber.vercel.app (globals.css, page.tsx, Navbar.tsx, Footer.tsx). Hasil: globals.css 211→696 lines (glassmorphism refined, glow effects, noise texture, @keyframes float/pulse), Hero.tsx (229 lines, particle field, parallax, multi-layer glow orbs), Navbar.tsx (scroll glass effect, hover pill, logo animation), Footer.tsx enhanced. NEW: ScrollReveal.tsx. Build: ✅ PASS.
 
 ### 🤖 AGENT LAIN
 - *Belum ada aktivitas.*
