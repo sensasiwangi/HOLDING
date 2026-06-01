@@ -1,32 +1,74 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+// src/app/api/sukuk/route.ts
+// Sukuk API — Calculator bagi hasil, jadwal pembayaran
+// POST /api/sukuk/calculate    → hitung jadwal bagi hasil
+// POST /api/sukuk/distribusi    → hitung distribusi per investor
+// GET  /api/sukuk/schedule      → baca jadwal dari sheet
+import { NextRequest, NextResponse } from "next/server";
+import {
+  hitungJadwalBagiHasil,
+  hitungDistribusiInvestor,
+  hitungImbalan,
+  bacaInvestorSukuk,
+  simpanJadwalBagiHasil,
+  type SukukParams,
+  type InvestasiSukuk,
+} from "@/lib/sukuk-engine";
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   try {
-    const sukuk = db.prepare(`
-      SELECT s.*,
-        (SELECT COALESCE(SUM(si.jumlah_investasi), 0) FROM sukuk_investments si WHERE si.sukuk_id = s.id AND si.status = 'active') as total_terkumpul,
-        (SELECT COUNT(DISTINCT si.investor_id) FROM sukuk_investments si WHERE si.sukuk_id = s.id AND si.status = 'active') as jumlah_investor
-      FROM sukuk s ORDER BY s.created_at DESC
-    `).all();
-    return NextResponse.json({ sukuk });
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type");
+    const body = await req.json();
+
+    if (type === "calculate") {
+      const params: SukukParams = body;
+      const revenueProyeksi: number[] = body.revenueProyeksi || [];
+
+      const jadwal = hitungJadwalBagiHasil(params, revenueProyeksi);
+
+      return NextResponse.json({
+        success: true,
+        params,
+        jadwal,
+        totalBulan: jadwal.length,
+        estimasiTotalBagiHasil: jadwal.reduce((s, j) => s + j.bagiHasilTotal, 0),
+      });
+    }
+
+    if (type === "distribusi") {
+      const jadwal = body.jadwal;
+      const investasi: InvestasiSukuk[] = body.investasi || [];
+
+      const distribusi = hitungDistribusiInvestor(jadwal, investasi);
+
+      return NextResponse.json({
+        success: true,
+        periode: jadwal.periode,
+        totalDibagikan: jadwal.bagianInvestor,
+        distribusi,
+      });
+    }
+
+    if (type === "imbalan") {
+      const result = hitungImbalan(body);
+      return NextResponse.json({ success: true, ...result });
+    }
+
+    if (type === "save-schedule") {
+      await simpanJadwalBagiHasil(body.jadwal);
+      return NextResponse.json({ success: true, message: "Jadwal disimpan" });
+    }
+
+    return NextResponse.json({ error: `Unknown type: ${type}` }, { status: 400 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function GET() {
   try {
-    const body = await req.json();
-    const { nama, kode, total_dana, imbal_hasil, tenor_bulan, tanggal_terbit, tanggal_jatuh_tempo, deskripsi } = body;
-    if (!nama || !total_dana || !imbal_hasil) {
-      return NextResponse.json({ error: 'Nama, total_dana, imbal_hasil wajib diisi' }, { status: 400 });
-    }
-    const result = db.prepare(`
-      INSERT INTO sukuk (nama, kode, total_dana, imbal_hasil, tenor_bulan, tanggal_terbit, tanggal_jatuh_tempo, status, deskripsi)
-      VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?)
-    `).run(nama, kode || null, total_dana, imbal_hasil, tenor_bulan || null, tanggal_terbit || null, tanggal_jatuh_tempo || null, deskripsi || null);
-    return NextResponse.json({ id: result.lastInsertRowid, ok: true });
+    const data = await bacaInvestorSukuk();
+    return NextResponse.json({ success: true, ...data });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

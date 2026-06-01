@@ -22,8 +22,15 @@ import SukukCreditorPanel from "./sukuk-creditor";
 import SukukMonitor from "./sukuk-monitor";
 import SukukNotificationPanel from "./sukuk-notification";
 import SukukAuditTrail from "./sukuk-audit";
+import BrandPanel from "@/components/BrandPanel";
+import ProductionPanel from "@/components/ProductionPanel";
+import KycPanel from "@/components/KycPanel";
+import RabPanel from "@/components/RabPanel";
+import LaporanPanel from "@/components/LaporanPanel";
+import NotificationPanel from "@/components/NotificationPanel";
+import AuditPanel from "@/components/AuditPanel";
 
-type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif" | "audit";
+type Tab = "overview" | "keuangan" | "pemegang-saham" | "divisi-saham" | "sukuk" | "panduan" | "produk" | "jadwal" | "rab" | "akad" | "creditor" | "monitor" | "notif" | "audit" | "brand" | "produksi" | "laporan";
 
 interface DashboardUser {
   id: number;
@@ -184,6 +191,10 @@ export default function DashboardPage() {
     { key: "monitor" as Tab, label: "Live", icon: <Activity size={15} />, roles: ["admin", "analyst"] },
     { key: "notif" as Tab, label: "Notif", icon: <Bell size={15} />, roles: ["admin"] },
     { key: "audit" as Tab, label: "Audit", icon: <Lock size={15} />, roles: ["admin"] },
+    { key: "brand" as Tab, label: "Brand", icon: <Sparkles size={15} />, roles: ["admin", "analyst"] },
+    { key: "produksi" as Tab, label: "Produksi", icon: <Package size={15} />, roles: ["admin", "analyst"] },
+    { key: "laporan" as Tab, label: "Laporan", icon: <BarChart3 size={15} />, roles: ["admin", "analyst"] },
+    { key: "rab" as Tab, label: "RAB", icon: <FileSpreadsheet size={15} />, roles: ["admin", "analyst"] },
   ].filter(tab => user && tab.roles.includes(user.role));
 
   // Calculate overall progress (tracker + brands)
@@ -256,9 +267,9 @@ export default function DashboardPage() {
          activeTab === "panduan" ? <SukukPanduanPanel /> :
          activeTab === "produk" ? <SukukProdukPanel produk={financeData?.sukukProduk} proyeksi={financeData?.sukukProdukProj} /> :
           activeTab === "jadwal" ? <SukukPaymentSchedulePanel paymentSchedule={financeData?.sukukPaymentSchedule} /> :
-         activeTab === "rab" ? <SukukRABPanel rabData={financeData?.rabStoreTim} skemaData={financeData?.rabPerbandinganSkema} cashflowData={financeData?.proyeksiCashflowStore} /> :
+         activeTab === "rab" ? <RabPanel /> :
          activeTab === "akad" ? <SukukTermSheetPanel data={{ info: financeData?.sukukInfo, investor: financeData?.sukukInvestor }} /> :
-         activeTab === "creditor" ? <SukukCreditorPanel investorData={financeData?.sukukInvestor} /> :
+         activeTab === "creditor" ? <KycPanel /> :
          activeTab === "monitor" ? <SukukMonitor data={{
            sukukInfo: financeData?.sukukInfo,
            investor: financeData?.sukukInvestor,
@@ -266,9 +277,11 @@ export default function DashboardPage() {
            paymentSchedule: financeData?.sukukPaymentSchedule,
            fetchedAt: financeData?.fetchedAt,
          }} /> :
-         activeTab === "notif" ? <SukukNotificationPanel investorData={financeData?.sukukInvestor} /> :
-         activeTab === "audit" ? <SukukAuditTrail /> :
-
+         activeTab === "laporan" ? <LaporanPanel /> :
+         activeTab === "brand" ? <BrandPanel /> :
+         activeTab === "produksi" ? <ProductionPanel /> :
+         activeTab === "notif" ? <NotificationPanel /> :
+         activeTab === "audit" ? <AuditPanel /> :
         <>
 
           {/* ── Hero Stats Row ── */}

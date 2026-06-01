@@ -1,6 +1,8 @@
+// src/components/TransactionForm.tsx
+// Input transaksi → Google Sheets (via sync API)
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface COAItem {
   code: string;
@@ -47,7 +49,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!description || !amount) {
-      setMessage({ type: "error", text: "Deskripsi dan Nomor harus diisi" });
+      setMessage({ type: "error", text: "Deskripsi dan jumlah harus diisi" });
       return;
     }
     setSaving(true);
@@ -58,24 +60,29 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
     const outflow = txType === "kredit" ? numAmount : 0;
 
     try {
-      const res = await fetch("/api/finance", {
+      // Pakai sync API — tulis ke Cash_Harian + Buku_Kas + Dashboard sekaligus
+      const res = await fetch("/api/sync?type=transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sheet: formType === "cash_harian" ? "Cash_Harian" : "Buku_Kas",
           date,
-          description,
-          inflow,
-          outflow,
           accountId,
           category: category || cashflowType,
           subcategory,
+          description,
+          inflow,
+          outflow,
           division,
+          sheet: formType === "cash_harian" ? "Cash_Harian" : "Buku_Kas",
         }),
       });
+
       const data = await res.json();
       if (data.success) {
-        setMessage({ type: "success", text: "✅ Transaksi berhasil dicatat!" });
+        setMessage({
+          type: "success",
+          text: `✅ Transaksi berhasil dicatat & tersinkron ke ${formType === "cash_harian" ? "Cash Harian" : "Buku Kas"} + Dashboard!`,
+        });
         setRecentTx((prev) => [
           {
             date,
@@ -85,6 +92,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
             accountId,
             division,
             time: new Date().toLocaleTimeString("id-ID"),
+            synced: true,
           },
           ...prev.slice(0, 9),
         ]);
@@ -110,43 +118,36 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
   const tips = [
     "Kode 1xx = Aset, 2xx = Kewajiban, 3xx = Modal",
     "Kode 4xx = Pendapatan, 5xx = Beban",
-    "Mutasi bank selesai → catat di Cash_Harian",
-    "Dekat akhir bulan → hitung setoran 30% ke Holding",
+    "Mutasi bank → catat di Cash_Harian",
+    "Transaksi otomatis sync ke Dashboard & Buku Kas",
   ];
   const [tipIndex, setTipIndex] = useState(0);
 
   return (
     <div className="space-y-4">
-      {/* Tips Bar */}
+      {/* Tips */}
       <div className="flex items-center gap-2 text-xs text-amber-400/80 bg-amber-500/5 border border-amber-500/20 rounded-lg px-3 py-2">
         <span>💡</span>
         <span>{tips[tipIndex]}</span>
-        <button
-          onClick={() => setTipIndex((prev) => (prev + 1) % tips.length)}
-          className="ml-auto text-amber-400/60 hover:text-amber-400"
-        >
-          →
-        </button>
+        <button onClick={() => setTipIndex((p) => (p + 1) % tips.length)} className="ml-auto text-amber-400/60 hover:text-amber-400">→</button>
       </div>
 
       {/* Form Type Toggle */}
       <div className="flex gap-2">
         <button
+          type="button"
           onClick={() => setFormType("cash_harian")}
           className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-            formType === "cash_harian"
-              ? "bg-tosca text-white shadow-lg shadow-tosca/25"
-              : "bg-white/5 text-gray-400 hover:bg-white/10"
+            formType === "cash_harian" ? "bg-tosca text-white shadow-lg shadow-tosca/25" : "bg-white/5 text-gray-400 hover:bg-white/10"
           }`}
         >
           💰 Cash Harian (Bank)
         </button>
         <button
+          type="button"
           onClick={() => setFormType("buku_kas")}
           className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-            formType === "buku_kas"
-              ? "bg-orange-500 text-white shadow-lg shadow-orange-500/25"
-              : "bg-white/5 text-gray-400 hover:bg-white/10"
+            formType === "buku_kas" ? "bg-orange-500 text-white shadow-lg shadow-orange-500/25" : "bg-white/5 text-gray-400 hover:bg-white/10"
           }`}
         >
           📝 Buku Kas (Manual)
@@ -156,7 +157,6 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
       {/* Main Form */}
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
-          {/* Tanggal */}
           <div>
             <label className="block text-xs text-gray-400 mb-1">Tanggal</label>
             <input
@@ -166,8 +166,6 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-tosca focus:outline-none transition-colors"
             />
           </div>
-
-          {/* Divisi */}
           <div>
             <label className="block text-xs text-gray-400 mb-1">Divisi</label>
             <select
@@ -176,15 +174,13 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-tosca focus:outline-none transition-colors"
             >
               {DIVISI_LIST.map((d) => (
-                <option key={d.value} value={d.value} className="bg-gray-900">
-                  {d.label}
-                </option>
+                <option key={d.value} value={d.value} className="bg-gray-900">{d.label}</option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Tipe Cashflow */}
+        {/* Cashflow Type */}
         <div>
           <label className="block text-xs text-gray-400 mb-1">Tipe Arus Kas</label>
           <div className="flex gap-2">
@@ -195,11 +191,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
                 onClick={() => setCashflowType(t.value)}
                 className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-medium transition-all ${
                   cashflowType === t.value
-                    ? cashflowType === "operasional"
-                      ? "bg-tosca/20 text-tosca border border-tosca/40"
-                      : cashflowType === "investasi"
-                      ? "bg-purple-500/20 text-purple-400 border border-purple-500/40"
-                      : "bg-orange-500/20 text-orange-400 border border-orange-500/40"
+                    ? "bg-tosca/20 text-tosca border border-tosca/40"
                     : "bg-white/5 text-gray-500 border border-white/10 hover:bg-white/10"
                 }`}
               >
@@ -209,7 +201,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
           </div>
         </div>
 
-        {/* Debit/Kredit Toggle */}
+        {/* Debit/Kredit */}
         <div>
           <label className="block text-xs text-gray-400 mb-1">Jenis Transaksi</label>
           <div className="grid grid-cols-2 gap-2">
@@ -218,7 +210,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
               onClick={() => setTxType("debit")}
               className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
                 txType === "debit"
-                  ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-lg shadow-emerald-500/10"
+                  ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
                   : "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10"
               }`}
             >
@@ -229,7 +221,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
               onClick={() => setTxType("kredit")}
               className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
                 txType === "kredit"
-                  ? "bg-red-500/20 text-red-400 border border-red-500/40 shadow-lg shadow-red-500/10"
+                  ? "bg-red-500/20 text-red-400 border border-red-500/40"
                   : "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10"
               }`}
             >
@@ -238,7 +230,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
           </div>
         </div>
 
-        {/* Kode Akun */}
+        {/* COA */}
         <div>
           <label className="block text-xs text-gray-400 mb-1">Kode Akun (COA)</label>
           <select
@@ -247,63 +239,29 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
             className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-tosca focus:outline-none transition-colors"
           >
             <optgroup label="── Aset (100) ──">
-              {coa
-                .filter((c) => c.type === "Aset")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
+              {coa.filter((c) => c.type === "Aset").map((c) => (
+                <option key={c.code} value={c.code} className="bg-gray-900">{c.code} - {c.name}</option>
+              ))}
             </optgroup>
             <optgroup label="── Kewajiban (200) ──">
-              {coa
-                .filter((c) => c.type === "Kewajiban")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
-            </optgroup>
-            <optgroup label="── Modal (300) ──">
-              {coa
-                .filter((c) => c.type === "Modal")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
+              {coa.filter((c) => c.type === "Kewajiban").map((c) => (
+                <option key={c.code} value={c.code} className="bg-gray-900">{c.code} - {c.name}</option>
+              ))}
             </optgroup>
             <optgroup label="── Pendapatan (400) ──">
-              {coa
-                .filter((c) => c.type === "Pendapatan")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
+              {coa.filter((c) => c.type === "Pendapatan").map((c) => (
+                <option key={c.code} value={c.code} className="bg-gray-900">{c.code} - {c.name}</option>
+              ))}
             </optgroup>
             <optgroup label="── Beban (500) ──">
-              {coa
-                .filter((c) => c.type === "Beban")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
-            </optgroup>
-            <optgroup label="── Holding (700) ──">
-              {coa
-                .filter((c) => c.type === "Holding")
-                .map((c) => (
-                  <option key={c.code} value={c.code} className="bg-gray-900">
-                    {c.code} - {c.name}
-                  </option>
-                ))}
+              {coa.filter((c) => c.type === "Beban").map((c) => (
+                <option key={c.code} value={c.code} className="bg-gray-900">{c.code} - {c.name}</option>
+              ))}
             </optgroup>
           </select>
         </div>
 
-        {/* Category */}
+        {/* Category + Subcategory */}
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs text-gray-400 mb-1">Kategori</label>
@@ -311,7 +269,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              placeholder="cth: Penjualan, Gaji, Sewa"
+              placeholder="cth: Penjualan, Gaji"
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-tosca focus:outline-none transition-colors placeholder:text-gray-600"
             />
           </div>
@@ -327,7 +285,7 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
           </div>
         </div>
 
-        {/* Deskripsi */}
+        {/* Description + Amount */}
         <div>
           <label className="block text-xs text-gray-400 mb-1">Deskripsi</label>
           <input
@@ -338,8 +296,6 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
             className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-tosca focus:outline-none transition-colors placeholder:text-gray-600"
           />
         </div>
-
-        {/* Jumlah */}
         <div>
           <label className="block text-xs text-gray-400 mb-1">Jumlah (Rp)</label>
           <input
@@ -367,45 +323,36 @@ export default function TransactionForm({ coa }: { coa: COAItem[] }) {
         </button>
       </form>
 
+      {/* Sync notice */}
+      <div className="text-xs text-gray-500 text-center">
+        ⚡ Data otomatis tersinkronisasi ke Cash Harian + Buku Kas + Dashboard
+      </div>
+
       {/* Message */}
       {message && (
-        <div
-          className={`p-3 rounded-lg text-sm ${
-            message.type === "success"
-              ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
-              : "bg-red-500/10 border border-red-500/30 text-red-400"
-          }`}
+        <div className={`p-3 rounded-lg text-sm ${message.type === "success"
+          ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
+          : "bg-red-500/10 border border-red-500/30 text-red-400"}`}
         >
           {message.text}
         </div>
       )}
 
-      {/* Recent Transactions */}
+      {/* Recent */}
       {recentTx.length > 0 && (
         <div>
           <h4 className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Transaksi Terakhir</h4>
           <div className="space-y-1.5 max-h-48 overflow-y-auto">
             {recentTx.map((tx, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 bg-white/3 rounded-lg px-3 py-2 text-xs"
-              >
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    tx.type === "debit" ? "bg-emerald-500" : "bg-red-500"
-                  }`}
-                />
+              <div key={i} className="flex items-center gap-2 bg-white/3 rounded-lg px-3 py-2 text-xs">
+                <span className={`w-2 h-2 rounded-full ${tx.type === "debit" ? "bg-emerald-500" : "bg-red-500"}`} />
                 <span className="text-gray-400">{tx.date}</span>
                 <span className="text-white flex-1 truncate">{tx.description}</span>
                 <span className="text-gray-500">{tx.accountId}</span>
-                <span
-                  className={`font-semibold ${
-                    tx.type === "debit" ? "text-emerald-400" : "text-red-400"
-                  }`}
-                >
-                  {tx.type === "debit" ? "+" : "-"}
-                  {new Intl.NumberFormat("id-ID").format(tx.amount)}
+                <span className={`font-semibold ${tx.type === "debit" ? "text-emerald-400" : "text-red-400"}`}>
+                  {tx.type === "debit" ? "+" : "-"}{new Intl.NumberFormat("id-ID").format(tx.amount)}
                 </span>
+                {tx.synced && <span className="text-tosca text-[10px]">✓ sync</span>}
               </div>
             ))}
           </div>
