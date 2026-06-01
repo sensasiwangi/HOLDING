@@ -38,6 +38,8 @@
 
 ### 🔮 CODEX
 - **2026-06-01 10:00** — Installed `codex-cli 0.135.0` via npm. PATH ditambahkan ke `.bashrc`.
+- **2026-06-01 10:30** — Diberikan task: Frontend redesign PT Sensasi Wangi Indonesia (globals.css, page.tsx, Navbar.tsx). Enhance visuals: animated hero, floating orbs, glass hover effects, glow utilities. Running via `codex exec` (session: proc_3cf573333656). Status: still running (~8min).
+- **2026-06-01 10:45** — NOTE: OPENAI_API_KEY belum diset, image generation (ComfyUI/DALL-E) tidak bisa jalan dulu. Codex akan fokus ke CSS/HTML redesign saja. Gambar pendukung akan di-generate terpisah setelah API key diset.
 
 ### 🤖 AGENT LAIN
 - *Belum ada aktivitas.*
