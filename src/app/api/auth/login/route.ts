@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { authenticateUser, createSession } from '@/lib/auth';
+import { authenticateUser, createSession, isPortalConfigured } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
+    if (!isPortalConfigured()) {
+      return NextResponse.json(
+        { error: 'Portal internal belum dikonfigurasi. Hubungi administrator.' },
+        { status: 503 },
+      );
+    }
+
     const body = await req.json();
-    const { username, password } = body;
+    const username = String(body.username ?? '').trim();
+    const password = String(body.password ?? '');
 
     if (!username || !password) {
       return NextResponse.json({ error: 'Username dan password wajib diisi' }, { status: 400 });
@@ -15,12 +23,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Username atau password salah' }, { status: 401 });
     }
 
-    const token = createSession(user.id);
-
-    const { db } = require('@/lib/db');
-    db.prepare("UPDATE users SET last_login = datetime('now') WHERE id = ?").run(user.id);
-
-    const res = NextResponse.json({ ok: true, user: { id: user.id, username: user.username, role: user.role } });
+    const token = createSession(user.id, user.username, user.role);
+    const res = NextResponse.json({ ok: true, user });
     res.cookies.set('session_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -30,7 +34,7 @@ export async function POST(req: NextRequest) {
     });
 
     return res;
-  } catch (err: any) {
+  } catch (err) {
     console.error('Login error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
