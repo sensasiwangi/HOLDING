@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const PROTECTED_ROUTES = ['/dashboard', '/api/sukuk', '/api/investors', '/api/finance', '/api/calculate'];
 const PUBLIC_ROUTES = ['/investor', '/api/auth', '/login', '/_next', '/favicon'];
+const AUTH_ENABLED = process.env.ENABLE_PORTAL_AUTH === 'true';
 
 interface SessionPayload {
   id: number;
@@ -63,6 +64,13 @@ async function readSession(token: string): Promise<SessionPayload | null> {
   }
 }
 
+function withUserHeaders(req: NextRequest, user: { id: number; role: string }) {
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-user-id', String(user.id));
+  requestHeaders.set('x-user-role', user.role);
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}
+
 function unauthorized(req: NextRequest, message: string) {
   if (req.nextUrl.pathname.startsWith('/api/')) {
     return NextResponse.json({ error: message }, { status: 401 });
@@ -85,17 +93,19 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Temporary development mode: open the internal portal without login.
+  // Set ENABLE_PORTAL_AUTH=true in Vercel when the portal is ready to publish.
+  if (!AUTH_ENABLED) {
+    return withUserHeaders(req, { id: 1, role: 'admin' });
+  }
+
   const token = req.cookies.get('session_token')?.value;
   if (!token) return unauthorized(req, 'Unauthorized');
 
   const user = await readSession(token);
   if (!user) return unauthorized(req, 'Session expired');
 
-  const requestHeaders = new Headers(req.headers);
-  requestHeaders.set('x-user-id', String(user.id));
-  requestHeaders.set('x-user-role', user.role);
-
-  return NextResponse.next({ request: { headers: requestHeaders } });
+  return withUserHeaders(req, user);
 }
 
 export const config = {
