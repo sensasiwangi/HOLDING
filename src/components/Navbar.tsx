@@ -77,7 +77,7 @@ export default function Navbar() {
               </button>
 
               <Link
-                href="/login"
+                href="/dashboard"
                 className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-white text-xs font-bold transition-all duration-300 hover:bg-white/10 active-press"
               >
                 <LockKeyhole size={14} />
@@ -114,7 +114,7 @@ export default function Navbar() {
             </div>
             <div className="mt-4 pt-4 border-t border-white/5 flex gap-3">
               <Link
-                href="/login"
+                href="/dashboard"
                 onClick={() => setOpen(false)}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-sm font-bold active-press"
               >
