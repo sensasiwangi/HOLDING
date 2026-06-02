@@ -654,7 +654,7 @@ function PanelRestock({ inventoryAlerts, suppliers, onRefresh }: any) {
 // DASHBOARD VIEW (READ-ONLY OVERVIEW)
 // ═══════════════════════════════════════════════════════════════
 
-function DashboardView({ data }: { data: any }) {
+function DashboardView({ data, activeTab, setActiveTab }: { data: any; activeTab: Tab; setActiveTab: (t: Tab) => void }) {
   const TABS: { key: Tab; label: string; icon: React.ReactNode }[] = [
     { key: "overview", label: "Overview", icon: <PieChart size={14} /> },
     { key: "produksi", label: "Produksi", icon: <FlaskConical size={14} /> },
@@ -665,8 +665,6 @@ function DashboardView({ data }: { data: any }) {
     { key: "supplier", label: "Supplier", icon: <Truck size={14} /> },
     { key: "sop", label: "SOP", icon: <BookOpen size={14} /> },
   ];
-  const [tab, setTab] = useState<Tab>("overview");
-
   if (!data) return <div className="flex items-center justify-center py-20"><Spinner size={24} /></div>;
 
   return (
@@ -674,14 +672,14 @@ function DashboardView({ data }: { data: any }) {
       {/* Sub-tabs */}
       <div className="flex gap-1 bg-white/5 rounded-2xl p-1 overflow-x-auto border border-white/5">
         {TABS.map(t => (
-          <button key={t.key} onClick={() => setTab(t.key)}
-            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-xl text-[10px] font-bold transition-all whitespace-nowrap ${tab === t.key ? "bg-gradient-to-r from-teal-600 to-teal-500 text-white" : "text-[#4a7a6a] hover:text-white hover:bg-white/5"}`}>
-            {t.icon}<span className="hidden sm:inline">{t.label}</span>
+          <button key={t.key} onClick={() => setActiveTab(t.key)}
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-xl text-[10px] font-bold transition-all whitespace-nowrap ${activeTab === t.key ? "bg-gradient-to-r from-teal-600 to-teal-500 text-white" : "text-[#4a7a6a] hover:text-white hover:bg-white/5"}`}>
+            {t.icon}<span className={`${t.key === "keuangan" ? "" : "hidden sm:inline"}`}>{t.label}</span>
           </button>
         ))}
       </div>
 
-      {tab === "overview" && (
+      {activeTab === "overview" && (
         <div className="space-y-5">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiCard icon={<FlaskConical size={18} />} label="Formula" value={data.formulas} color="from-teal-500/10 via-teal-500/5 to-transparent" />
@@ -706,22 +704,22 @@ function DashboardView({ data }: { data: any }) {
         </div>
       )}
       {/* Other tabs follow same pattern — abbreviated for brevity */}
-      {tab === "produksi" && <Panel title="Produksi" icon={<FlaskConical size={14} />}><EmptyState msg="Lihat tab Operasional untuk produksi" /></Panel>}
-      {tab === "inventory" && <Panel title="Inventory" icon={<Package size={14} />}>
+      {activeTab === "produksi" && <Panel title="Produksi" icon={<FlaskConical size={14} />}><EmptyState msg="Lihat tab Operasional untuk produksi" /></Panel>}
+      {activeTab === "inventory" && <Panel title="Inventory" icon={<Package size={14} />}>
         {(!data.inventoryAlerts || data.inventoryAlerts.length === 0) ? <div className="text-center py-4 text-xs text-emerald-400"><CheckCircle2 size={16} className="inline mr-2" />Semua stok aman</div> : (
           <div className="space-y-2">{data.inventoryAlerts.slice(0, 8).map((a: any) => (
             <div key={a.id} className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.03]"><span className={`w-2 h-2 rounded-full ${a.alert_level === "critical" ? "bg-red-400" : "bg-orange-400"}`} /><span className="text-[11px] text-white flex-1">{a.name}</span><span className="text-[10px] text-[#4a6a5a]">{a.stock_ml.toFixed(1)}ml</span><Badge status={a.alert_level} /></div>
           ))}</div>
         )}
       </Panel>}
-      {tab === "customer" && <Panel title="Customer" icon={<Users size={14} />}>
+      {activeTab === "customer" && <Panel title="Customer" icon={<Users size={14} />}>
         {(!data.topCustomers || data.topCustomers.length === 0) ? <EmptyState msg="Tidak ada" /> : (
           <table className="w-full text-[11px]"><thead><tr className="border-b border-white/10 text-[#5a8a78]"><th className="py-2 text-left">Nama</th><th>Segment</th><th className="text-right">CLV</th></tr></thead><tbody>
             {data.topCustomers.slice(0, 5).map((c: any) => <tr key={c.id} className="border-b border-white/5"><td className="py-2 text-white">{c.name}</td><td><Badge status={c.segment} /></td><td className="text-right text-teal-400">Rp {c.clv?.toLocaleString("id-ID")}</td></tr>)}
           </tbody></table>
         )}
       </Panel>}
-      {tab === "keuangan" && <KeuanganPage />}
+      {activeTab === "keuangan" && <KeuanganPage />}
     </div>
   );
 }
@@ -796,6 +794,7 @@ function OperasionalView({ materials, suppliers, formulas, inventoryAlerts, onRe
 
 export default function PerfumeDashboard() {
   const [view, setView] = useState<ViewMode>("dashboard");
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [, setTick] = useState(0);
@@ -854,31 +853,36 @@ export default function PerfumeDashboard() {
     <div className="min-h-screen bg-[#080c0a] text-white">
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
-      {/* ── Header ── */}
-      <div className="sticky top-0 z-30 backdrop-blur-xl bg-[#080c0a]/80 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center"><FlaskConical size={18} /></div>
-            <div>
-              <h1 className="text-sm font-black text-white">Sensasi Wangi Indonesia</h1>
-              <p className="text-[9px] text-[#4a7a6a] uppercase tracking-widest font-semibold">Perfume Command Center</p>
+      {/* ── Sticky Header ── */}
+      <div className="sticky top-0 z-30 backdrop-blur-xl bg-[#080c0a]/90 border-b border-white/[0.08]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center"><FlaskConical size={18} /></div>
+              <div>
+                <h1 className="text-sm font-black text-white">Sensasi Wangi Indonesia</h1>
+                <p className="text-[9px] text-[#4a7a6a] uppercase tracking-widest font-semibold">Perfume Command Center</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-teal-500/10 border border-teal-500/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+                <span className="text-[9px] font-bold text-teal-400 uppercase">Live</span>
+              </div>
+              <button onClick={loadData} className="p-1.5 rounded-lg hover:bg-white/5 text-[#6b9e8f] hover:text-white transition-all"><RefreshCw size={14} /></button>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            {/* View Toggle */}
-            <div className="flex bg-white/5 rounded-xl p-0.5 border border-white/5">
-              <button onClick={() => setView("dashboard")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${view === "dashboard" ? "bg-gradient-to-r from-teal-600 to-teal-500 text-white" : "text-[#6b9e8f] hover:text-white"}`}>
-                <BarChart3 size={12} /> <span className="hidden sm:inline">Dashboard</span>
-              </button>
-              <button onClick={() => setView("operasional")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${view === "operasional" ? "bg-gradient-to-r from-orange-600 to-orange-500 text-white" : "text-[#6b9e8f] hover:text-white"}`}>
-                <ClipboardList size={12} /> <span className="hidden sm:inline">Operasional</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-teal-500/10 border border-teal-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              <span className="text-[9px] font-bold text-teal-400 uppercase">Live</span>
-            </div>
-            <button onClick={loadData} className="p-1.5 rounded-lg hover:bg-white/5 text-[#6b9e8f] hover:text-white transition-all"><RefreshCw size={14} /></button>
+          {/* View Toggle — always visible */}
+          <div className="flex items-center gap-1 overflow-x-auto pb-1">
+            <button onClick={() => setView("dashboard")} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${view === "dashboard" ? "bg-gradient-to-r from-teal-600 to-teal-500 text-white shadow-lg shadow-teal-500/20" : "bg-white/[0.04] text-[#6b9e8f] hover:text-white hover:bg-white/[0.08]"}`}>
+              <BarChart3 size={14} /> Dashboard
+            </button>
+            <button onClick={() => { setView("dashboard"); setActiveTab("keuangan"); }} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-white/[0.04] text-[#6b9e8f] hover:text-white hover:bg-white/[0.08]">
+              <DollarSign size={14} /> Keuangan
+            </button>
+            <button onClick={() => setView("operasional")} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${view === "operasional" ? "bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/20" : "bg-white/[0.04] text-[#6b9e8f] hover:text-white hover:bg-white/[0.08]"}`}>
+              <ClipboardList size={14} /> Operasional
+            </button>
           </div>
         </div>
       </div>
@@ -887,7 +891,7 @@ export default function PerfumeDashboard() {
         {loading ? (
           <div className="flex items-center justify-center py-20"><Spinner size={24} /></div>
         ) : view === "dashboard" ? (
-          <DashboardView data={dashboardData} />
+          <DashboardView data={dashboardData} activeTab={activeTab} setActiveTab={setActiveTab} />
         ) : (
           <OperasionalView
             materials={materials} suppliers={suppliers} formulas={formulas}
