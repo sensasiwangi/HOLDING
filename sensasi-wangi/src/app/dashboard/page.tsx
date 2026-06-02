@@ -8,6 +8,9 @@ import {
   ClipboardList, Zap, ArrowRight, Send, Plus, Search, Minus,
 } from "lucide-react";
 
+// ── Keuangan sub-page import ──
+import KeuanganPage from "./keuangan/page";
+
 // ═══════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════
@@ -718,7 +721,7 @@ function DashboardView({ data }: { data: any }) {
           </tbody></table>
         )}
       </Panel>}
-      {!["overview", "produksi", "inventory", "customer"].includes(tab) && <Panel label={tab} icon={<CheckCircle2 size={14} />}><EmptyState msg={`Data ${tab} tersedia di view ini`} /></Panel>}
+      {tab === "keuangan" && <KeuanganPage />}
     </div>
   );
 }
