@@ -88,3 +88,61 @@ holding-swi/
 - [ ] Integrasi parfum jadi ke production tracker
 - [ ] Codex agent setup untuk UI/frontend tasks
 - [ ] Connect GitHub repo ke Vercel
+
+---
+
+## 2026-06-01
+
+### P0 — IFRA Compliance + Batch Traceability + Allergen + BPOM
+- [x] IFRA Compliance Engine (`compliance-engine.ts`) — 14 categories, auto-check on formula gen
+- [x] Batch Traceability — raw_material_batches + product_batches + QC linkage
+- [x] Allergen Label Generator — 26 EU allergens, auto label per formula
+- [x] BPOM Registration Tracker — draft→approved→expired lifecycle
+- [x] 398 raw materials seeded from Google Sheets
+
+### P1 — HPP Calculator + Inventory + CRM + Finance
+- [x] HPP Calculator (`hpp-calculator.ts`) — per-unit & per-batch, break-even, projection
+- [x] Inventory Alert (`inventory-alert.ts`) — ok/low/critical/empty levels, reorder list
+- [x] Customer CRM (`crm.ts`) — segmentation, CLV, purchase history, recommendation
+- [x] Finance Reconciliation (`finance-reconciliation.ts`) — cost recon, revenue analysis
+
+### P2 — QC Flow + Supplier + SOP
+- [x] QC Check Flow (`qc-flow.ts`) — 5 stages, 36 check items, batch report
+- [x] Supplier Management (`supplier-management.ts`) — CRUD, PO, lead time, performance
+- [x] Staff SOP (`staff-sop.ts`) — 5 SOP docs, digital checklist, training tracker
+
+### Dashboard Integration
+- [x] Perfume Production Dashboard — 8 tabs (Overview, Produksi, QC, Keuangan, dll)
+
+### Operational Command Center
+- [x] Rewrite dashboard with 2 views: Dashboard (read-only) + Operasional (forms)
+- [x] 5 Workflow panels: Terima Bahan, Buat Formula, Produksi, Jual, Restock
+- [x] 5 API action routes: batch-receive, produce, sell, restock, formula-save
+
+### Ebooks (Seri 3 Buku)
+- [x] Book 1: Panduan Membangun Parfum dari Nol (8 bab, 28K kata)
+- [x] Book 2: Bisnis Parfum: Formula ke Brand (8 bab, 17K kata)
+- [x] Book 3: AI + Parfum: Modern Perfumery (10 bab, 26K kata)
+- [x] Uploaded to Google Drive: SWI_Ecosystem/Ebooks/
+
+### LinkTree-Style Sales Page
+- [x] `/links` page — product cards, purchase form, payment info, external links
+- [x] Mobile-first design, dark theme, conversion-optimized
+
+## 2026-06-02
+
+### Rekening Koran Analysis
+- [x] Downloaded 17 PDF bank statements (9 Holding + 8 Website, Jun 2025 - Mei 2026)
+- [x] Extracted closing balances per month from all statements
+- [x] Created "Rekap_Rekening" sheet in Google Sheets with:
+  - Monthly balance summary (Holding + Website)
+  - Combined total with trend indicators
+  - Key insights and flags
+- [x] Updated "Rekening_Koran" sheet with corrected data and Mei 2026 transactions
+- [x] Identified: Rp 11.4M transfer to PRIMA (06/05), inactive Website account, no clear sales revenue
+
+### Key Financial Findings
+- Holding balance range: Rp 0 (Jun 2025) → Rp 37.38M (Apr 2026)
+- Website balance declining: Rp 1M (Nov 2025) → Rp 755K (Mei 2026)
+- No tax payments visible in bank statements
+- No clear customer/sales revenue identified
