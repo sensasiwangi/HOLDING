@@ -1,67 +1,85 @@
-// lib/auth.ts — Authentication library
-import { db } from './db';
+// lib/auth.ts — stateless portal authentication for serverless deployments
 import crypto from 'crypto';
 
-const SALT_LENGTH = 32;
-const HASH_LENGTH = 64;
-const ITERATIONS = 100_000;
-const DIGEST = 'sha512';
-const SESSION_TTL_HOURS = 24;
+const SESSION_TTL_SECONDS = 60 * 60 * 24;
+const DEFAULT_PORTAL_USERNAME = 'beriman';
 
-export function hashPassword(password: string): string {
-  const salt = crypto.randomBytes(SALT_LENGTH).toString('hex');
-  const hash = crypto.pbkdf2Sync(password, salt, ITERATIONS, HASH_LENGTH, DIGEST).toString('hex');
-  return `${salt}$${hash}`;
+export interface SessionUser {
+  id: number;
+  username: string;
+  role: string;
 }
 
-export function verifyPassword(password: string, stored: string): boolean {
-  const [salt, hash] = stored.split('$');
-  if (!salt || !hash) return false;
-  const testHash = crypto.pbkdf2Sync(password, salt, ITERATIONS, HASH_LENGTH, DIGEST).toString('hex');
-  return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(testHash, 'hex'));
+interface SessionPayload extends SessionUser {
+  exp: number;
 }
 
-export function createSession(userId: number): string {
-  const token = crypto.randomBytes(48).toString('hex');
-  const expiresAt = new Date(Date.now() + SESSION_TTL_HOURS * 60 * 60 * 1000).toISOString();
-  db.prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt);
-  return token;
+function sessionSecret(): string {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) throw new Error('SESSION_SECRET is not configured');
+  return secret;
 }
 
-export function getUserFromSession(token: string): { id: number; username: string; role: string } | null {
-  const row = db.prepare(`
-    SELECT s.user_id AS id, u.username, u.role, s.expires_at
-    FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ?
-  `).get(token) as any;
-  if (!row) return null;
-  if (new Date(row.expires_at) < new Date()) {
-    db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
+function safeEqual(left: string, right: string): boolean {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  if (leftBuffer.length !== rightBuffer.length) return false;
+  return crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function sign(encodedPayload: string): string {
+  return crypto.createHmac('sha256', sessionSecret()).update(encodedPayload).digest('base64url');
+}
+
+export function isPortalConfigured(): boolean {
+  return Boolean(process.env.INTERNAL_PORTAL_PASSWORD && process.env.SESSION_SECRET);
+}
+
+export function createSession(userId: number, username: string, role: string): string {
+  const payload: SessionPayload = {
+    id: userId,
+    username,
+    role,
+    exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
+  };
+  const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  return `${encodedPayload}.${sign(encodedPayload)}`;
+}
+
+export function getUserFromSession(token: string): SessionUser | null {
+  try {
+    const [encodedPayload, signature] = token.split('.');
+    if (!encodedPayload || !signature) return null;
+    if (!safeEqual(sign(encodedPayload), signature)) return null;
+
+    const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8')) as SessionPayload;
+    if (!payload.id || !payload.username || !payload.role || !payload.exp) return null;
+    if (payload.exp <= Math.floor(Date.now() / 1000)) return null;
+
+    return { id: payload.id, username: payload.username, role: payload.role };
+  } catch {
     return null;
   }
-  return { id: row.id, username: row.username, role: row.role };
 }
 
-export function destroySession(token: string): void {
-  db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
-}
+// Stateless sessions are invalidated client-side by deleting the cookie.
+export function destroySession(_token: string): void {}
 
-export function authenticateUser(username: string, password: string): { id: number; username: string; role: string } | null {
-  const user = db.prepare('SELECT * FROM users WHERE username = ? AND is_active = 1').get(username) as any;
-  if (!user) return null;
-  if (!verifyPassword(password, user.password_hash)) return null;
-  return { id: user.id, username: user.username, role: user.role };
-}
+export function authenticateUser(username: string, password: string): SessionUser | null {
+  const expectedUsername = process.env.INTERNAL_PORTAL_USERNAME || DEFAULT_PORTAL_USERNAME;
+  const expectedPassword = process.env.INTERNAL_PORTAL_PASSWORD;
+  if (!expectedPassword || !process.env.SESSION_SECRET) return null;
 
-export function registerUser(username: string, password: string, role: string = 'viewer'): { id: number } | { error: string } {
-  if (db.prepare('SELECT id FROM users WHERE username = ?').get(username)) return { error: 'Username sudah digunakan' };
-  const hash = hashPassword(password);
-  const result = db.prepare('INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)').run(username, hash, role);
-  return { id: result.lastInsertRowid as number };
+  if (!safeEqual(username, expectedUsername)) return null;
+  if (!safeEqual(password, expectedPassword)) return null;
+
+  return { id: 1, username: expectedUsername, role: 'admin' };
 }
 
 export const ROLES: Record<string, { level: number; label: string }> = {
-  admin: { level: 3, label: 'Admin' },
-  analyst: { level: 2, label: 'Analyst' },
+  admin: { level: 4, label: 'Admin' },
+  staff: { level: 3, label: 'Staff' },
+  auditor: { level: 2, label: 'Auditor' },
   viewer: { level: 1, label: 'Viewer' },
 };
 
