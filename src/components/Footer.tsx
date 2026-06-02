@@ -1,87 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, MessageCircle, MapPin, Mail, Layers, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   const links = {
     perusahaan: [
-      { label: "Tentang", href: "/" },
-      { label: "Divisi", href: "/divisions" },
+      { label: "Tentang SWI", href: "/" },
+      { label: "Ekosistem", href: "/divisions" },
       { label: "Brand", href: "/brands" },
     ],
-    bisnis: [
-      { label: "Store TIM", href: "/divisions/store" },
+    program: [
       { label: "Fragrantions", href: "/events" },
       { label: "Marketplace", href: "/marketplace" },
+      { label: "Portal Internal", href: "/login" },
     ],
-    investasi: [
-      { label: "Investor", href: "/investor" },
-      { label: "Sukuk", href: "/dashboard" },
-      { label: "Dashboard", href: "/dashboard" },
+    hubungan: [
+      { label: "Kontak", href: "mailto:sensasiwangi.id@gmail.com" },
+      { label: "Instagram", href: "https://www.instagram.com/fragrantions" },
+      { label: "Investor Relations", href: "/investor" },
     ],
   };
 
   return (
-    <footer className="relative mt-20 border-t border-white/5 overflow-hidden">
-      {/* Top glow line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0D9488]/50 to-transparent" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-[#0D9488]/30 to-transparent" />
+    <footer className="relative mt-20 overflow-hidden border-t border-white/5 bg-white/[0.01]">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0D9488]/50 to-transparent" />
+      <div className="pointer-events-none absolute bottom-0 left-1/2 h-40 w-96 -translate-x-1/2 rounded-full bg-[#0D9488]/5 blur-[100px]" />
 
-      {/* Background glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#0D9488]/5 blur-[100px] rounded-full pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-6 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-5 group">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center transition-all duration-500 group-hover:rotate-6 group-hover:scale-105">
-                <Layers size={24} className="text-white" />
+            <Link href="/" className="group flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] text-sm font-black tracking-tight text-white shadow-lg shadow-teal-950/20 transition-transform duration-300 group-hover:-translate-y-0.5">
+                SWI
               </div>
               <div>
-                <div className="text-white font-bold text-lg tracking-tight">PT SWI</div>
-                <div className="text-[#4a7a6a] text-xs font-medium tracking-widest uppercase">Sensasi Wangi Indonesia</div>
+                <div className="text-lg font-black tracking-tight text-white">PT Sensasi Wangi Indonesia</div>
+                <div className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#4a7a6a]">Fragrance Ecosystem</div>
               </div>
             </Link>
-            <p className="text-[#6b9e8f] text-sm leading-relaxed max-w-sm mb-6">
-              Holding company yang membangun ekosistem parfum Indonesia — dari produksi, pengalaman retail, event nasional, hingga marketplace digital.
+
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#6b9e8f]">
+              Membangun ekosistem parfum Indonesia melalui edukasi, produk, event, layanan laboratorium, dan platform digital.
             </p>
 
-            <div className="flex items-center gap-3">
-              {[
-                { icon: <Instagram size={18} />, href: "https://www.instagram.com/fragrantions" },
-                { icon: <MessageCircle size={18} />, href: "#" },
-                { icon: <Mail size={18} />, href: "mailto:sensasiwangi.id@gmail.com" },
-              ].map((s, i) => (
-                <a
-                  key={i}
-                  href={s.href}
-                  target={s.href.startsWith("http") ? "_blank" : undefined}
-                  className="w-10 h-10 rounded-xl glass-light flex items-center justify-center text-[#6b9e8f] hover:text-white hover:bg-white/10 transition-all duration-300 group hover-lift hover-glow"
-                >
-                  <span className="group-hover:scale-110 transition-transform">{s.icon}</span>
-                </a>
-              ))}
+            <div className="mt-6 flex items-center gap-3">
+              <a href="https://www.instagram.com/fragrantions" target="_blank" rel="noreferrer" aria-label="Instagram Fragrantions" className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/5 bg-white/[0.035] text-[#6b9e8f] transition hover:bg-white/[0.08] hover:text-white">
+                <Instagram size={18} />
+              </a>
+              <a href="mailto:sensasiwangi.id@gmail.com" aria-label="Email PT Sensasi Wangi Indonesia" className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/5 bg-white/[0.035] text-[#6b9e8f] transition hover:bg-white/[0.08] hover:text-white">
+                <Mail size={18} />
+              </a>
             </div>
           </div>
 
-          {Object.entries(links).map(([title, items], i) => (
-            <div key={i}>
-              <h4 className="text-xs font-bold text-[#4a7a6a] uppercase tracking-widest mb-4">{title}</h4>
+          {Object.entries(links).map(([title, items]) => (
+            <div key={title}>
+              <h4 className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-[#4a7a6a]">{title}</h4>
               <ul className="space-y-3">
-                {items.map((item, j) => (
-                  <li key={j}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-[#6b9e9f] hover:text-white transition-all duration-300 flex items-center group hover-lift"
-                    >
+                {items.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="group flex items-center text-sm text-[#6b9e8f] transition hover:text-white">
                       {item.label}
-                      <ArrowUpRight
-                        size={12}
-                        className="ml-1 opacity-0 -translate-y-0.5 translate-x-[-4px] group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300"
-                      />
+                      <ArrowUpRight size={12} className="ml-1 opacity-0 transition group-hover:opacity-100" />
                     </Link>
                   </li>
                 ))}
@@ -90,14 +73,12 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-sm text-[#4a6058]">
-            <MapPin size={14} />
-            <span>Taman Mini Indonesia Indah, Jakarta</span>
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/5 pt-8 text-sm text-[#4a6058] md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-2">
+            <MapPin size={14} className="mt-0.5 shrink-0" />
+            <span>Jl. Gading Kirana Timur A.11/15, Kelapa Gading Barat, Jakarta Utara 14240</span>
           </div>
-          <div className="text-xs text-[#3a5048]">
-            © {year} PT Sensasi Wangi Indonesia. All rights reserved.
-          </div>
+          <div className="text-xs text-[#3a5048]">© {year} PT Sensasi Wangi Indonesia. All rights reserved.</div>
         </div>
       </div>
     </footer>

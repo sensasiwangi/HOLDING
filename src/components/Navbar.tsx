@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLang } from "@/lib/LangContext";
-import { Menu, X, Globe, FileDown, Layers } from "lucide-react";
+import { Menu, X, Globe, FileDown, Layers, LockKeyhole } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "Beranda" },
-  { href: "/divisions", label: "Divisi" },
+  { href: "/divisions", label: "Ekosistem" },
   { href: "/brands", label: "Brand" },
-  { href: "/events", label: "Event" },
+  { href: "/events", label: "Program & Event" },
   { href: "/marketplace", label: "Marketplace" },
-  { href: "/investor", label: "Investor" },
+  { href: "/investor", label: "Investor Relations" },
 ];
 
 export default function Navbar() {
@@ -31,7 +31,6 @@ export default function Navbar() {
       <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? "py-2" : "py-4"}`}>
         <div className={`mx-auto max-w-6xl px-4 transition-all duration-500 ${scrolled ? "mx-4 md:mx-auto rounded-2xl glass-heavy glow-brand" : ""}`}>
           <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "px-6 py-3" : "px-0 py-2"}`}>
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
@@ -40,21 +39,19 @@ export default function Navbar() {
                 <div className="absolute inset-0 rounded-xl bg-[#14B8A6] opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500" />
               </div>
               <div className="hidden sm:block">
-                <div className="text-white font-bold text-base tracking-tight leading-none">PT SWI</div>
-                <div className="text-[#4a7a6a] text-[10px] font-medium tracking-widest uppercase">Sensasi Wangi Indonesia</div>
+                <div className="text-white font-bold text-base tracking-tight leading-none">PT Sensasi Wangi Indonesia</div>
+                <div className="text-[#4a7a6a] text-[10px] font-medium tracking-widest uppercase">Fragrance Ecosystem</div>
               </div>
             </Link>
 
-            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1 relative">
-              {/* Hover background pill */}
               <div
                 className="absolute h-[calc(100%-12px)] rounded-xl bg-white/[0.04] transition-all duration-300 ease-out pointer-events-none"
                 style={{
                   opacity: activeHover ? 1 : 0,
-                  width: activeHover ? '80px' : 0,
-                  left: activeHover ? `${navItems.findIndex(n => n.href === activeHover) * 96 + 8}px` : 0,
-                  top: '6px',
+                  width: activeHover ? "96px" : 0,
+                  left: activeHover ? `${navItems.findIndex(n => n.href === activeHover) * 112 + 8}px` : 0,
+                  top: "6px",
                 }}
               />
               {navItems.map((item) => (
@@ -70,7 +67,6 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right actions */}
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleLang}
@@ -81,12 +77,11 @@ export default function Navbar() {
               </button>
 
               <Link
-                href="/dashboard"
-                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-xs font-bold transition-all duration-500 hover:-translate-y-0.5 active-press relative overflow-hidden group"
+                href="/login"
+                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-white text-xs font-bold transition-all duration-300 hover:bg-white/10 active-press"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-[#14B8A6] to-[#0D9488] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-300 animate-pulse relative" />
-                <span className="relative">Dashboard</span>
+                <LockKeyhole size={14} />
+                <span>Portal Internal</span>
               </Link>
 
               <button
@@ -100,7 +95,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu — enhanced */}
       {open && (
         <div className="fixed inset-0 z-[90] lg:hidden">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setOpen(false)} />
@@ -120,11 +114,11 @@ export default function Navbar() {
             </div>
             <div className="mt-4 pt-4 border-t border-white/5 flex gap-3">
               <Link
-                href="/dashboard"
+                href="/login"
                 onClick={() => setOpen(false)}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#0D9488] to-[#14B8A6] text-white text-sm font-bold active-press"
               >
-                Dashboard
+                <LockKeyhole size={15} /> Portal Internal
               </Link>
               <button
                 onClick={() => window.print()}
