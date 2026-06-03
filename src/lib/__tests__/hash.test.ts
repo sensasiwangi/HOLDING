@@ -1,41 +1,54 @@
 // src/lib/__tests__/hash.test.ts
-import { hashPassword, verifyPassword } from '@/lib/auth';
+// Tests for stateless session token (replaces old PBKDF2 hash tests)
+import { createSession, getUserFromSession } from '@/lib/auth';
 
-describe('Password Hashing', () => {
-  test('hashPassword returns salt$hash format', () => {
-    const hash = hashPassword('testpassword');
-    expect(hash).toMatch(/^[a-f0-9]+\$[a-f0-9]+$/);
-    const parts = hash.split('$');
+// SESSION_SECRET must be set for these tests
+const TEST_SECRET = 'test-secret-key-for-unit-tests-only-min-32-chars!!';
+process.env.SESSION_SECRET = TEST_SECRET;
+
+describe('Session Token', () => {
+  test('createSession returns token with dot separator', () => {
+    const token = createSession(1, 'admin', 'admin');
+    expect(token).toContain('.');
+    const parts = token.split('.');
     expect(parts).toHaveLength(2);
-    expect(parts[0].length).toBeGreaterThan(0);
-    expect(parts[1].length).toBeGreaterThan(0);
   });
 
-  test('hashPassword produces different hashes for same password (different salts)', () => {
-    const hash1 = hashPassword('samepassword');
-    const hash2 = hashPassword('samepassword');
-    expect(hash1).not.toBe(hash2);
+  test('createSession payload contains correct user data', () => {
+    const token = createSession(1, 'admin', 'admin');
+    const [encodedPayload] = token.split('.');
+    const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
+    expect(payload.id).toBe(1);
+    expect(payload.username).toBe('admin');
+    expect(payload.role).toBe('admin');
+    expect(payload.exp).toBeGreaterThan(Math.floor(Date.now() / 1000));
   });
 
-  test('verifyPassword returns true for correct password', () => {
-    const hash = hashPassword('mypassword123');
-    expect(verifyPassword('mypassword123', hash)).toBe(true);
+  test('getUserFromSession returns valid user for correct token', () => {
+    const token = createSession(1, 'beriman', 'admin');
+    const user = getUserFromSession(token);
+    expect(user).not.toBeNull();
+    expect(user!.id).toBe(1);
+    expect(user!.username).toBe('beriman');
+    expect(user!.role).toBe('admin');
   });
 
-  test('verifyPassword returns false for wrong password', () => {
-    const hash = hashPassword('mypassword123');
-    expect(verifyPassword('wrongpassword', hash)).toBe(false);
+  test('getUserFromSession returns null for tampered token', () => {
+    const token = createSession(1, 'beriman', 'admin');
+    const tampered = token.slice(0, -5) + 'XXXXX';
+    const user = getUserFromSession(tampered);
+    expect(user).toBeNull();
   });
 
-  test('verifyPassword returns false for malformed hash', () => {
-    expect(verifyPassword('any', 'nodelimiterhere')).toBe(false);
-    expect(verifyPassword('any', '')).toBe(false);
-    expect(verifyPassword('any', 'salt$')).toBe(false); // empty hash after $
+  test('getUserFromSession returns null for malformed token', () => {
+    expect(getUserFromSession('')).toBeNull();
+    expect(getUserFromSession('nodots')).toBeNull();
+    expect(getUserFromSession('payload.')).toBeNull();
+    expect(getUserFromSession('.signature')).toBeNull();
   });
 
-  test('verifyPassword is case-sensitive', () => {
-    const hash = hashPassword('Secret');
-    expect(verifyPassword('secret', hash)).toBe(false);
-    expect(verifyPassword('Secret', hash)).toBe(true);
+  test('getUserFromSession returns null for completely invalid token', () => {
+    expect(getUserFromSession('a.b')).toBeNull();
+    expect(getUserFromSession('not-base64.sig')).toBeNull();
   });
 });
