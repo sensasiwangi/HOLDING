@@ -27,6 +27,7 @@ interface FormulaResultInput {
   total_concentrate_ml: number;
   total_alcohol_ml: number;
   maturation_days: number;
+  formula_name?: string;
 }
 
 interface FormulaSaveBody {

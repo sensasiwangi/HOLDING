@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  DollarSign, TrendingUp, TrendDown, Building2, Wallet, PiggyBank,
+  DollarSign, TrendingUp, ArrowDown, Building2, Wallet, PiggyBank,
   Banknote, ArrowUpRight, ArrowDownRight, RefreshCw, AlertTriangle,
   CheckCircle2, Info, Users, FlaskConical, Store, Globe, Calendar,
 } from "lucide-react";
@@ -126,7 +126,7 @@ export default function KeuanganPage() {
         <KpiCard icon={<ArrowUpRight size={16} />} label="Pemasukan Mei 2026" value={fmt(totalMasuk)} sub={`${TRANSACTIONS.filter(t => t.masuk > 0).length} transaksi masuk`} color="from-emerald-500/15 to-emerald-500/5" />
         <KpiCard icon={<ArrowDownRight size={16} />} label="Pengeluaran Mei 2026" value={fmt(totalKeluar)} sub={`${TRANSACTIONS.filter(t => t.keluar > 0).length} transaksi keluar`} color="from-orange-500/15 to-orange-500/5" />
         <KpiCard
-          icon={netFlow < 0 ? <TrendDown size={16} /> : <TrendingUp size={16} />}
+          icon={netFlow < 0 ? <ArrowDown size={16} /> : <TrendingUp size={16} />}
           label="Net Cash Flow"
           value={fmt(Math.abs(netFlow))}
           sub={netFlow < 0 ? "Defisit Mei 2026" : "Surplus Mei 2026"}
