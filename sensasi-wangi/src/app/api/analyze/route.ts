@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI() {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "placeholder" });
+  }
+  return _openai;
+}
 
 const SYSTEM_PROMPT = `Kamu adalah parfumeur AI untuk "Sensasi Wangi Indonesia" (SWI), 
 sebuah experience center parfum di mana pengunjung membuat parfum personalized 
@@ -49,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Prompt required" }, { status: 400 });
     }
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
