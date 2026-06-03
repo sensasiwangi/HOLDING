@@ -122,7 +122,7 @@ export default function KeuanganPage() {
 
       {/* ── A: KPI RINGKASAN ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard icon={<Wallet size={16} />} label="Total Kas & Bank" value={fmt(totalClosing)} sub={`${ACOUNTS.length} rekening aktif`} color="from-teal-500/15 to-teal-500/5" />
+        <KpiCard icon={<Wallet size={16} />} label="Total Kas & Bank" value={fmt(totalClosing)} sub={`${ACCOUNTS.length} rekening aktif`} color="from-teal-500/15 to-teal-500/5" />
         <KpiCard icon={<ArrowUpRight size={16} />} label="Pemasukan Mei 2026" value={fmt(totalMasuk)} sub={`${TRANSACTIONS.filter(t => t.masuk > 0).length} transaksi masuk`} color="from-emerald-500/15 to-emerald-500/5" />
         <KpiCard icon={<ArrowDownRight size={16} />} label="Pengeluaran Mei 2026" value={fmt(totalKeluar)} sub={`${TRANSACTIONS.filter(t => t.keluar > 0).length} transaksi keluar`} color="from-orange-500/15 to-orange-500/5" />
         <KpiCard

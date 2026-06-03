@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       amount,
       formula_id || undefined,
       formulaName,
-      null,
+      undefined,
       notes || undefined
     );
 
