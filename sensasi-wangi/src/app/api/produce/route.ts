@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
     try {
       await syncProductionToSheets({
         batchNumber,
-        batchDisplayName,
+        formulaName: batchDisplayName,
         targetUnits: units,
         staffName: staff_name || "system",
         materialsUsed,
