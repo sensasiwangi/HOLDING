@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/swi-db";
 import { createPackagingInventoryTable } from "@/lib/inventory-alert";
 import { createSupplierTables } from "@/lib/supplier-management";
+import { syncPurchaseToSheets } from "@/lib/sheets-sync-operational";
 
 export async function POST(request: NextRequest) {
   try {
@@ -128,6 +129,18 @@ export async function POST(request: NextRequest) {
       movementChange,
       `batch_receive: ${lotNumber} | qc: ${initialQcStatus}`
     );
+
+    // Sync to Google Sheets (non-blocking — don't fail if Sheets unavailable)
+    try {
+      await syncPurchaseToSheets({
+        materialName: material_name,
+        quantity: quantity_ml,
+        totalCost: unit_cost || 0,
+        supplierName: supplierName || undefined,
+      });
+    } catch (syncErr) {
+      console.warn("Sheets sync failed (batch-receive):", syncErr);
+    }
 
     return NextResponse.json({
       success: true,

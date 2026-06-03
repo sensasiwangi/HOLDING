@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/swi-db";
 import { createQCTables, createQCBatch, getCheckItems } from "@/lib/qc-flow";
 import { generateBatchNumber } from "@/lib/compliance-engine";
+import { syncProductionToSheets } from "@/lib/sheets-sync-operational";
 
 export async function POST(request: NextRequest) {
   try {
@@ -171,6 +172,22 @@ export async function POST(request: NextRequest) {
 
     // Update formula status to 'mixed'
     db.prepare("UPDATE formulas SET status = 'mixed', updated_at = datetime('now') WHERE id = ?").run(formula_id);
+
+    // Sync to Google Sheets (non-blocking)
+    const totalCost = materialsUsed.reduce((sum, m) => sum + m.cost, 0);
+    try {
+      await syncProductionToSheets({
+        batchNumber,
+        batchDisplayName,
+        targetUnits: units,
+        staffName: staff_name || "system",
+        materialsUsed,
+        totalCost,
+        qcStatus: "pending",
+      });
+    } catch (syncErr) {
+      console.warn("Sheets sync failed (produce):", syncErr);
+    }
 
     return NextResponse.json({
       success: true,

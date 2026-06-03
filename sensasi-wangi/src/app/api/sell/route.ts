@@ -11,6 +11,7 @@ import {
   recalculateCLV,
   createCrmTables,
 } from "@/lib/crm";
+import { syncSaleToSheets } from "@/lib/sheets-sync-operational";
 
 // ── GET: List recent sales ──────────────────────────────────────
 
@@ -136,6 +137,18 @@ export async function POST(request: NextRequest) {
 
     // Recalculate CLV
     const newClv = recalculateCLV(customer.id);
+
+    // Sync to Google Sheets (non-blocking)
+    try {
+      await syncSaleToSheets({
+        customerPhone: customer_phone,
+        amount,
+        paymentMethod: payment_method || "cash",
+        formulaName: formulaName || undefined,
+      });
+    } catch (syncErr) {
+      console.warn("Sheets sync failed (sell):", syncErr);
+    }
 
     // Build response notes
     const responseNotes: string[] = [];
