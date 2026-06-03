@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "NODE_OPTIONS='--max-old-space-size=6144' npm run build",
+  "installCommand": "NODE_OPTIONS='--max-old-space-size=6144' npm ci --no-audit --no-fund",
   "framework": "nextjs",
   "env": {
-    "ENABLE_PORTAL_AUTH": "false"
+    "NODE_OPTIONS": "--max-old-space-size=6144"
   }
 }
