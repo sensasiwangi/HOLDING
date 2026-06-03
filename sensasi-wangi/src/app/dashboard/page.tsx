@@ -698,7 +698,10 @@ function DashboardView({ data, activeTab, setActiveTab }: { data: any; activeTab
               )}
             </Panel>
             <Panel title="QC Pass Rate" icon={<ShieldCheck size={14} className="text-emerald-400" />}>
-              <div className="text-center py-4"><div className="text-4xl font-black text-emerald-400">{data.qcPassRate || 0}%</div><div className="text-[10px] text-[#4a6a5a]">{data.qcTotal || 0} batch</div></Panel>
+              <div className="text-center py-4">
+                <div className="text-4xl font-black text-emerald-400">{data.qcPassRate || 0}%</div>
+                <div className="text-[10px] text-[#4a6a5a]">{data.qcTotal || 0} batch</div>
+              </div>
             </Panel>
           </div>
         </div>
